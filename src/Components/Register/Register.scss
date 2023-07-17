@@ -1,0 +1,78 @@
+.MuiOutlinedInput-notchedOutline {
+    border-color: #12134F !important;
+    border-radius: 20px !important;
+  }
+  
+  .divider {
+    display: flex;
+    
+    &:before,
+    &:after {
+      content: "";
+      flex: 1;
+    }
+  }
+  
+  // Base line
+  .line {
+    align-items: center;
+    margin: 1em -1em;
+  
+    &:before,
+    &:after {
+      height: 1px;
+      margin: 0 1em;
+    }
+  }
+  
+  .one-line {
+    &:before,
+    &:after {
+      background: #fff;
+    }
+  }
+  
+
+  $btnWidth: 100%;
+  $maxWidth: 450px;
+  $btnBorderRadius: 15px;
+  $btnBackgroundColor: #8080D7;
+  $btnMarginTop: 20px;
+  
+  .PrimaryButton {
+    width: $btnWidth!important;
+    max-width: $maxWidth!important;
+    border-radius: $btnBorderRadius!important;
+    background-color: $btnBackgroundColor!important;
+    margin-top: $btnMarginTop!important;
+  }
+
+  $btnMarginTop: 25px;
+$btnBackgroundColor: #0A0C38;
+$btnBorder: 1px solid #fff;
+
+.SecondaryButton {
+  margin-top: $btnMarginTop!important;
+  background-color: $btnBackgroundColor!important;
+  border: $btnBorder!important;
+}
+
+$paperPadding: 0 15px 40px 15px;
+$paperWidth: 90%;
+$paperMaxWidth: 450px;
+$paperBackgroundColor: rgba(0, 0, 0, 0);
+
+.paperStyle {
+  padding: $paperPadding!important;
+  width: $paperWidth!important;
+  max-width: $paperMaxWidth!important;
+  background-color: $paperBackgroundColor!important;
+}
+
+
+.custom-otp {
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+

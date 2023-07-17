@@ -1,15 +1,14 @@
 import React from 'react'
-import { Stack, Typography, Button,Tab,Tabs,Toolbar,useMediaQuery,useTheme } from '@mui/material'
+import { Tab,Tabs,Toolbar,useMediaQuery,useTheme } from '@mui/material'
 import './Header.scss'
 import AppBar from '@mui/material/AppBar';
 import LOGO from '../../../public/Logo/White logo - no background.svg'
 import DrawerComponent from './DrawerComponent';
-const  PAGES =["Contact Us","About Us","Login"]
+import Register from '../Register/Register'
+const  PAGES =["Contact Us","About Us"]
 const Header = () => {
   const theme = useTheme()
-  console.log(theme)
   const isMatch = useMediaQuery(theme.breakpoints.down("sm"))
-  console.log(isMatch)
   return (
     <>
       <AppBar sx={{ backgroundColor: "#000235" }}>
@@ -21,16 +20,15 @@ const Header = () => {
                 
                 <DrawerComponent/>
             
-                
               </>
             ) : (
                 <>
-                  <Tabs sx={{marginLeft:"auto"}}textColor ="inherit" value={null}>
+                  <Tabs sx={{marginLeft:"auto"}}textColor ="inherit" value={0} >
                     {
-                      PAGES.map((page) => 
+                      PAGES.map((page,index) => 
                         (
 
-                        <Tab label={page} />
+                        <Tab label={page} key={index} sx={{marginLeft:"auto"}} />
 
                         )
                       )
@@ -38,11 +36,12 @@ const Header = () => {
 
 
 </Tabs>
+                  <Register />
+               
                 </>
             )
           }
   
-          
         </Toolbar>
     </AppBar>
     </>
