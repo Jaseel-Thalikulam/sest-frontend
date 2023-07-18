@@ -125,11 +125,8 @@ const LoginForm = () => {
         } else if (userData.role == 'Lead') {
           localStorage.setItem("jwt-lead", token)
         
-
             navigate('/lead')
-            
-            
-            
+           
           } else if (userData.role == 'Admin') {
             localStorage.setItem("jwt-admin", token)
             navigate('/admin')
