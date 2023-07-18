@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { RootStateType } from '../../redux/store';
 import axios from 'axios';
 import dotenv from "dotenv";
-
+import { toast, ToastContainer } from 'react-toastify'
 
 const RegisterForm = () => {
   let dispatch = useDispatch()
@@ -81,15 +81,20 @@ const RegisterForm = () => {
 
     if (emailValid && passwordValid) {
        email = email.toLowerCase();
-      const respo = await axios.post('http://localhost:4000/register', {
+   const response = await axios.post('http://localhost:4000/register', {
         name,
         email,
         password,
         role
-      });
-      console.log(respo)
-      dispatch(handleChangeState())
-      dispatch(handleOpenAndCloseVerifyOtp())
+   });
+   const {success,message} =response.data
+      console.log(success,message)
+      if (!success) {
+        toast.error(message)
+      } else {
+        dispatch(handleChangeState())
+        dispatch(handleOpenAndCloseVerifyOtp())
+      } 
     } else {
       console.log('Invalid email or password');
     }
@@ -136,6 +141,7 @@ const RegisterForm = () => {
             </Form>
           )}
         </Formik>
+        <ToastContainer />
       </Paper>
     </Grid>
   )
