@@ -127,14 +127,16 @@ const LoginForm = () => {
         
 
             navigate('/lead')
-
-          
-
-        } else if (userData.role == 'Admin') {
-          localStorage.setItem("jwt-admin", token)
-
-        } else if (userData.role == 'SuperAdmin') {
-          localStorage.setItem("jwt-S-admin", token)
+            
+            
+            
+          } else if (userData.role == 'Admin') {
+            localStorage.setItem("jwt-admin", token)
+            navigate('/admin')
+            
+          } else if (userData.role == 'SuperAdmin') {
+            localStorage.setItem("jwt-S-admin", token)
+            navigate('/Sadmin')
 
         }
 

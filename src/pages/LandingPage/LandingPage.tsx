@@ -4,10 +4,10 @@ import './LandingPage.scss'
 import Banner from '../../Components/Banner/Banner'
 const LandingPage = () => {
   return (
-      <>
+      <div className='WrapDiv'>
       <Header />
       <Banner/>
-      </>
+      </div>
   )
 }
 

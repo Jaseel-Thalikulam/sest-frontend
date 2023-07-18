@@ -5,9 +5,11 @@ import {Route,BrowserRouter,Routes} from 'react-router-dom';
 import UserPublicRoute from './authRoutes/UserPublicRoute';
 import LearnPrivateRoute from './authRoutes/LearnPrivateRoute';
 import LeadPrivateRoute from './authRoutes/LeadPrivateRoute';
+import SuperAdminPrivateRoute from './authRoutes/SuperAdminPrivateRoute';
 const LoadingLandingPage = lazy(() => import('./pages/LandingPage/LandingPage'));
 const LoadingLearnHomePage = lazy(() => import('./pages/LearnHomePage/LearnHomePage'));
 const LoadingLeadHomePage = lazy(() => import('./pages/LeadHomePage/LeadHomePage'));
+const LoadingSuperAdminHomePage = lazy(() => import('./pages/SuperAdminHomePage/SuperAdminHomePage'));
 
 
 function App() {
@@ -28,6 +30,10 @@ function App() {
           <Route path='/lead' element={<LeadPrivateRoute><Suspense fallback={<Loading/>}>
           <LoadingLeadHomePage/>
           </Suspense></LeadPrivateRoute>} />
+
+          <Route path='/Sadmin' element={<SuperAdminPrivateRoute><Suspense fallback={<Loading/>}>
+          <LoadingSuperAdminHomePage/>
+          </Suspense></SuperAdminPrivateRoute>} />
             
         </Routes>
         

@@ -4,7 +4,7 @@ import { RootStateType } from '../../redux/store'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { UserDetails } from '../../redux/userSlice/UserSlice'
-
+import './LearnHomePaage.scss'
 const LearnHomePage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()

@@ -1,11 +1,14 @@
 import React from 'react'
+import './SuperAdminHomePage.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStateType } from '../../redux/store'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { UserDetails } from '../../redux/userSlice/UserSlice'
-import './LeadHomePage.scss'
-const LeadHomePage = () => {
+
+
+
+const SuperAdminHomePage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
     const data = useSelector((state: RootStateType) => state.user)
@@ -13,7 +16,7 @@ const LeadHomePage = () => {
   
     const LogOutHandler = () => {
       {
-        localStorage.removeItem('jwt-lead')
+        localStorage.removeItem('jwt-S-admin')
         navigate('/')
         dispatch(
           UserDetails({
@@ -35,4 +38,7 @@ const LeadHomePage = () => {
   )
 }
 
-export default LeadHomePage
+
+
+
+export default SuperAdminHomePage
