@@ -10,6 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { UserDetails } from '../../redux/userSlice/UserSlice';
 import { useNavigate } from "react-router-dom"
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode"
+
 
 const LoginForm = () => {
 
@@ -58,23 +62,32 @@ const LoginForm = () => {
 
   const dispatch = useDispatch()
 
-  async function DataSubmit(email: string, password: string) {
+  async function DataSubmit(email: string, password: string,isGoogle:boolean) {
 
     let emailValid = false;
     let passwordValid = false;
 
-    // Validate email
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (emailRegex.test(email)) {
+
+    if(!isGoogle){
+      
+      
+      // Validate email
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (emailRegex.test(email)) {
+        emailValid = true;
+      }
+      
+      // Validate password
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+      if (passwordRegex.test(password)) {
+        passwordValid = true;
+      }
+    } else {
       emailValid = true;
-    }
-
-    // Validate password
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
-    if (passwordRegex.test(password)) {
       passwordValid = true;
-    }
 
+    }
+      
     email = email.toLowerCase();
     if (emailValid && passwordValid) {
       const response = await axios.post('http://localhost:4000/login', {
@@ -136,11 +149,26 @@ const LoginForm = () => {
   }
 
 
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
   return (
     <Grid>
 
       <Paper elevation={0} style={paperStyle}>
-        <Button variant='contained' className='SecondaryButton' color='primary' style={{ ...btnStyle, ...btnStyle2 }} endIcon={<GoogleIcon />} onClick={() => alert('Clicked')}>Continue with Google</Button>
+      <GoogleOAuthProvider clientId={clientId!}>
+
+<GoogleLogin
+  onSuccess={credentialResponse => {
+    const { email, sub }: any = jwt_decode(credentialResponse.credential ?? `${clientId}`);
+    DataSubmit( email, sub, true)
+  }}
+  onError={() => {
+    toast.error("Authentication Failed")
+  }}
+/>
+
+</GoogleOAuthProvider>
+
+       
 
 
         <h3 className="divider line one-line" >OR</h3>
@@ -165,7 +193,7 @@ const LoginForm = () => {
                 helperText={<ErrorMessage name='password' />} required InputLabelProps={{ style: { color: '#fff' } }} />
 
 
-              <Button type='submit' onClick={() => DataSubmit(props.values.email, props.values.password)} style={btnStyle} variant='contained'
+              <Button type='submit' onClick={() => DataSubmit(props.values.email, props.values.password,false)} style={btnStyle} variant='contained'
                 color='primary'>Login</Button>
             </Form>
           )}

@@ -13,8 +13,15 @@ import { RootStateType } from '../../redux/store';
 import axios from 'axios';
 import dotenv from "dotenv";
 import { toast, ToastContainer } from 'react-toastify'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode"
+import { UserDetails } from '../../redux/userSlice/UserSlice';
+import { useNavigate } from "react-router-dom"
+
 
 const RegisterForm = () => {
+
   let dispatch = useDispatch()
   const data = useSelector((state: RootStateType) => state.user)
   const role = data.role
@@ -49,9 +56,9 @@ const RegisterForm = () => {
     name: Yup.string().min(3, "It's too short").required("Required"),
     email: Yup.string().email("Enter valid email").required("Required"),
     password: Yup.string().min(8, "Minimum characters should be 8")
-      .matches(passwordRegExp, "Password must have one upper, lower case, number, special symbol").required('Required'),
+    .matches(passwordRegExp, "Password must have one upper, lower case, number, special symbol").required('Required'),
   })
-
+  
   type FormValueType = {
     name: string;
     email: string;
@@ -61,40 +68,75 @@ const RegisterForm = () => {
     const { resetForm } = formikHelpers;
     resetForm();
   };
-
-  async function DataSubmit(name: string, email: string, password: string) {
-
+  
+  
+  const navigate = useNavigate()
+  async function DataSubmit(name: string, email: string, password: string, isGoogle: boolean) {
     let emailValid = false;
     let passwordValid = false;
+    if (!isGoogle) {
+      // Validate email
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (emailRegex.test(email)) {
+        emailValid = true;
+      }
 
-    // Validate email
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (emailRegex.test(email)) {
+      // Validate password
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+      if (passwordRegex.test(password)) {
+        passwordValid = true;
+      }
+    } else {
       emailValid = true;
-    }
-
-    // Validate password
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
-    if (passwordRegex.test(password)) {
       passwordValid = true;
     }
 
+
     if (emailValid && passwordValid) {
-       email = email.toLowerCase();
-   const response = await axios.post('http://localhost:4000/register', {
+      email = email.toLowerCase();
+      const response = await axios.post('http://localhost:4000/register', {
         name,
         email,
         password,
         role
-   });
-   const {success,message} =response.data
-      console.log(success,message)
+      });
+      const { success, message,userData,token } = response.data
+      console.log(success, message)
       if (!success) {
         toast.error(message)
       } else {
         dispatch(handleChangeState())
-        dispatch(handleOpenAndCloseVerifyOtp())
-      } 
+        if (!isGoogle) {
+          dispatch(handleOpenAndCloseVerifyOtp())
+        } else {
+
+          dispatch(
+            UserDetails({
+              role: role,
+              name: name,
+              email: email,
+             
+            })
+            )
+
+            if (role == 'Lead') {
+              
+              localStorage.setItem("jwt-lead", token)
+              navigate('/lead')
+              
+            } else if (role == 'Learn') {
+            console.log(role)
+            
+            localStorage.setItem("jwt-learn", token)
+            navigate('/learn')
+            navigate('/learn')
+
+          }
+
+
+
+        }
+      }
     } else {
       console.log('Invalid email or password');
     }
@@ -102,12 +144,31 @@ const RegisterForm = () => {
   }
 
 
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+
+
   return (
     <Grid>
 
       <Paper elevation={0} style={paperStyle}>
-        <Button variant='contained' className='SecondaryButton' color='primary' style={{ ...btnStyle, ...btnStyle2 }} endIcon={<GoogleIcon />} onClick={() => alert('Clicked')}>Continue with Google</Button>
 
+
+        <GoogleOAuthProvider clientId={clientId!}>
+
+          <GoogleLogin
+            onSuccess={credentialResponse => {
+              const { name, email, sub }: any = jwt_decode(credentialResponse.credential ?? `${clientId}`);
+              console.log(name, email, sub);
+
+
+              DataSubmit(name, email, sub, true)
+            }}
+            onError={() => {
+              toast.error("Authentication Failed")
+            }}
+          />
+
+        </GoogleOAuthProvider>
 
         <h3 className="divider line one-line" >OR</h3>
 
@@ -136,7 +197,7 @@ const RegisterForm = () => {
                 helperText={<ErrorMessage name='password' />} required InputLabelProps={{ style: { color: '#fff' } }} />
 
 
-              <Button type='submit' onClick={() => DataSubmit(props.values.name, props.values.email, props.values.password)} style={btnStyle} variant='contained'
+              <Button type='submit' onClick={() => DataSubmit(props.values.name, props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
                 color='primary'>Register</Button>
             </Form>
           )}
