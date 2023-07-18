@@ -1,4 +1,3 @@
-
 import { Grid, Paper, Button, Typography, Box } from '@mui/material'
 import { TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
@@ -8,12 +7,14 @@ import '../Register/Register.scss'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { UserDetails } from '../../redux/userSlice/UserSlice';
+import { useNavigate } from "react-router-dom"
 
 const LoginForm = () => {
-  
-  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+
 
   const paperStyle = {
     padding: '0 15px 40px 15px',
@@ -35,12 +36,12 @@ const LoginForm = () => {
 
   const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
   const initialValues = {
-  
+
     email: '',
     password: '',
   }
   const validationSchema = Yup.object().shape({
- 
+
     email: Yup.string().email("Enter valid email").required("Required"),
     password: Yup.string().min(8, "Minimum characters should be 8")
       .matches(passwordRegExp, "Password must have one upper, lower case, number, special symbol").required('Required'),
@@ -52,10 +53,10 @@ const LoginForm = () => {
   };
   const onSubmit = (values: FormValueType, formikHelpers: FormikHelpers<FormValueType>) => {
     const { resetForm } = formikHelpers;
-    alert(JSON.stringify(values, null, 2));
     resetForm();
   };
 
+  const dispatch = useDispatch()
 
   async function DataSubmit(email: string, password: string) {
 
@@ -74,47 +75,57 @@ const LoginForm = () => {
       passwordValid = true;
     }
 
-
-  email = email.toLowerCase();
+    email = email.toLowerCase();
     if (emailValid && passwordValid) {
       const response = await axios.post('http://localhost:4000/login', {
         email,
         password,
       });
-   const {success,message,userData,token}=response.data
+      const { success, message, userData, token } = response.data
 
-      console.log("token :",token)
-      
+
+      console.log("token :", token)
+      console.log("userdata from login", userData)
       if (!success) {
         toast.error(message)
       } else {
+
+        console.log("before ")
         
         dispatch(
           UserDetails({
             role: userData.role,
             name: userData.name,
-            email: userData.emal,
+            email: userData.email,
             phone: userData.phone,
             dob: userData.dob,
           })
-        )
+          )
+          console.log("after ")
+
 
         if (userData.role == 'Learn') {
-            
-      localStorage.setItem("jwt-learn",token)
-      
-    } else if (userData.role == 'Lead') {
-          localStorage.setItem("jwt-lead",token)
+
+          localStorage.setItem("jwt-learn", token)
+          navigate('/learn')
+
+        } else if (userData.role == 'Lead') {
+          localStorage.setItem("jwt-lead", token)
+        
+
+            navigate('/lead')
+
           
+
         } else if (userData.role == 'Admin') {
-          localStorage.setItem("jwt-admin",token)
-          
+          localStorage.setItem("jwt-admin", token)
+
         } else if (userData.role == 'SuperAdmin') {
-          localStorage.setItem("jwt-S-admin",token)
-          
+          localStorage.setItem("jwt-S-admin", token)
+
         }
 
-        
+
 
       }
 
@@ -136,8 +147,8 @@ const LoginForm = () => {
 
 
         <Box display="flex" justifyContent="center">
-      <Typography variant='caption'>Discover new knowledge Log in</Typography>
-    </Box>
+          <Typography variant='caption'>Discover new knowledge Log in</Typography>
+        </Box>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
           {(props) => (
             <Form noValidate >

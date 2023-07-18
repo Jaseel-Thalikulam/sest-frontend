@@ -22,7 +22,7 @@ const RegisterIsLearnOrLead = () => {
             dispatch(
                 UserDetails({
                     role: role,
-                })
+                })  
           )
  
           dispatch(handleChangeState())

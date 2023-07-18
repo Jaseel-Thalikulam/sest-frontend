@@ -29,7 +29,7 @@ type RegFormModalType = {
 
 type UserStateType = {
     role: string;
-  firstName: string;
+  name: string;
     email: string;
     phone: number | null;
     dob: string | null;
