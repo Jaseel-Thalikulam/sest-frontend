@@ -1,8 +1,8 @@
 import React, {lazy, Suspense} from 'react';
 import './App.scss';
-import Loading from './Components/loadingComponent/Loading.tsx'
+import Loading from './Components/loadingComponent/Loading'
 import {Route,BrowserRouter,Routes} from 'react-router-dom';
-
+import UserPublicRoute from './authRoutes/userPublicRoute';
 
 const LazyLoadingLandingPage = lazy(() => import('./pages/LandingPage/LandingPage'));
 
@@ -14,11 +14,14 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-        <Route  path='/welcome' element={<Suspense fallback={<Loading/>}>
+        <Route  path='/' element={<UserPublicRoute><Suspense fallback={<Loading/>}>
             <LazyLoadingLandingPage />
-          </Suspense>} />
+          </Suspense></UserPublicRoute>} />
 
-    </Routes>
+          <Route path='/lead'  />
+          
+        </Routes>
+        
       </BrowserRouter>
     </>
   )

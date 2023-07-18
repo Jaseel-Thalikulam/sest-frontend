@@ -54,3 +54,22 @@
     opacity: 0;
   }
 }
+
+
+// Hide scrollbar for Chrome, Safari, and Opera
+body::-webkit-scrollbar {
+  width: 0.5em;
+
+  &-thumb {
+    background-color: transparent;
+  }
+}
+
+// Hide scrollbar for Firefox
+body {
+  scrollbar-width: none;
+
+  & {
+    scrollbar-arrow-color: transparent;
+  }
+}

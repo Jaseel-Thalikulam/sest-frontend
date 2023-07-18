@@ -1,12 +1,11 @@
-import * as React from 'react';
+import  React,{useState} from 'react';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
-import {Button, Tab} from '@mui/material'
-import {handleOpenAndClose} from'../../redux/modalSlice/modalSlice'
+import {Tab} from '@mui/material'
+
 
 
   
@@ -41,9 +40,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 interface ModalProps {
     children: React.ReactNode;
     data: string;
-  buttonname: string;
-  autoOpen: boolean;
-  uniqueId: string;
+  buttonname: string;  
   }
 export interface DialogTitleProps {
   id: string;
@@ -54,6 +51,9 @@ export interface DialogTitleProps {
 function BootstrapDialogTitle(props: DialogTitleProps) {
   const { children, onClose, ...other } = props;
 
+   
+   
+    
   return (
     <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
       {children}
@@ -61,23 +61,26 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function Modal({ children, data, buttonname,autoOpen,uniqueId }: ModalProps) {
-  const Status = useSelector((state: any) => state.modal)
-  let isOpen =Status.Open
-  if (autoOpen == true)isOpen = autoOpen
+export default function LoginModal({ children, data, buttonname}: ModalProps) {
   
- 
-  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+
+  
+
+  
+    
+    
   return (
       <div>
-    
-      <Button type='button'  onClick={() => dispatch(handleOpenAndClose())} className='RegisterBtn' variant='contained' color='primary'>Register now</Button> 
+      <Tab label={buttonname} onClick={() =>setOpen(!open)} />
+          
       <BootstrapDialog
-        onClose={()=>dispatch(handleOpenAndClose())}
+        onClose={()=>setOpen(!open)}
         aria-labelledby="customized-dialog-title"
-        open={isOpen}
+        open={open}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>dispatch(handleOpenAndClose())}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>setOpen(!open)}>
           {data}
         </BootstrapDialogTitle>
         <DialogContent dividers>
@@ -88,3 +91,5 @@ export default function Modal({ children, data, buttonname,autoOpen,uniqueId }: 
     </div>
   );
 }
+
+

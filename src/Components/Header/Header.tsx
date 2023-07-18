@@ -4,7 +4,7 @@ import './Header.scss'
 import AppBar from '@mui/material/AppBar';
 import LOGO from '../../../public/Logo/White logo - no background.svg'
 import DrawerComponent from './DrawerComponent';
-import Register from '../Register/Register'
+import Login from '../login/login'
 const  PAGES =["Contact Us","About Us"]
 const Header = () => {
   const theme = useTheme()
@@ -36,7 +36,8 @@ const Header = () => {
 
 
 </Tabs>
-                  <Register />
+
+                  <Login/>
                
                 </>
             )

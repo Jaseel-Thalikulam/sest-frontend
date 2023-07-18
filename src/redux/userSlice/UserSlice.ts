@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const INITIAL_STATE = {
     role: "",
-    firstName: "",
+    name: "",
     email: "",
     phone: null,
     dob: null,

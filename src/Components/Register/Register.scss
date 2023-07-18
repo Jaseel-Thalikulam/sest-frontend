@@ -47,6 +47,32 @@
     margin-top: $btnMarginTop!important;
   }
 
+
+  $btnWidth: 100%; // Replace with your desired button width
+$btnBorderRadius: $btnBorderRadius!important; // Replace with your desired border radius
+$btnBackgroundColor: $btnBackgroundColor!important;; // Replace with your desired button background color
+$btnMarginTop: 16px; // Replace with your desired margin top
+$btnHeight: 48px; 
+.RegisterBtn {
+  font-weight: bold;
+  width: $btnWidth;
+  height: $btnHeight;
+  max-width: 200px;
+  border-radius: $btnBorderRadius;
+  background-color: $btnBackgroundColor;
+  margin-top: $btnMarginTop;
+
+  // Responsive styles using Media Queries
+  @media (max-width: 600px) { // Adjust the breakpoint as needed
+    width: 50%; // Full width on small screens
+    height: 40px; // Adjust the height for small screens
+  }
+
+  @media (max-width: 400px) { // Adjust the breakpoint as needed
+    height: 36px; // Further adjust the height for smaller screens
+  }
+}
+
   $btnMarginTop: 25px;
 $btnBackgroundColor: #0A0C38;
 $btnBorder: 1px solid #fff;
