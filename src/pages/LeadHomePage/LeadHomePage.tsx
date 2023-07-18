@@ -5,7 +5,7 @@ import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { UserDetails } from '../../redux/userSlice/UserSlice'
 
-const LearnHomePage = () => {
+const LeadHomePage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
     const data = useSelector((state: RootStateType) => state.user)
@@ -13,7 +13,7 @@ const LearnHomePage = () => {
   
     const LogOutHandler = () => {
       {
-        localStorage.removeItem('jwt-learn')
+        localStorage.removeItem('jwt-lead')
         navigate('/')
         dispatch(
           UserDetails({
@@ -35,4 +35,4 @@ const LearnHomePage = () => {
   )
 }
 
-export default LearnHomePage
+export default LeadHomePage

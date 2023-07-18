@@ -4,8 +4,10 @@ import Loading from './Components/loadingComponent/Loading'
 import {Route,BrowserRouter,Routes} from 'react-router-dom';
 import UserPublicRoute from './authRoutes/UserPublicRoute';
 import LearnPrivateRoute from './authRoutes/LearnPrivateRoute';
-const LazyLoadingLandingPage = lazy(() => import('./pages/LandingPage/LandingPage'));
-const LazyLoadingLeadHomePage = lazy(() => import('./pages/LearnHomePage/LearnHomePage'));
+import LeadPrivateRoute from './authRoutes/LeadPrivateRoute';
+const LoadingLandingPage = lazy(() => import('./pages/LandingPage/LandingPage'));
+const LoadingLearnHomePage = lazy(() => import('./pages/LearnHomePage/LearnHomePage'));
+const LoadingLeadHomePage = lazy(() => import('./pages/LeadHomePage/LeadHomePage'));
 
 
 function App() {
@@ -16,12 +18,16 @@ function App() {
       <BrowserRouter>
         <Routes>
         <Route  path='/' element={<UserPublicRoute><Suspense fallback={<Loading/>}>
-            <LazyLoadingLandingPage />
+            <LoadingLandingPage />
           </Suspense></UserPublicRoute>} />
 
           <Route path='/learn' element={<LearnPrivateRoute><Suspense fallback={<Loading/>}>
-          <LazyLoadingLeadHomePage/>
+          <LoadingLearnHomePage/>
           </Suspense></LearnPrivateRoute>} />
+
+          <Route path='/lead' element={<LeadPrivateRoute><Suspense fallback={<Loading/>}>
+          <LoadingLeadHomePage/>
+          </Suspense></LeadPrivateRoute>} />
             
         </Routes>
         
