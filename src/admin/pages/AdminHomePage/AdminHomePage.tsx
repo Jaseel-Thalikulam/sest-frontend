@@ -1,14 +1,11 @@
 import React from 'react'
-import './SuperAdminHomePage.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootStateType } from '../../redux/store'
+import { RootStateType } from '../../../redux/store'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { UserDetails } from '../../redux/userSlice/UserSlice'
-
-
-
-const SuperAdminHomePage = () => {
+import { UserDetails } from '../../../redux/userSlice/UserSlice'
+import './AdminHomePage.scss'
+const AdminHomePage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
     const data = useSelector((state: RootStateType) => state.user)
@@ -16,7 +13,7 @@ const SuperAdminHomePage = () => {
   
     const LogOutHandler = () => {
       {
-        localStorage.removeItem('jwt-S-admin')
+        localStorage.removeItem('jwt-admin')
         navigate('/')
         dispatch(
           UserDetails({
@@ -39,6 +36,4 @@ const SuperAdminHomePage = () => {
 }
 
 
-
-
-export default SuperAdminHomePage
+export default AdminHomePage

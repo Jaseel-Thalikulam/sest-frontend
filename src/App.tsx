@@ -10,8 +10,8 @@ import AdminPrivateRoute from './authRoutes/AdminPrivateRoute';
 const LoadingLandingPage = lazy(() => import('./pages/LandingPage/LandingPage'));
 const LoadingLearnHomePage = lazy(() => import('./pages/LearnHomePage/LearnHomePage'));
 const LoadingLeadHomePage = lazy(() => import('./pages/LeadHomePage/LeadHomePage'));
-const LoadingSuperAdminHomePage = lazy(() => import('./pages/SuperAdminHomePage/SuperAdminHomePage'));
-const LoadingAdminHomePage = lazy(() => import('./pages/AdminHomePage/AdminHomePage'));
+const LoadingSuperAdminHomePage = lazy(() => import('./admin/pages/SuperAdminHomePage/SuperAdminHomePage'));
+const LoadingAdminHomePage = lazy(() => import('./admin/pages/AdminHomePage/AdminHomePage'));
 
 
 function App() {
