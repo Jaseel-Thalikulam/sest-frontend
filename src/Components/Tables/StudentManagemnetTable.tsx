@@ -1,21 +1,21 @@
 import axios from 'axios'
 import {useEffect, useState} from 'react'
-import * as React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 const columns: GridColDef[] = [
-    { field: '_id', headerName: 'ID', width: 70 },
+
     { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'email', headerName: 'Email', width: 130 },
-    {
-      field: 'Fullname',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
+    { field: 'email', headerName: 'Email', width: 200 },
+    { field: 'role', headerName: 'Role', width: 200 },
+    // {
+    //   field: 'Fullname',
+    //   headerName: 'Full name',
+    //   description: 'This column has a value getter and is not sortable.',
+    //   sortable: false,
+    //   width: 160,
+    //   valueGetter: (params: GridValueGetterParams) =>
+    //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    // },
   ];
   
   
@@ -30,7 +30,8 @@ const columns: GridColDef[] = [
                 
                 console.log("inside fetch :", data.data)
 
-              let userdata=data.data
+              let userdata = data.data
+              
              
                
                 
