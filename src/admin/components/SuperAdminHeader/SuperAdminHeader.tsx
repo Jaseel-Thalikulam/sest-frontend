@@ -6,7 +6,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -166,7 +165,7 @@ export default function Header() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+       
         <List>
          
          
@@ -190,9 +189,7 @@ export default function Header() {
                 <ListItemText primary={"Students"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            <ListItem key={"Tutors"} disablePadding sx={{ display: 'block' }}>
-             
-            </ListItem>
+           
             <ListItem key={"Logout"} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -216,7 +213,6 @@ export default function Header() {
             </ListItem>
          
         </List>
-        <Divider />
        
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

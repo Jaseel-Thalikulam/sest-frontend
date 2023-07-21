@@ -1,5 +1,9 @@
 import React, {lazy, Suspense} from 'react';
 import './App.scss';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 import Loading from './Components/loadingComponent/Loading'
 import {Route,BrowserRouter,Routes} from 'react-router-dom';
 import UserPublicRoute from './authRoutes/UserPublicRoute';
