@@ -1,6 +1,6 @@
-import axios from 'axios'
+  
 import {useEffect, useState} from 'react'
-import { DataGrid, GridCellParams, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button/Button';
 import './StudentManagemnetTable.scss'
 import axiosInstance from '../../admin/interceptor/axiosInstance';

@@ -189,9 +189,7 @@ const RegisterForm = () => {
               <Field as={TextField} name='email' label='Email' fullWidth
                 error={props.errors.email && props.touched.email}
                 helperText={<ErrorMessage name='email' />} required InputLabelProps={{ style: { color: '#fff' } }} />
-
-
-
+              
               <Field as={TextField} name='password' label='Password' type='password' fullWidth
                 error={props.errors.password && props.touched.password}
                 helperText={<ErrorMessage name='password' />} required InputLabelProps={{ style: { color: '#fff' } }} />
@@ -201,7 +199,7 @@ const RegisterForm = () => {
                 color='primary'>Register</Button>
             </Form>
           )}
-        </Formik>
+        </Formik> 
         <ToastContainer />
       </Paper>
     </Grid>
