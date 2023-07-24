@@ -12,7 +12,10 @@ import { UserDetails } from '../../redux/userSlice/UserSlice';
 import { useNavigate } from "react-router-dom"
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
+import { handleLoginChangeState } from '../../redux/modalSlice/loginModalSlice';
+import { handleForgetPasswordChangeState } from '../../redux/modalSlice/forgetpasswordSlice';
+
 
 
 const LoginForm = () => {
@@ -148,6 +151,12 @@ const LoginForm = () => {
   }
 
 
+  function forgetpassword() {
+    dispatch(handleForgetPasswordChangeState())
+    dispatch(handleLoginChangeState())
+  }
+
+
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
   return (
     <Grid>
@@ -197,6 +206,8 @@ const LoginForm = () => {
             </Form>
           )}
         </Formik>
+        {/* <ForgetPassword/> */}
+        <Button variant='text' onClick={()=>forgetpassword()}>Forget Password</Button>
         <ToastContainer />
       </Paper>
     </Grid>

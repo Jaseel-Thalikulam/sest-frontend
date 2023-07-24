@@ -10,9 +10,7 @@ const RegisterIsLearnOrLead = () => {
 
         const data = useSelector((state: RootStateType) => state.user)
         const modaldata = useSelector((state: RootStateType) => state.modal)
-        console.log("data is :", data)
-        console.log("modaldata is :", modaldata)
-
+      
         const dispatch = useDispatch()
   
         function RoleOfUser(role: string) {

@@ -93,20 +93,54 @@ const RegisterForm = () => {
 
 
     if (emailValid && passwordValid) {
+
+
+      
       email = email.toLowerCase();
-      const response = await axios.post('http://localhost:4000/register', {
-        name,
-        email,
-        password,
-        role
-      });
-      const { success, message,userData,token } = response.data
+      
+    
+      let response
+      
+      if (!isGoogle) {
+         response = await axios.post('http://localhost:4000/register', {
+          name,
+          email,
+          password,
+          role, 
+          isVerified:false,
+        });
+      } else {
+         response = await axios.post('http://localhost:4000/register', {
+          name,
+          email,
+          password,
+          role, 
+          isVerified:true,
+        });
+      }
+
+    
+      
+      
+      const { success, message, userData, token } = response.data
+      
+      
+
       console.log(success, message)
       if (!success) {
         toast.error(message)
       } else {
         dispatch(handleChangeState())
         if (!isGoogle) {
+          dispatch(
+            UserDetails({
+              role: role,
+              name: name,
+              email: email,
+              userId:userData._id
+             
+            })
+            )
           dispatch(handleOpenAndCloseVerifyOtp())
         } else {
 
@@ -115,6 +149,7 @@ const RegisterForm = () => {
               role: role,
               name: name,
               email: email,
+             
              
             })
             )
@@ -129,7 +164,7 @@ const RegisterForm = () => {
             
             localStorage.setItem("jwt-learn", token)
             navigate('/learn')
-            navigate('/learn')
+      
 
           }
 
@@ -151,7 +186,6 @@ const RegisterForm = () => {
     <Grid>
 
       <Paper elevation={0} style={paperStyle}>
-
 
         <GoogleOAuthProvider clientId={clientId!}>
 
@@ -197,6 +231,9 @@ const RegisterForm = () => {
 
               <Button type='submit' onClick={() => DataSubmit(props.values.name, props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
                 color='primary'>Register</Button>
+              
+             
+
             </Form>
           )}
         </Formik> 

@@ -3,9 +3,9 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import {useDispatch}from 'react-redux'
+import {useDispatch, useSelector}from 'react-redux'
 import {Tab} from '@mui/material'
-
+import {handleLoginChangeState} from'../../redux/modalSlice/loginModalSlice'
 
 
   
@@ -63,24 +63,25 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 
 export default function LoginModal({ children, data, buttonname}: ModalProps) {
   
-  const [open, setOpen] = useState(false);
 
+  const Status = useSelector((state: any) => state.loginformmodal)
+  let isOpen =Status.State
 
   
 
   
-    
+  const dispatch = useDispatch();
     
   return (
       <div>
-      <Tab label={buttonname} onClick={() =>setOpen(!open)} />
+      <Tab label={buttonname} onClick={() => dispatch(handleLoginChangeState())} />
           
       <BootstrapDialog
-        onClose={()=>setOpen(!open)}
+        onClose={()=>dispatch(handleLoginChangeState())}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={isOpen}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>setOpen(!open)}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>dispatch(handleLoginChangeState())}>
           {data}
         </BootstrapDialogTitle>
         <DialogContent dividers>

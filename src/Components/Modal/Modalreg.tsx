@@ -42,7 +42,6 @@ interface ModalProps {
     children: React.ReactNode;
     data: string;
   autoOpen: boolean;
-  
   }
 export interface DialogTitleProps {
   id: string;

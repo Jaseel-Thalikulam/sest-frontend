@@ -5,8 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
-import {Button, Tab} from '@mui/material'
-import {handleOpenAndClose} from'../../redux/modalSlice/modalSlice'
+import {handleOpenAndCloseNewPasswordVerifyOtp} from'../../redux/modalSlice/newpasswordModalSlice'
 
 
   
@@ -41,9 +40,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 interface ModalProps {
     children: React.ReactNode;
     data: string;
-  buttonname: string;
-  autoOpen: boolean;
-  uniqueId: string;
+  
+ 
   }
 export interface DialogTitleProps {
   id: string;
@@ -61,22 +59,23 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function Modal({ children, data, buttonname,autoOpen,uniqueId }: ModalProps) {
-  const Status = useSelector((state: any) => state.modal)
+export default function newPasswordOTPModal({ children, data}: ModalProps) {
+  const Status = useSelector((state: any) => state.modalNewPasswordOtpVerify)
   let isOpen =Status.Open
-  if (autoOpen == true)isOpen = autoOpen
+  
+  console.log(isOpen,"from new otp")
   
  
   const dispatch = useDispatch();
   return (
       <div>
-      <Button type='button'  onClick={() => dispatch(handleOpenAndClose())} className='RegisterBtn' variant='contained' color='primary'>Register now</Button> 
+    
       <BootstrapDialog
-        onClose={()=>dispatch(handleOpenAndClose())}
+        onClose={()=>dispatch(handleOpenAndCloseNewPasswordVerifyOtp())}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>dispatch(handleOpenAndClose())}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>dispatch(handleOpenAndCloseNewPasswordVerifyOtp())}>
           {data}
         </BootstrapDialogTitle>
         <DialogContent dividers>

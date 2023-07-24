@@ -6,10 +6,8 @@ const INITIAL_STATE = {
     email: "",
     phone: null,
     dob: null,
+    userId:""
 }
-
-
-
 
 const UserSlice = createSlice({
     name: "User",
@@ -20,7 +18,8 @@ const UserSlice = createSlice({
             state.name = action.payload.name;
             state.email = action.payload.email;
             state.phone = action.payload.phone;
-            state.dob = action.payload.dob
+            state.dob = action.payload.dob;
+            state.userId = action.payload.userId
         }
     }
 })

@@ -5,7 +5,10 @@ import storage from 'redux-persist/lib/storage';
 import modalReducer from './modalSlice/modalSlice';
 import userReducer from './userSlice/UserSlice';
 import RegisterFormModalreducer from './modalSlice/RegisterFormModalSlice';
+import LoginFormModalreducer from './modalSlice/loginModalSlice';
 import OTPModalReducer from './modalSlice/VerifyOtpModalSlice';
+import ForgetPasswordReducer from './modalSlice/forgetpasswordSlice';
+import NewPasswordReducer from './modalSlice/newpasswordModalSlice';
 
 
 
@@ -14,9 +17,11 @@ export type RootStateType = {
     modal: ModalStateType;
     user: UserStateType;
   registerformmodal: RegFormModalType;
-  verifyOTPmodal:ModalStateType
+  loginformmodal: LoginFormModalType;
+  forgetPasswordmodal: ForgetPasswordModalType
+  modalNewPasswordOtpVerify: ModalStateType
+  
   };
-
 
 
 type ModalStateType = {
@@ -26,13 +31,21 @@ type ModalStateType = {
 type RegFormModalType = {
     State:boolean
 }
+type LoginFormModalType = {
+    State:boolean
+}
+type ForgetPasswordModalType = {
+    isOpen:boolean
+}
+
 
 type UserStateType = {
     role: string;
   name: string;
     email: string;
     phone: number | null;
-    dob: string | null;
+  dob: string | null;
+  userId: string;
 }
 
 
@@ -49,8 +62,20 @@ const regformmodal_persistConfig = {
     key: 'regmodal',
     storage,
   };
+const loginformmodal_persistConfig = {
+    key: 'loginmodal',
+    storage,
+  };
 const verifyOTPmodal_persistConfig = {
     key: 'verifyOTPmodal',
+    storage,
+  };
+const forgetPasswordmodal_persistConfig = {
+    key: 'forgetPasswordmodal',
+    storage,
+  };
+const modalNewPasswordOtpVerify_persistConfig = {
+    key: 'modalNewPasswordOtpVerify',
     storage,
   };
 
@@ -58,7 +83,10 @@ const verifyOTPmodal_persistConfig = {
 const persistedUserReducer = persistReducer(user_persistConfig, userReducer);
 const persistedModalReducer = persistReducer(modal_persistConfig, modalReducer);
 const persistedRegisterFormModalreducer = persistReducer(regformmodal_persistConfig, RegisterFormModalreducer);
+const persistedLoginFormModalreducer = persistReducer(loginformmodal_persistConfig, LoginFormModalreducer);
 const persistedverifyOTPmodalreducer = persistReducer(verifyOTPmodal_persistConfig, OTPModalReducer);
+const persistedforgetPasswordmodalreducer = persistReducer(forgetPasswordmodal_persistConfig, ForgetPasswordReducer);
+const persistedmodalNewPasswordOtpVerifyreducer = persistReducer(modalNewPasswordOtpVerify_persistConfig,NewPasswordReducer);
   
 
 
@@ -67,7 +95,10 @@ export const store = configureStore({
         modal:persistedModalReducer,
         user: persistedUserReducer,
     registerformmodal: persistedRegisterFormModalreducer,
+    loginformmodal: persistedLoginFormModalreducer,
     verifyOTPmodal: persistedverifyOTPmodalreducer,
+    forgetPasswordmodal: persistedforgetPasswordmodalreducer,
+    modalNewPasswordOtpVerify: persistedmodalNewPasswordOtpVerifyreducer,
     
         
     }
