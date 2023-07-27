@@ -26,7 +26,7 @@ const StudentManagemnetTable = () => {
         return (
           <div>
             {isBanned}
-            {isBanned ? 'Approved' : 'Denied'}
+            {isBanned ? 'Denied' : 'Approved'}
           </div>
         );
       },
@@ -43,22 +43,22 @@ const StudentManagemnetTable = () => {
             {isBanned}
             {isBanned ?<Button
           variant="outlined"
-              color="error"
-          onClick={(event) => {
-            event.stopPropagation(); // Prevent the row click event from being triggered
-            handleButtonClick(params.row);
-          }}
-        >
-          Deny
-        </Button>  : <Button
-          variant="outlined"
-          color="primary"
+              color="primary"
           onClick={(event) => {
             event.stopPropagation(); // Prevent the row click event from being triggered
             handleButtonClick(params.row);
           }}
         >
           Approve
+        </Button>  : <Button
+          variant="outlined"
+          color="error"
+          onClick={(event) => {
+            event.stopPropagation(); // Prevent the row click event from being triggered
+            handleButtonClick(params.row);
+          }}
+        >
+          DENY
         </Button>}
           </div>
         );
@@ -85,6 +85,7 @@ const StudentManagemnetTable = () => {
       const { data } = await axiosInstance.post('/Superadmin/userslist/blockuser', {
         id
       });
+      console.log(data)
 
       
       const updatedUserIndex = users.findIndex((user) => user._id === id);

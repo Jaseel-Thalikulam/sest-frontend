@@ -1,17 +1,17 @@
 import { Grid, Paper, Button, Typography } from '@mui/material';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField } from '@mui/material'
 import * as Yup from 'yup'
 import OtpInput from 'react-otp-input';
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
+import { Formik, Form, Field, ErrorMessage} from 'formik'
 import axios from 'axios';
 import { RootStateType } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
-import { handleOpenAndCloseVerifyOtp } from '../../redux/modalSlice/VerifyOtpModalSlice'
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { toast,ToastContainer } from 'react-toastify';
+import { handleOpenAndCloseNewPasswordVerifyOtp } from '../../redux/modalSlice/newpasswordModalSlice';
 
 
 const NewPasswordVerifyOTP = () => {
@@ -52,15 +52,17 @@ const NewPasswordVerifyOTP = () => {
   const navigate = useNavigate();
   
 
-  async function sendPasswordAndOTP(password: string) {
+  async function sendPasswordAndOTP(password: string){
     let passwordValid = false;
-    let otpValid = false ;
+    let otpValid = false;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
     if (passwordRegex.test(password)) {
       passwordValid = true;
     }
     const otpRegex = /^\d{6}$/;
     if (otpRegex.test(OTP)) {
+      console.log("otp validated");
+      
       otpValid = true;
     }
 
@@ -74,7 +76,7 @@ const NewPasswordVerifyOTP = () => {
       console.log(success, message, "from verifyotp");
 
       if (success) {
-        dispatch(handleOpenAndCloseVerifyOtp())
+        dispatch(handleOpenAndCloseNewPasswordVerifyOtp())
         if (userData.role == 'Lead') {
 
           localStorage.setItem("jwt-lead", token)
@@ -113,15 +115,15 @@ const NewPasswordVerifyOTP = () => {
   async function resendOTP() {
 
     setCountdown(30);
-    const response = await axios.post('http://localhost:4000/resendotp', {
+    axios.post('http://localhost:4000/resendotp', {
       userId, email
     });
 
   };
 
-  function onSubmit() {
+  function onSubmit() { }
 
-  }
+  
 
 
   return (
@@ -204,7 +206,7 @@ const NewPasswordVerifyOTP = () => {
             Resend OTP
           </Button>
         )}
-
+ <ToastContainer />
       </Paper>
     </Grid>
   );

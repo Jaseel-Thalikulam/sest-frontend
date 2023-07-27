@@ -36,10 +36,7 @@ const LoginForm = () => {
     backgroundColor: '#8080D7'
   }
 
-  const btnStyle2 = {
-    // other styles here
-    marginBottom: '10px',
-  };
+
 
   const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
   const initialValues = {
@@ -64,9 +61,10 @@ const LoginForm = () => {
   };
 
   const dispatch = useDispatch()
-
+  
   async function DataSubmit(email: string, password: string,isGoogle:boolean) {
-
+    
+    
     let emailValid = false;
     let passwordValid = false;
 
@@ -105,7 +103,6 @@ const LoginForm = () => {
       if (!success) {
         toast.error(message)
       } else {
-
         console.log("before ")
         
         dispatch(

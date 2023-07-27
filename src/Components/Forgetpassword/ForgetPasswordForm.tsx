@@ -3,6 +3,7 @@ import { TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
 import '../Register/Register.scss'
+import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
@@ -73,7 +74,6 @@ const ForgetPasswordForm = () => {
       }
     
     
-    
       
     email = email.toLowerCase();
 
@@ -85,9 +85,6 @@ const ForgetPasswordForm = () => {
       });
       const { success, message, userData } = response.data
       
-      console.log(userData,"from :)")
-
-
       
       if (!success) {
         toast.error(message)
