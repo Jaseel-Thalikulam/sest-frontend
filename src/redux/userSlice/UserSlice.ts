@@ -5,8 +5,13 @@ const INITIAL_STATE = {
     name: "",
     email: "",
     phone: null,
-    dob: null,
-    userId:""
+    DOB: null,
+    userId: "",
+    phoneNumber: "",
+    about: "",
+    github: "",
+    linkedin: "",
+    pinterest:"",
 }
 
 const UserSlice = createSlice({
@@ -17,9 +22,15 @@ const UserSlice = createSlice({
             state.role = action.payload.role;
             state.name = action.payload.name;
             state.email = action.payload.email;
-            state.phone = action.payload.phone;
-            state.dob = action.payload.dob;
-            state.userId = action.payload.userId
+            state.phoneNumber = action.payload.phoneNumber;
+            state.DOB = action.payload.DOB;
+            state.userId = action.payload.userId;
+            state.about = action.payload.about;
+            state.github = action.payload.github;
+            state.linkedin = action.payload.linkedin;
+            state.pinterest = action.payload.pinterest;
+
+            
         }
     }
 })

@@ -4,20 +4,18 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Loading from './Components/loadingComponent/Loading'
+import Loading from './common/Components/loadingComponent/Loading';
 import {Route,BrowserRouter,Routes} from 'react-router-dom';
 import UserPublicRoute from './authRoutes/UserPublicRoute';
-import LearnPrivateRoute from './authRoutes/LearnPrivateRoute';
-import LeadPrivateRoute from './authRoutes/LeadPrivateRoute';
-import SuperAdminPrivateRoute from './authRoutes/SuperAdminPrivateRoute';
-import AdminPrivateRoute from './authRoutes/AdminPrivateRoute';
-const LoadingLandingPage = lazy(() => import('./pages/LandingPage/LandingPage'));
-const LoadingLearnHomePage = lazy(() => import('./pages/LearnHomePage/LearnHomePage'));
-const LoadingLeadHomePage = lazy(() => import('./pages/LeadHomePage/LeadHomePage'));
-const LoadingSuperAdminHomePage = lazy(() => import('./admin/pages/SuperAdminHomePage/SuperAdminHomePage'));
-const LoadingAdminHomePage = lazy(() => import('./admin/pages/AdminHomePage/AdminHomePage'));
+const LoadingLandingPage = lazy(() => import('./common/pages/LandingPage/LandingPage'));
+
+;
 
 
+import TutorRoutes from './routes/TutorRoutes';
+import Studentroutes from './routes/StudentRoutes';
+import Adminroutes from './routes/AdminRoutes';
+import SuperAdminRoutes from './routes/SuperAdminRoutes';
 function App() {
 
 
@@ -29,22 +27,15 @@ function App() {
             <LoadingLandingPage />
           </Suspense></UserPublicRoute>} />
 
-          <Route path='/learn' element={<LearnPrivateRoute><Suspense fallback={<Loading/>}>
-          <LoadingLearnHomePage/>
-          </Suspense></LearnPrivateRoute>} />
+          <Route path='/learn/*' element={<Studentroutes/>} />
 
-          <Route path='/lead' element={<LeadPrivateRoute><Suspense fallback={<Loading/>}>
-          <LoadingLeadHomePage/>
-          </Suspense></LeadPrivateRoute>} />
+          <Route path='/lead/*' element={<TutorRoutes/>} />
 
-          <Route path='/admin' element={<AdminPrivateRoute><Suspense fallback={<Loading/>}>
-          <LoadingAdminHomePage/>
-          </Suspense></AdminPrivateRoute>} />
+          <Route path='/admin/*' element={<Adminroutes/>} />
 
-          <Route path='/Sadmin' element={<SuperAdminPrivateRoute><Suspense fallback={<Loading/>}>
-          <LoadingSuperAdminHomePage/>
-          </Suspense></SuperAdminPrivateRoute>} />
+          <Route path='/Sadmin/*' element={<SuperAdminRoutes/>} />
             
+         
         </Routes>
         
       </BrowserRouter>

@@ -22,7 +22,7 @@ import { RootStateType } from '../../../redux/store';
 import { UserDetails } from '../../../redux/userSlice/UserSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import StudentManagemnetTable from '../../../Components/Tables/StudentManagemnetTable';
+import StudentManagemnetTable from '../Tables/StudentManagemnetTable';
 
 const drawerWidth = 240;
 
