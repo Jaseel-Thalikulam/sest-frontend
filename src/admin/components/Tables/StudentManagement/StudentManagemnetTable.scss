@@ -1,0 +1,20 @@
+/* StudentManagemnetTable.scss */
+
+.table-container {
+    width: 100%; /* Set the initial width of the table container to 100% */
+  }
+  
+  /* Media query to reduce the table width on smaller screens */
+  @media screen and (max-width: 768px) {
+    .table-container {
+      width: 90%; /* Adjust the width as per your preference */
+    }
+  
+    /* Reduce the width of individual columns */
+    .MuiDataGrid-columnHeader,
+    .MuiDataGrid-cell {
+      font-size: 12px; /* Reduce the font size for smaller screens */
+      padding: 8px 4px; /* Reduce the padding for smaller screens */
+    }
+  }
+  

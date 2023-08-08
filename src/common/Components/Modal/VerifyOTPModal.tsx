@@ -50,7 +50,7 @@ export interface DialogTitleProps {
 }
 
 function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
+  const { children, ...other } = props;
 
   return (
     <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
@@ -61,7 +61,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 
 export default function OTPModal({ children, data}: ModalProps) {
   const Status = useSelector((state: any) => state.verifyOTPmodal)
-  let isOpen =Status.Open
+  const isOpen:boolean =Status.Open
   
   
  

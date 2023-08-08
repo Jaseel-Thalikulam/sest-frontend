@@ -1,21 +1,19 @@
 import axios from 'axios'
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 const axiosInstanceTutor = axios.create({
-  baseURL: 'http://localhost:4000/lead', // Replace with your API base URL
+  baseURL: `${BASE_URL}/lead`,
 });
 
 // Request interceptor
 axiosInstanceTutor.interceptors.request.use(
   (config) => {
-    // Modify the request config here (e.g., add headers, authentication tokens)
-        // const accessToken = JSON.parse(localStorage.getItem("token"));
+   
         const tokenString = localStorage.getItem("jwt-lead");
         console.log(tokenString,"from the interceptor")
         
         const accessToken = tokenString;       
         
-        // Now you can use the accessToken variable without errors.
-        
-    // ** If token is present add it to request'sAuthorization Header
+    
     if (accessToken) {
       if (config.headers) config.headers.token = accessToken;
     }
@@ -23,7 +21,6 @@ axiosInstanceTutor.interceptors.request.use(
   },
   (error) => {
 
-    // Handle request errors here
 
       console.log(error, "from the interceptor")
       return Promise.reject(error);
@@ -44,4 +41,4 @@ axiosInstanceTutor.interceptors.response.use(
   }
 );
 
-export default axiosInstanceTutor;;
+export default axiosInstanceTutor;

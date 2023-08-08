@@ -13,17 +13,9 @@ const AdminHomePage = () => {
   
     const LogOutHandler = () => {
       {
+        localStorage.removeItem('persist:user')
         localStorage.removeItem('jwt-admin')
         navigate('/')
-        dispatch(
-          UserDetails({
-            role: '',
-            name:'',
-            email: '',
-            phone:null,
-            dob:null,
-          })
-          )
       }
     }
   

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import NewPasswordVerifyOTP from './NewPassword&OTPVerify';
 import NewPasswordOTPModal from '../Modal/newPasssword&verifyModal'; // Corrected naming
 

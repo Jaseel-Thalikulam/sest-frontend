@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Register from '../Register/Register';
 
 

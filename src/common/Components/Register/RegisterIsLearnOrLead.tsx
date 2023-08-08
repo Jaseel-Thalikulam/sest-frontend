@@ -8,8 +8,8 @@ import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { handleChangeState } from '../../../redux/modalSlice/RegisterFormModalSlice'
 const RegisterIsLearnOrLead = () => {
 
-        const data = useSelector((state: RootStateType) => state.user)
-        const modaldata = useSelector((state: RootStateType) => state.modal)
+         useSelector((state: RootStateType) => state.user)
+         useSelector((state: RootStateType) => state.modal)
       
         const dispatch = useDispatch()
   
@@ -19,7 +19,12 @@ const RegisterIsLearnOrLead = () => {
 
             dispatch(
                 UserDetails({
-                    role: role,
+                  role: role,
+                  URLs: {
+                    github: '',
+                    linkedin: '',
+                    pinterest: '',
+                  }
                 })  
           )
  

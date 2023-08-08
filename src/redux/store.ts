@@ -28,9 +28,6 @@ type ModalStateType = {
     Open: boolean;
 }
 
-type RegFormModalType = {
-    State:boolean
-}
 type LoginFormModalType = {
     State:boolean
 }
@@ -45,15 +42,24 @@ type UserStateType = {
     email: string;
     phoneNumber: string | null;
   DOB: string | null;
-  userId: string;
+  _id: string;
   about: string;
-  github?: string;
-  linkedin?: string;
-  pinterest?: string;
-  twitter?: string;
+  URLs: {
+    github: string;
+    linkedin: string;
+    pinterest: string;
+  };
+  tags: Tag[];
+ 
 }
 
-
+interface Tag {
+  _id: string;
+  Name: string;
+  Description: string;
+  IsListed: boolean;
+  __v: number;
+}
 
 //config
 const user_persistConfig = {

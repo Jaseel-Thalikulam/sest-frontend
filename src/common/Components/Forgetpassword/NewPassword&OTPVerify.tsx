@@ -12,7 +12,10 @@ import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast,ToastContainer } from 'react-toastify';
 import { handleOpenAndCloseNewPasswordVerifyOtp } from '../../../redux/modalSlice/newpasswordModalSlice';
+import INewPasswordAndOTP from '../../../interface/INewPasswordAndOTP/INewPasswordAndOTP';
 
+
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 const NewPasswordVerifyOTP = () => {
 
@@ -27,7 +30,7 @@ const NewPasswordVerifyOTP = () => {
     password: Yup.string().min(8, "Minimum characters should be 8").matches(passwordRegExp, "Password must have one upper, lower case, number, special symbol").required('Required'),
   })
 
-  let dispatch = useDispatch()
+  const dispatch = useDispatch()
   const data = useSelector((state: RootStateType) => state.user);
   const userId = data.userId;
   const email = data.email;
@@ -68,7 +71,7 @@ const NewPasswordVerifyOTP = () => {
 
     if (passwordValid && otpValid) {
       console.log("valid")
-      let response = await axios.post('http://localhost:4000/newPasswordverifyotp', {
+      const response:{data:INewPasswordAndOTP} = await axios.post(`${BASE_URL}/newPasswordverifyotp`, {
         OTP, email, password
       });
 
@@ -114,12 +117,12 @@ const NewPasswordVerifyOTP = () => {
 
   async function resendOTP() {
 
-    setCountdown(30);
-    axios.post('http://localhost:4000/resendotp', {
+    await axios.post(`${BASE_URL}/resendotp`, {
       userId, email
     });
+    setCountdown(30);
 
-  };
+  }
 
   function onSubmit() { }
 
@@ -181,7 +184,7 @@ const NewPasswordVerifyOTP = () => {
                 style={btnStyle}
                 variant='contained'
                 color='primary'
-                onClick={() => sendPasswordAndOTP(props.values.password)}
+                onClick={() => void sendPasswordAndOTP(props.values.password)}
               >
                 Verify
               </Button>
@@ -201,7 +204,7 @@ const NewPasswordVerifyOTP = () => {
             style={btnStyle}
             variant='contained'
             color='primary'
-            onClick={() => resendOTP()}
+            onClick={void resendOTP}
           >
             Resend OTP
           </Button>

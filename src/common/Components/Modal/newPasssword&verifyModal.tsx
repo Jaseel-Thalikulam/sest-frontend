@@ -50,7 +50,7 @@ export interface DialogTitleProps {
 }
 
 function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
+  const { children, ...other } = props;
 
   return (
     <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
@@ -59,11 +59,10 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function newPasswordOTPModal({ children, data}: ModalProps) {
+export default function NewPasswordOTPModal({ children, data}: ModalProps) {
   const Status = useSelector((state: any) => state.modalNewPasswordOtpVerify)
-  let isOpen =Status.Open
+  const isOpen:boolean = Status.Open
   
-  console.log(isOpen,"from new otp")
   
  
   const dispatch = useDispatch();

@@ -9,15 +9,13 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { UserDetails } from '../../../redux/userSlice/UserSlice';
-import { useNavigate } from "react-router-dom";
 import { handleForgetPasswordChangeState } from '../../../redux/modalSlice/forgetpasswordSlice'
 import { handleOpenAndCloseNewPasswordVerifyOtp } from '../../../redux/modalSlice/newpasswordModalSlice'
-
+import ILoginResponse from '../../../interface/login/Ilogin'
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 
 const ForgetPasswordForm = () => {
-
-  const navigate = useNavigate()
 
 
   const paperStyle = {
@@ -32,11 +30,6 @@ const ForgetPasswordForm = () => {
     borderRadius: 20,
     backgroundColor: '#8080D7'
   }
-
-  const btnStyle2 = {
-  
-    marginBottom: '10px',
-  };
 
   const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
   const initialValues = {
@@ -79,7 +72,7 @@ const ForgetPasswordForm = () => {
 
     console.log(email)
     if (emailValid) {
-      const response = await axios.post('http://localhost:4000/forgetpassword', {
+      const response:{data:ILoginResponse} = await axios.post(`${BASE_URL}/forgetpassword`, {
         email,
        
       });
@@ -89,14 +82,37 @@ const ForgetPasswordForm = () => {
       if (!success) {
         toast.error(message)
       } else {
-        dispatch(
-          UserDetails({
+        if (userData.URLs) {
+          const URLs = userData.URLs
+          dispatch(
+            UserDetails({
             role: userData.role,
             name: userData.name,
             email: userData.email,
-            userId:userData._id
+            _id: userData._id,
+            URLs: {
+              github: URLs.github,
+              linkedin: URLs.linkedin,
+              pinterest: URLs.pinterest,
+            }
           })
           )
+        } else {
+          dispatch(
+            UserDetails({
+            role: userData.role,
+            name: userData.name,
+            email: userData.email,
+            _id: userData._id,
+            URLs: {
+              github: '',
+              linkedin: '',
+              pinterest: '',
+            }
+          })
+          )
+          
+        }
         dispatch(handleForgetPasswordChangeState())
         dispatch(handleOpenAndCloseNewPasswordVerifyOtp())
        
@@ -125,7 +141,7 @@ const ForgetPasswordForm = () => {
                 error={props.errors.email && props.touched.email}
                 helperText={<ErrorMessage name='email' />} required InputLabelProps={{ style: { color: '#fff' } }} />
 
-              <Button type='submit' onClick={() => DataSubmit(props.values.email)} style={btnStyle} variant='contained'
+              <Button type='submit' onClick={() => void DataSubmit(props.values.email)} style={btnStyle} variant='contained'
                 color='primary'>Send</Button>
             </Form>
           )}

@@ -8,10 +8,6 @@ import Loading from './common/Components/loadingComponent/Loading';
 import {Route,BrowserRouter,Routes} from 'react-router-dom';
 import UserPublicRoute from './authRoutes/UserPublicRoute';
 const LoadingLandingPage = lazy(() => import('./common/pages/LandingPage/LandingPage'));
-
-;
-
-
 import TutorRoutes from './routes/TutorRoutes';
 import Studentroutes from './routes/StudentRoutes';
 import Adminroutes from './routes/AdminRoutes';

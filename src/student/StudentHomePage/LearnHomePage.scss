@@ -1,0 +1,89 @@
+/* LearnHomePage.scss */
+
+
+.tutor-link {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the color from the parent element */
+}
+
+
+.tutor-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.tutor-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.learn-home-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  margin-top: 1%;
+}
+
+.col-3,
+.col-6,
+.tutorlist-menu {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 0 10px; /* Add margin to create spacing between columns */
+}
+
+.col-6 {
+  flex: 2;
+}
+
+.profile-menu,
+.tutorlist-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+}
+
+.my-profile-text {
+  font-size: 18px;
+}
+
+.logout-button {
+  font-size: 14px;
+}
+
+/* Additional styles */
+
+.tutorlist-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tutorlist-menu li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+}

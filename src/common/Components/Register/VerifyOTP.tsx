@@ -1,6 +1,6 @@
 import { Grid, Paper, Button, Typography } from '@mui/material';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import OtpInput from 'react-otp-input';
 import './Register.scss';
 import axios from 'axios';
@@ -8,8 +8,11 @@ import { RootStateType } from '../../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { handleOpenAndCloseVerifyOtp } from '../../../redux/modalSlice/VerifyOtpModalSlice'
 import { useDispatch } from 'react-redux';
+import ILoginResponse from '../../../interface/login/Ilogin';
+import { toast, ToastContainer } from 'react-toastify'
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 const VerifyOTP = () => {
-  let dispatch = useDispatch()
+  const dispatch = useDispatch()
   const data = useSelector((state: RootStateType) => state.user);
   const userId = data.userId;
   const email = data.email;
@@ -19,7 +22,6 @@ const VerifyOTP = () => {
     maxWidth: 450,
     backgroundColor: 'rgba(0, 0, 0, 0)',
   };
-
   const btnStyle = {
     width: '100%',
     maxWidth: 450,
@@ -30,32 +32,34 @@ const VerifyOTP = () => {
 
   const [OTP, setOtp] = useState('');
   const [countdown, setCountdown] = useState(30);
-
+console.log(OTP)
   const navigate = useNavigate();
-
-  async function sendOTP() {
-    const response = await axios.post('http://localhost:4000/verifyotp', {
-        OTP,userId
+  
+  async function sendOTP():Promise<undefined | void> {
+    const response: { data: ILoginResponse } = await axios.post(`${BASE_URL}/verifyotp`, {
+      OTP, userId
     });
     
-   const {success,message,token,userData}= response.data
-   console.log(success,message, "from verifyotp");
+    const { success, message, token, userData } = response.data
+
    
     if (success) {
       dispatch(handleOpenAndCloseVerifyOtp())
-     if (userData.role == 'Lead') {
+      if (userData.role == 'Lead') {
               
-       localStorage.setItem("jwt-lead", token)
-       navigate('/lead')
+        localStorage.setItem("jwt-lead", token)
+        navigate('/lead')
       
-     } else if (userData.role == 'Learn') {
+      } else if (userData.role == 'Learn') {
     
     
-       localStorage.setItem("jwt-learn", token)
-       navigate('/learn')
-     }
+        localStorage.setItem("jwt-learn", token)
+        navigate('/learn')
+      }
 
-  }
+    } else {
+      toast.error(message)
+    }
    }
 
   useEffect(() => {
@@ -74,11 +78,11 @@ const VerifyOTP = () => {
   async function resendOTP (){
     
     setCountdown(30); 
-   const response = await axios.post('http://localhost:4000/resendotp', {
+   await axios.post(`${BASE_URL}/resendotp`, {
     userId,email  
     });
 
-  };
+  }
 
   return (
     <Grid>
@@ -123,7 +127,7 @@ const VerifyOTP = () => {
             style={btnStyle}
             variant='contained'
             color='primary'
-            onClick={() => sendOTP()}
+            onClick={void sendOTP}
           >
             Verify
           </Button>
@@ -138,12 +142,13 @@ const VerifyOTP = () => {
               style={btnStyle}
               variant='contained'
               color='primary'
-              onClick={()=>resendOTP()}
+              onClick={void resendOTP}
             >
               Resend OTP
             </Button>
           )}
         </Grid>
+      <ToastContainer />
       </Paper>
     </Grid>
   );

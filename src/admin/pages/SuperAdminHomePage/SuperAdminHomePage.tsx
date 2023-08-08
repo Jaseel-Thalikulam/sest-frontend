@@ -6,10 +6,6 @@ import Header from '../../components/SuperAdminHeader/SuperAdminHeader'
 const SuperAdminHomePage = () => {
  
   
-  
- 
-    
-  
   return (
 
     <>

@@ -2,7 +2,6 @@ import { Grid, Paper, Button, Typography, Box } from '@mui/material'
 import { TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
-import GoogleIcon from '@mui/icons-material/Google';
 import '../Register/Register.scss'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios';
@@ -15,9 +14,11 @@ import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import { handleLoginChangeState } from '../../../redux/modalSlice/loginModalSlice';
 import { handleForgetPasswordChangeState } from '../../../redux/modalSlice/forgetpasswordSlice';
-import { gridColumnDefinitionsSelector } from '@mui/x-data-grid';
-
-
+import ILoginResponse from '../../../interface/login/Ilogin'
+import IGoogleLogin from '../../../interface/login/IgoogleLogin'
+//.env
+const CLIENT_ID:string = import.meta.env.VITE_GOOGLE_CLIENT_ID as string
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 const LoginForm = () => {
 
@@ -64,7 +65,8 @@ const LoginForm = () => {
   const dispatch = useDispatch()
 
   async function DataSubmit(email: string, password: string, isGoogle: boolean) {
-
+try{
+     
 
     let emailValid = false;
     let passwordValid = false;
@@ -92,37 +94,55 @@ const LoginForm = () => {
 
     email = email.toLowerCase();
     if (emailValid && passwordValid) {
-      const response = await axios.post('http://localhost:4000/login', {
+      const response: { data: ILoginResponse } = await axios.post(`${BASE_URL}/login`, {
         email,
         password,
       });
 
       const { success, message, userData, token } = response.data
 
-      console.log(userData)
+      
 
       if (!success) {
         toast.error(message)
       } else {
         console.log("before ")
         const URLs = userData.URLs
-        console.log(URLs);
-
-        dispatch(
-          UserDetails({
-            role: userData.role,
-            name: userData.name,
-            email: userData.email,
-            phoneNumber: userData.phoneNumber,
-            DOB: userData.DOB,
-            userId: userData._id,
-            about:userData.about,
-            github: URLs.github,
-            linkedin: URLs.linkedin,
-            pinterest: URLs.pinterest,
-          })
-        )
-
+        if (URLs) {
+          dispatch(
+            UserDetails({
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              phoneNumber: userData.phoneNumber,
+              DOB: userData.DOB,
+              _id: userData._id,
+              about: userData.about,
+              URLs: {
+                github: URLs.github,
+                linkedin: URLs.linkedin,
+                pinterest: URLs.pinterest,
+              }
+            })
+          )
+        } else {
+          dispatch(
+            UserDetails({
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              phoneNumber: userData.phoneNumber,
+              DOB: userData.DOB,
+              _id: userData._id,
+              about: userData.about,
+              URLs: {
+                github: '',
+                linkedin: '',
+                pinterest: '',
+              }
+            })
+          )
+        }
 
         if (userData.role == 'Learn') {
 
@@ -154,26 +174,29 @@ const LoginForm = () => {
       toast.error('Invalid email or password')
     }
 
+  }catch (error) { 
+
+    console.error('Error during DataSubmit:', error);
+  
   }
 
-
+}
   function forgetpassword() {
     dispatch(handleForgetPasswordChangeState())
     dispatch(handleLoginChangeState())
   }
 
 
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
   return (
     <Grid>
 
       <Paper elevation={0} style={paperStyle}>
-        <GoogleOAuthProvider clientId={clientId!}>
+        <GoogleOAuthProvider clientId={CLIENT_ID}>
 
           <GoogleLogin
             onSuccess={credentialResponse => {
-              const { email, sub }: any = jwt_decode(credentialResponse.credential ?? `${clientId}`);
-              DataSubmit(email, sub, true)
+              const { email, sub }: IGoogleLogin = jwt_decode(credentialResponse.credential ?? `${CLIENT_ID}`);
+             void DataSubmit(email, sub, true)
             }}
             onError={() => {
               toast.error("Authentication Failed")
@@ -207,7 +230,7 @@ const LoginForm = () => {
                 helperText={<ErrorMessage name='password' />} required InputLabelProps={{ style: { color: '#fff' } }} />
 
 
-              <Button type='submit' onClick={() => DataSubmit(props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
+              <Button type='submit' onClick={() => void DataSubmit(props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
                 color='primary'>Login</Button>
             </Form>
           )}

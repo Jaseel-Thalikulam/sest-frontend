@@ -5,7 +5,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
-import {Tab} from '@mui/material'
 import {handleChangeState} from'../../../redux/modalSlice/RegisterFormModalSlice'
 
 
@@ -50,7 +49,7 @@ export interface DialogTitleProps {
 }
 
 function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
+  const { children, ...other } = props;
 
   return (
     <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
@@ -61,14 +60,14 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 
 export default function Modalreg({ children, data}: ModalProps) {
   const Status = useSelector((state: any) => state.registerformmodal)
-  let isOpen =Status.State
+  const isOpen:boolean =Status.State
   
   
  
   const dispatch = useDispatch();
   return (
       <div>
-      {/* <Tab label={buttonname} onClick={() => dispatch(handleOpenAndClose())} /> */}
+    
           
       <BootstrapDialog
         onClose={()=>dispatch(handleChangeState())}

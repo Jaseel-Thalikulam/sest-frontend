@@ -6,7 +6,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -16,13 +15,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Logo from '../../../../public/Logo/White logo - no background.svg'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootStateType } from '../../../redux/store';
-import { UserDetails } from '../../../redux/userSlice/UserSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import StudentManagemnetTable from '../Tables/StudentManagemnetTable';
+import StudentManagemnetTable from '../Tables/StudentManagement/StudentManagemnetTable';
+import CategoryManagemnetTable from '../Tables/CategoryManagement/CategoryManagementTable';
 
 const drawerWidth = 240;
 
@@ -33,7 +32,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
-});
+}); 
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create('width', {
@@ -51,7 +50,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
+  padding: theme.spacing(0, 1), 
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -96,7 +95,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 interface ListItem{
   name: string;
-
 }
 
 export default function Header() {
@@ -105,26 +103,17 @@ export default function Header() {
 
   const handleListItemClick = (item:string) => {
     setActiveListItem(item);
+   
   };
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-    const data = useSelector((state: RootStateType) => state.user)
-    console.log("userData from lead page", data)
-  
+    useSelector((state: RootStateType) => state.user)
+
     const LogOutHandler = () => {
       {
+        localStorage.removeItem('persist:user');
         localStorage.removeItem('jwt-S-admin')
         navigate('/')
-        dispatch(
-          UserDetails({
-            role: '',
-            name:'',
-            email: '',
-            phone:null,
-            dob:null,
-          })
-          )
       }
     }
 
@@ -189,6 +178,26 @@ export default function Header() {
                 <ListItemText primary={"Students"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+            <ListItem key={"Categories"} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}    onClick={() => handleListItemClick('Categories')}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+               <PeopleOutlineIcon/>
+                </ListItemIcon>
+                <ListItemText primary={"Categories"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
            
             <ListItem key={"Logout"} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -219,6 +228,7 @@ export default function Header() {
         <DrawerHeader />
 
         {activeListItem === 'Students' &&<StudentManagemnetTable/>}
+        {activeListItem === 'Categories' &&<CategoryManagemnetTable/>}
        
       </Box>
     </Box>

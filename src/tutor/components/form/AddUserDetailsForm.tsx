@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import DoneIcon from '@mui/icons-material/Done';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Form } from 'react-bootstrap';
 import './AddUserDetailsForm.scss';
 import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux'
+import { UserDetails } from '../../../redux/userSlice/UserSlice';
 import { RootStateType } from '../../../redux/store';
 import { useSelector } from 'react-redux';
 import axiosInstanceTutor from '../../interceptor/axiosInstanceTutor';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import APIResponse from '../../../interface/IaddUserDetails/IaddUserDetails';
+import APICategoryResponse from '../../../interface/Icategory/Icategory';
+
+type CategoryType = {
+  _id: string;
+  Name: string;
+
+};
 
 function AddUserDetailsForm() {
   const data = useSelector((state: RootStateType) => state.user);
-
+  const dispatch = useDispatch()
   function toProperCase(str: string) {
     return str.replace(/\w\S*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   }
 
-  const { name, email, phoneNumber, role, about, github, linkedin, pinterest, userId, DOB, } = data;
+  const { name, email, phoneNumber, role, about, URLs, _id, DOB, tags } = data;
 
   const Email = toProperCase(email);
   const Name = toProperCase(name);
@@ -25,19 +39,138 @@ function AddUserDetailsForm() {
   const [Number, setPhone] = useState(phoneNumber ? phoneNumber : '');
   const [About, setAbout] = useState(about ? about : '');
   const [dob, setDOB] = useState(DOB ? DOB : '');
-  const [githuburl, setgithub] = useState(github ? github : '');
-  const [linkedinurl, setlinkedin] = useState(linkedin ? linkedin : '');
-  const [pinteresturl, setpinterest] = useState(pinterest ? pinterest : '');
+  const [githuburl, setgithub] = useState(URLs.github ? URLs.github : '');
+  const [linkedinurl, setlinkedin] = useState(URLs.linkedin ? URLs.linkedin : '');
+  const [pinteresturl, setpinterest] = useState(URLs.pinterest ? URLs.pinterest : '');
+  const [Category, setCategories] = useState<CategoryType[]>([])
+  const tagIds = tags.map(tag => tag._id);
 
-  async function handleSubmit() {
-    // Validate DOB (minimum age 18 years)
-    const currentDate = new Date();
-    const userDOB = new Date(dob);
-    const ageDifferenceInMilliseconds = currentDate.getTime() - userDOB.getTime();
-    const minimumAgeInMilliseconds = 18 * 365 * 24 * 60 * 60 * 1000; // Minimum age of 18 years in milliseconds
-    if (ageDifferenceInMilliseconds < minimumAgeInMilliseconds) {
-      toast.error('You must be at least 18 years old.');
-      return;
+
+
+  const handleAdd = async (categoryId: string) => {
+
+    const { data } = await axiosInstanceTutor.post<APICategoryResponse>('/insertCategory', {
+      categoryId, userId: _id
+    });
+
+    const { message, success, tutordata } = data;
+
+    if (success) {
+      console.log(tutordata)
+      const URLs = tutordata.URLs
+
+      if (URLs) {
+        dispatch(
+          UserDetails({
+            role: tutordata.role,
+            name: tutordata.name,
+            email: tutordata.email,
+            phoneNumber: tutordata.phoneNumber,
+            DOB: tutordata.DOB,
+            _id: tutordata._id,
+            about: tutordata.about,
+            URLs: {
+              github: URLs.github,
+              linkedin: URLs.linkedin,
+              pinterest: URLs.pinterest,
+            },
+            tags: tutordata.tags
+          })
+        )
+      } else {
+        dispatch(
+          UserDetails({
+            role: tutordata.role,
+            name: tutordata.name,
+            email: tutordata.email,
+            phoneNumber: tutordata.phoneNumber,
+            DOB: tutordata.DOB,
+            _id: tutordata._id,
+            about: tutordata.about,
+            URLs: {
+              github: '',
+              linkedin: '',
+              pinterest: '',
+            },
+            tags: tutordata.tags
+          })
+        )
+      }
+      toast.success(message)
+    } else {
+      toast.error(message)
+    }
+    console.log(tutordata);
+
+
+
+  }
+
+  const handleDelete = async (categoryId: string) => {
+    
+    console.log(categoryId);
+    const { data } = await axiosInstanceTutor.post<APICategoryResponse>('/removeCategory', {
+      categoryId, userId: _id
+    });
+
+    const { success, message, tutordata } = data
+    
+    if (success) {
+      if (URLs) {
+        dispatch(
+          UserDetails({
+            role: tutordata.role,
+            name: tutordata.name,
+            email: tutordata.email,
+            phoneNumber: tutordata.phoneNumber,
+            DOB: tutordata.DOB,
+            _id: tutordata._id,
+            about: tutordata.about,
+            URLs: {
+              github: URLs.github,
+              linkedin: URLs.linkedin,
+              pinterest: URLs.pinterest,
+            },
+            tags: tutordata.tags
+          })
+        )
+      } else {
+        dispatch(
+          UserDetails({
+            role: tutordata.role,
+            name: tutordata.name,
+            email: tutordata.email,
+            phoneNumber: tutordata.phoneNumber,
+            DOB: tutordata.DOB,
+            _id: tutordata._id,
+            about: tutordata.about,
+            URLs: {
+              github: '',
+              linkedin: '',
+              pinterest: '',
+            },
+            tags: tutordata.tags
+          })
+        )
+      }
+      toast.success(message)
+    } else {
+      toast.error(message)
+    }
+  };
+
+  async function handleSubmit(): Promise<void> {
+    if (DOB !== '') {
+
+      const currentDate = new Date();
+      const userDOB = new Date(dob);
+      const ageDifferenceInMilliseconds = currentDate.getTime() - userDOB.getTime();
+      const minimumAgeInMilliseconds = 18 * 365 * 24 * 60 * 60 * 1000;
+
+      if (ageDifferenceInMilliseconds < minimumAgeInMilliseconds) {
+        toast.error('You must be at least 18 years old.');
+        return;
+      }
     }
 
     // Validate URLs
@@ -63,25 +196,66 @@ function AddUserDetailsForm() {
     }
 
 
-
-
-
     try {
-      const { data } = await axiosInstanceTutor.post('/editprofile', {
+      const { data } = await axiosInstanceTutor.post<APIResponse>('/editprofile', {
         Number,
         About,
         githuburl,
         linkedinurl,
         pinteresturl,
         DOB,
-        userId,
+        _id,
       });
 
+
+
+
       const { message, success, userData } = data
-      console.log(userData, "heloooo")
+
+
+      setPhone(userData.phoneNumber ? userData.phoneNumber : '');
+      setAbout(userData.about ? userData.about : '');
+      setgithub(userData.URLs.github ? userData.URLs.github : '');
+      setlinkedin(userData.URLs.linkedin ? userData.URLs.linkedin : '');
+      setpinterest(userData.URLs.pinterest ? userData.URLs.pinterest : '');
 
       if (success) {
-
+        const URLs = userData.URLs
+        if (URLs) {
+          dispatch(
+            UserDetails({
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              phoneNumber: userData.phoneNumber,
+              DOB: userData.DOB,
+              _id: userData._id,
+              about: userData.about,
+              URLs: {
+                github: URLs.github,
+                linkedin: URLs.linkedin,
+                pinterest: URLs.pinterest,
+              }
+            })
+          )
+        } else {
+          dispatch(
+            UserDetails({
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              phoneNumber: userData.phoneNumber,
+              DOB: userData.DOB,
+              _id: userData._id,
+              about: userData.about,
+              URLs: {
+                github: '',
+                linkedin: '',
+                pinterest: '',
+              }
+            })
+          )
+        }
         toast.success(message);
       } else {
         toast.error(message)
@@ -92,6 +266,27 @@ function AddUserDetailsForm() {
       toast.error('Error saving user details.');
     }
   }
+
+
+
+  useEffect(() => {
+
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axiosInstanceTutor.get('/getCategories');
+        let Category = data.data
+
+        setCategories(Category.data);
+
+      } catch (error) {
+        console.error('Error fetching users:', error);
+
+      }
+    };
+
+    void fetchCategories();
+  }, [])
+
 
   return (
     <div className="col-12">
@@ -181,8 +376,6 @@ function AddUserDetailsForm() {
                     value={Number} onChange={(e) => setPhone(e.target.value)}
                   />
 
-
-
                 </div>
               </div>
             </div>
@@ -190,7 +383,7 @@ function AddUserDetailsForm() {
               <Form.Label className="col-sm-2 form-label" htmlFor="basic-icon-default-message">
                 About
               </Form.Label>
-              <div className="col-sm-10">
+              <div className="col-sm -10">
                 <div className="input-group input-group-merge">
                   <span id="basic-icon-default-message2" className="input-group-text">
                     <i className="bx bx-comment"></i>
@@ -292,11 +485,49 @@ function AddUserDetailsForm() {
                 </div>
               </div>
             </div>
+            <div className="row mb-3">
+              <Form.Label className="col-sm-2 form-label" htmlFor="basic-icon-default-message">
+                Tags
+              </Form.Label>
+              <div className="col-sm-10">
+                <div className="input-group input-group-merge">
 
+                  <Stack spacing={1}>
+
+                  {tags.map(tag => (
+                      <Chip
+                        label={tag.Name}
+
+                        onDelete={() => void handleDelete(tag._id)}
+                        deleteIcon={<DeleteIcon />}
+                        variant="outlined"
+                      />
+                  ))}
+                    
+                    {Category.map(category => {
+      if (!tagIds.includes(category._id)) {
+        return (
+          <Chip
+            key={category._id}
+            label={category.Name}
+            onDelete={() => handleAdd(category._id)}
+            deleteIcon={<DoneIcon />}
+          />
+        );
+      }
+      return null;
+    })}
+
+                   
+                  </Stack>
+
+                </div>
+              </div>
+            </div>
 
             <div className="row justify-content-end">
               <div className="col-sm-10">
-                <Button type="button" onClick={handleSubmit} variant="text">
+                <Button type="button" onClick={() => void handleSubmit()} variant="text">
                   Save
                 </Button>
               </div>
@@ -304,7 +535,7 @@ function AddUserDetailsForm() {
           </Form>
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} />
     </div>
   );
 }

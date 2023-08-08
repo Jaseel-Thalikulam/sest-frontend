@@ -4,7 +4,7 @@ import './scss/Profile.scss'
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, Button } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Tab from '@mui/material/Tab';
@@ -13,7 +13,6 @@ import { AddUserDetailsChangeState } from '../../../redux/modalSlice/AddUserDeta
 import AddUserDetails from './AddUserDetails';
 import { ChangeEvent } from 'react';
 import axiosInstanceTutor from '../../interceptor/axiosInstanceTutor';
-import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -40,17 +39,20 @@ const ProfilePage: React.FC = () => {
   }
   function formatDate(dateString: string | null): string {
     if (!dateString) return ""; // Handle the case when dateString is null or empty
-  
+
     const date = new Date(dateString);
     if (isNaN(date.getTime())) {
       throw new Error("Invalid date format"); // Throw an error if the dateString is not a valid date
     }
-  
+
     const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
     return date.toLocaleDateString("en-GB", options);
   }
-  
-  const { name, email, phoneNumber, role, about, github, linkedin, pinterest, userId, DOB } = data;
+
+  const { name, email, phoneNumber, role, about, DOB, URLs, tags } = data;
+
+
+  console.log(URLs)
 
 
   const Email = toProperCase(email)
@@ -68,21 +70,20 @@ const ProfilePage: React.FC = () => {
     const avatarUpload = document.getElementById('avatar-upload') as HTMLInputElement;
     avatarUpload.click();
   }
-  
- async function handleAvatarChange(event: ChangeEvent<HTMLInputElement>) {
+
+  async function handleAvatarChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      const { data } = await axiosInstanceTutor.post('/upload/profilepicture', {
-      
-        
+      await axiosInstanceTutor.post('/upload/profilepicture', {
+
+
       });
-      console.log("Selected file:", file);
     }
   }
-  
+
   return (
     <>
-    <head>
+      <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossOrigin="anonymous" />
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" />
@@ -126,26 +127,26 @@ const ProfilePage: React.FC = () => {
                       <img src="https://profilemagazine.com/wp-content/uploads/2020/04/Ajmere-Dale-Square-thumbnail.jpg" alt="Circle Image" className="img-raised rounded-circle img-fluid avatar-img" />
                       <i className="fa fa-solid fa-camera icon" onClick={handleAvatarSubmit}></i>
                     </div>
-                    <input type="file" id="avatar-upload" className='fileinput'  accept="image/*" onChange={(event)=>handleAvatarChange(event)} />
+                    <input type="file" id="avatar-upload" className='fileinput' accept="image/*" onChange={(event) => void handleAvatarChange(event)} />
 
                     <div className="name">
                       <h3 className="title">{Name}</h3>
                       <h5 className="title">Rating : 2.1</h5>
                       <h6>{role}</h6>
-                      {linkedin && (
-                        <a href={linkedin} className="btn btn-just-icon btn-link btn-linkedin">
+                      {URLs.linkedin && (
+                        <a href={URLs.linkedin} className="btn btn-just-icon btn-link btn-linkedin">
                           <i className="fa fa-linkedin"></i>
                         </a>
                       )}
 
-                      {github && (
-                        <a href={github} className="btn btn-just-icon btn-link btn-github">
+                      {URLs.github && (
+                        <a href={URLs.github} className="btn btn-just-icon btn-link btn-github">
                           <i className="fa fa-github"></i>
                         </a>
                       )}
 
-                      {pinterest && (
-                        <a href={pinterest} className="btn btn-just-icon btn-link btn-pinterest">
+                      {URLs.pinterest && (
+                        <a href={URLs.pinterest} className="btn btn-just-icon btn-link btn-pinterest">
                           <i className="fa fa-pinterest"></i>
                         </a>
                       )}
@@ -155,6 +156,12 @@ const ProfilePage: React.FC = () => {
               </div>
               <div className="description text-center">
                 <p>{about}</p>
+              </div>
+              <div className="col-md-6 ml-auto mr-auto" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' ,justifyContent: 'center'}} >
+                {tags.map((tag) => (
+                  <Chip label={tag.Name} variant="outlined" color="default" size="small" />
+                ))}
+
               </div>
               <div className="row">
                 {/* Profile Tabs */}

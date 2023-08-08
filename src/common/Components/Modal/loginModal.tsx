@@ -1,4 +1,4 @@
-import  React,{useState} from 'react';
+import  React from 'react';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -49,7 +49,7 @@ export interface DialogTitleProps {
 }
 
 function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
+  const { children, ...other } = props;
 
    
    
@@ -65,7 +65,7 @@ export default function LoginModal({ children, data, buttonname}: ModalProps) {
   
 
   const Status = useSelector((state: any) => state.loginformmodal)
-  let isOpen =Status.State
+  const isOpen:boolean =Status.State
 
   
 

@@ -3,12 +3,16 @@ import {useEffect, useState} from 'react'
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button/Button';
 import './StudentManagemnetTable.scss'
-import axiosInstance from '../../interceptor/axiosInstance';
+import axiosInstance from '../../../interceptor/axiosInstance';
+import Loading from '../../../../common/Components/loadingComponent/Loading';
+import IBlockUserResponse from '../../../../interface/tables/IstudentManagementTable/IBlockUserResponse';
+import IUserSlice from '../../../../interface/Iredux/IuserSlice';
 
 
   
 const StudentManagemnetTable = () => {
 
+  const [loading, setLoading] = useState(true);
   const columns: GridColDef[] = [
 
     { field: 'name', headerName: 'Name', width: 130 },
@@ -19,8 +23,8 @@ const StudentManagemnetTable = () => {
       headerName: 'Access',
       width: 200,
       renderCell: (params: GridCellParams) => {
-        const data = params.row;
-        const isBanned = data.isBanned
+        const data:{isBanned:boolean} = params.row;
+        const isBanned:boolean = data.isBanned
         return (
           <div>
             {isBanned}
@@ -34,8 +38,8 @@ const StudentManagemnetTable = () => {
       headerName: 'Action',
       width: 200,
       renderCell: (params: GridCellParams) => {
-        const data = params.row;
-        const isBanned = data.isBanned
+        const data:{isBanned:boolean} = params.row;
+        const isBanned:boolean = data.isBanned 
         return (
           <div>
             {isBanned}
@@ -43,8 +47,8 @@ const StudentManagemnetTable = () => {
           variant="outlined"
               color="primary"
           onClick={(event) => {
-            event.stopPropagation(); // Prevent the row click event from being triggered
-            handleButtonClick(params.row);
+            event.stopPropagation();
+           void handleButtonClick(params.row);
           }}
         >
           Approve
@@ -52,8 +56,8 @@ const StudentManagemnetTable = () => {
           variant="outlined"
           color="error"
           onClick={(event) => {
-            event.stopPropagation(); // Prevent the row click event from being triggered
-            handleButtonClick(params.row);
+            event.stopPropagation();
+          void handleButtonClick(params.row);
           }}
         >
           DENY
@@ -64,33 +68,20 @@ const StudentManagemnetTable = () => {
     },
   ];
 
-  type UserType = {
-    _id: string; 
-    name: string;
-    email: string;
-    phoneNumber: number;
-    password: string;
-    isVerified: boolean;
-    role: string;
-    isBanned:boolean
-  };
-
-  const [users, setUsers] = useState<UserType[]>([]);
+  const [users, setUsers] = useState<IUserSlice[]>([]);
     
   async function handleButtonClick(userData: object) {
     if ('_id' in userData) {
       const id = userData._id
-      const { data } = await axiosInstance.post('/Superadmin/userslist/blockuser', {
+      const response:{ data: IBlockUserResponse} = await axiosInstance.post('/blockuser', {
         id
       });
-      console.log(data)
-
-      
       const updatedUserIndex = users.findIndex((user) => user._id === id);
+      const userdata = response.data.Userdata
       if (updatedUserIndex !== -1) {
         // Update the isBanned property of the user
         const updatedUsers = [...users];
-        updatedUsers[updatedUserIndex].isBanned = data.data.isBanned;
+        updatedUsers[updatedUserIndex].isBanned =userdata.isBanned;
         setUsers(updatedUsers);
       }
     }
@@ -101,33 +92,34 @@ const StudentManagemnetTable = () => {
       // Function to fetch all users' data from the server
       const fetchUsers = async () => {
         try {
-          const { data } = await axiosInstance.get('http://localhost:4000/Superadmin/userslist');
-                
-          console.log("inside fetch :", data.data)
-
+          const { data } = await axiosInstance.get('/userslist');
           let userdata = data.data
-              
-             
-               
-                
           setUsers(userdata);
+          setLoading(false)
         } catch (error) {
           console.error('Error fetching users:', error);
+          setLoading(false)
+  
         }
       };
   
-      fetchUsers();
+     void fetchUsers();
     }, [])
     
     
 
     const rows = users
-    const getRowId = (row: any) => row._id;
+    const getRowId = (row:any) => row._id;
 
 
 
-    return (
+  return (
+    <>
+      <h1>Users</h1>
       <div className="table-container">
+         {loading ? (
+        <Loading/>
+      ) : (
         <DataGrid
           rows={rows}
           columns={columns}
@@ -138,10 +130,10 @@ const StudentManagemnetTable = () => {
             },
           }}
           pageSizeOptions={[5, 10]}
-        // checkboxSelection
-    
         />
+      )}
       </div>
+      </>
     )
   
 }

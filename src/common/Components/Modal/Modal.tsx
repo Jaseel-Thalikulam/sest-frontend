@@ -5,7 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
-import {Button, Tab} from '@mui/material'
+import {Button} from '@mui/material'
 import {handleOpenAndClose} from'../../../redux/modalSlice/modalSlice'
 
 
@@ -52,7 +52,7 @@ export interface DialogTitleProps {
 }
 
 function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
+  const { children, ...other } = props;
 
   return (
     <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
@@ -61,9 +61,9 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function Modal({ children, data, buttonname,autoOpen,uniqueId }: ModalProps) {
+export default function Modal({ children, data,autoOpen }: ModalProps) {
   const Status = useSelector((state: any) => state.modal)
-  let isOpen =Status.Open
+  let isOpen :boolean=Status.Open
   if (autoOpen == true)isOpen = autoOpen
   
  

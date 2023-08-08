@@ -18,7 +18,7 @@ export default function UserPublicRoute(props: UserPublicRouteProps) {
     
       return <Navigate to={'/admin'} />;
       
-} else if (localStorage.getItem('jwt-S-admin')) {
+} else if (localStorage.getItem('jwt-S-admin')) {           
     
       return <Navigate to={'/Sadmin'} />;
       

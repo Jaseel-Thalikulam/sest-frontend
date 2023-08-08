@@ -3,7 +3,7 @@ import { Grid, Paper, Button, Typography } from '@mui/material'
 import { TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
-import GoogleIcon from '@mui/icons-material/Google';
+import ILoginResponse from '../../../interface/login/Ilogin'
 import './Register.scss'
 import { handleChangeState } from '../../../redux/modalSlice/RegisterFormModalSlice'
 import { handleOpenAndCloseVerifyOtp } from '../../../redux/modalSlice/VerifyOtpModalSlice'
@@ -11,18 +11,18 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux';
 import { RootStateType } from '../../../redux/store';
 import axios from 'axios';
-import dotenv from "dotenv";
 import { toast, ToastContainer } from 'react-toastify'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode"
 import { UserDetails } from '../../../redux/userSlice/UserSlice';
 import { useNavigate } from "react-router-dom"
-
+import IGoogleRegister from '../../../interface/register/IGoogleRegister'
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 const RegisterForm = () => {
 
-  let dispatch = useDispatch()
+  const dispatch = useDispatch()
   const data = useSelector((state: RootStateType) => state.user)
   const role = data.role
   const paperStyle = {
@@ -37,14 +37,6 @@ const RegisterForm = () => {
     borderRadius: 20,
     backgroundColor: '#8080D7'
   }
-
-  const btnStyle2 = {
-    // other styles here
-    marginBottom: '10px',
-  };
-
-
-
 
   const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
   const initialValues = {
@@ -71,7 +63,7 @@ const RegisterForm = () => {
   
   
   const navigate = useNavigate()
-  async function DataSubmit(name: string, email: string, password: string, isGoogle: boolean) {
+  async function DataSubmit(name: string, email: string, password: string, isGoogle: boolean):Promise <void> {
     let emailValid = false;
     let passwordValid = false;
     if (!isGoogle) {
@@ -99,10 +91,10 @@ const RegisterForm = () => {
       email = email.toLowerCase();
       
     
-      let response
+      let response:{data:ILoginResponse}
       
       if (!isGoogle) {
-         response = await axios.post('http://localhost:4000/register', {
+        response = await axios.post(`${BASE_URL}/register`, {
           name,
           email,
           password,
@@ -110,7 +102,7 @@ const RegisterForm = () => {
           isVerified:false,
         });
       } else {
-         response = await axios.post('http://localhost:4000/register', {
+          response = await axios.post(`${BASE_URL}/register`, {
           name,
           email,
           password,
@@ -118,14 +110,8 @@ const RegisterForm = () => {
           isVerified:true,
         });
       }
-
-    
-      
-      
       const { success, message, userData, token } = response.data
       
-      
-
       console.log(success, message)
       if (!success) {
         toast.error(message)
@@ -137,8 +123,15 @@ const RegisterForm = () => {
               role: role,
               name: name,
               email: email,
-              userId:userData._id
-             
+              _id: userData._id,
+              DOB: null,
+              phoneNumber: '',
+              about: '',
+              URLs: {
+                github: '',
+                linkedin: '',
+                pinterest: '',
+              }
             })
             )
           dispatch(handleOpenAndCloseVerifyOtp())
@@ -149,9 +142,17 @@ const RegisterForm = () => {
               role: role,
               name: name,
               email: email,
-             
-             
+              DOB: null,
+              _id: '',
+              phoneNumber: '',
+              about: '',
+              URLs: {
+                github: '',
+                linkedin: '',
+                pinterest: '',
+              }
             })
+            
             )
 
             if (role == 'Lead') {
@@ -179,7 +180,7 @@ const RegisterForm = () => {
   }
 
 
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+  const clientId :string= import.meta.env.VITE_GOOGLE_CLIENT_ID as string
 
 
   return (
@@ -187,18 +188,15 @@ const RegisterForm = () => {
 
       <Paper elevation={0} style={paperStyle}>
 
-        <GoogleOAuthProvider clientId={clientId!}>
+        <GoogleOAuthProvider clientId={clientId}>
 
           <GoogleLogin
             onSuccess={credentialResponse => {
-              const { name, email, sub }: any = jwt_decode(credentialResponse.credential ?? `${clientId}`);
-              console.log(name, email, sub);
-
-
-              DataSubmit(name, email, sub, true)
+              const { name, email, sub }: IGoogleRegister = jwt_decode(credentialResponse.credential ?? `${clientId}`);
+           void DataSubmit(name, email, sub, true)
             }}
             onError={() => {
-              toast.error("Authentication Failed")
+             toast.error("Authentication Failed")
             }}
           />
 
@@ -229,7 +227,7 @@ const RegisterForm = () => {
                 helperText={<ErrorMessage name='password' />} required InputLabelProps={{ style: { color: '#fff' } }} />
 
 
-              <Button type='submit' onClick={() => DataSubmit(props.values.name, props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
+              <Button type='submit' onClick={() =>void DataSubmit(props.values.name, props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
                 color='primary'>Register</Button>
               
              
