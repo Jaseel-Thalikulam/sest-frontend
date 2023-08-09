@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ModalAddUserdetils from '../../components/modal/addUserDetailsModal'
 import AddUserDetailsForm from '../../components/form/AddUserDetailsForm'
 function AddUserDetails() {

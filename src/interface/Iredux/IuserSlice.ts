@@ -9,6 +9,7 @@
    about?: string;
    isBanned?: boolean;
    tags: Tag[];
+   avatarUrl:string
 }
 
 interface URLs {

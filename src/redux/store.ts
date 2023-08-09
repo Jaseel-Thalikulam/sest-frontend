@@ -50,6 +50,7 @@ type UserStateType = {
     pinterest: string;
   };
   tags: Tag[];
+  avatarUrl: string;
  
 }
 

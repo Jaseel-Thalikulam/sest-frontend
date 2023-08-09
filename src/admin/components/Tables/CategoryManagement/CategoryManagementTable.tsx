@@ -1,11 +1,13 @@
 import {useEffect, useState} from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button/Button';
 import './CategoryManagementTable.scss'
 import AddCategoryModal from '../../modal/AddCategoryModal';
 import axiosInstance from '../../../interceptor/axiosInstance';
 import AddCategoryForm from '../../form/AddCategory/AddCategoryForm';
 import Loading from '../../../../common/Components/loadingComponent/Loading';
+import ICategorydata from '../../../../interface/Icategory/IcategoryData';
+import ICategoryResponse from '../../../../interface/Icategory/IcategoryResponse';
 
   
 const CategoryManagemnetTable = () => {
@@ -16,20 +18,91 @@ const CategoryManagemnetTable = () => {
     setModal(!modalstate);
   
   }
+  
+  // const [categories, setCategories] = useState<CategoryType[]>([]);
+
+  const [categories, setCategories] = useState<ICategorydata[]>([]);
+    
+  async function handleButtonClick(categorydata: object) {
+    if ('_id' in categorydata) {
+      const id = categorydata._id
+      const response:{ data: ICategoryResponse} = await axiosInstance.post('/unlistCategory', {
+        id
+      });
+
+      console.log(response.data)
+      const updatedCategoryIndex = categories.findIndex((Category) => Category._id === id);
+      const categoryData = response.data.categorydata
+      if (updatedCategoryIndex !== -1) {
+        // Update the isBanned property of the user
+        const updatedcategories = [...categories];
+        updatedcategories[updatedCategoryIndex].IsListed=categoryData.IsListed;
+        setCategories(updatedcategories);
+      }
+    }
+
+  }
 
   const columns: GridColDef[] = [
 
     { field: 'Name', headerName: 'Name', width: 200 },
-    { field: 'Description', headerName: 'Description', width:500 },
+    { field: 'Description', headerName: 'Description', width: 500 },
+       {
+      field: 'isListed',
+      headerName: 'IsListed',
+      width: 200,
+      renderCell: (params: GridCellParams) => {
+        const data:{IsListed:boolean} = params.row;
+        const IsListed:boolean = data.IsListed
+        return (
+          <div>
+            {IsListed}
+            {IsListed ? 'True' : 'False'}
+          </div>
+        );
+      },
+    },
+   {
+      field: 'action',
+      headerName: 'Action',
+      width: 200,
+      renderCell: (params: GridCellParams) => {
+        const data:{IsListed:boolean} = params.row;
+        const IsListed:boolean = data.IsListed 
+        return (
+          <div>
+            {IsListed}
+            {IsListed ?<Button
+          variant="outlined"
+              color="primary"
+          onClick={(event) => {
+            event.stopPropagation();
+           void handleButtonClick(params.row);
+          }}
+        >
+          Unlist
+        </Button>  : <Button
+          variant="outlined"
+          color="error"
+          onClick={(event) => {
+            event.stopPropagation();
+          void handleButtonClick(params.row);
+          }}
+        >
+          List
+        </Button>}
+          </div>
+        );
+      },
+    },
 
   ];
 
-  type CategoryType = {
-    _id: string; 
-    name: string;
-  };
+  // type CategoryType = {
+  //   _id: string; 
+  //   name: string;
+  // };
 
-  const [categories, setCategories] = useState<CategoryType[]>([]);
 
     useEffect(() => {
       // Function to fetch all users' data from the server

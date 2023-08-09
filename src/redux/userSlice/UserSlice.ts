@@ -14,6 +14,7 @@ const INITIAL_STATE: IUserSlice = {
         pinterest: "",
   },
   tags: [],
+  avatarUrl:''
 }
 
 const UserSlice = createSlice({
@@ -22,7 +23,7 @@ const UserSlice = createSlice({
     reducers: {
         UserDetails: (state, action: PayloadAction<IUserSlice>) => {
           
-            const { role, name, email, phoneNumber, DOB, _id, about, URLs,tags } = action.payload;
+            const { role, name, email, phoneNumber, DOB, _id, about, URLs,tags,avatarUrl } = action.payload;
 
             if (role !== undefined) {
               state.role = role;
@@ -44,6 +45,9 @@ const UserSlice = createSlice({
             }
             if (about !== undefined) {
               state.about = about;
+            }
+            if (avatarUrl !== undefined) {
+              state.avatarUrl = avatarUrl;
             }
             if (URLs !== undefined) {
               if (URLs.github !== undefined) {

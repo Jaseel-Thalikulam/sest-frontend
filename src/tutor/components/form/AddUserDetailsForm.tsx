@@ -19,6 +19,7 @@ import APICategoryResponse from '../../../interface/Icategory/Icategory';
 type CategoryType = {
   _id: string;
   Name: string;
+  IsListed: boolean;
 
 };
 
@@ -74,10 +75,11 @@ function AddUserDetailsForm() {
               linkedin: URLs.linkedin,
               pinterest: URLs.pinterest,
             },
-            tags: tutordata.tags
+            tags: tutordata.tags, 
+            avatarUrl:tutordata.avatarUrl
           })
-        )
-      } else {
+          )
+        } else {
         dispatch(
           UserDetails({
             role: tutordata.role,
@@ -92,7 +94,8 @@ function AddUserDetailsForm() {
               linkedin: '',
               pinterest: '',
             },
-            tags: tutordata.tags
+            tags: tutordata.tags,
+            avatarUrl:tutordata.avatarUrl
           })
         )
       }
@@ -131,11 +134,12 @@ function AddUserDetailsForm() {
               linkedin: URLs.linkedin,
               pinterest: URLs.pinterest,
             },
-            tags: tutordata.tags
+            tags: tutordata.tags,
+            avatarUrl:tutordata.avatarUrl
           })
-        )
-      } else {
-        dispatch(
+          )
+        } else {
+          dispatch(
           UserDetails({
             role: tutordata.role,
             name: tutordata.name,
@@ -149,7 +153,8 @@ function AddUserDetailsForm() {
               linkedin: '',
               pinterest: '',
             },
-            tags: tutordata.tags
+            tags: tutordata.tags,
+            avatarUrl:tutordata.avatarUrl
           })
         )
       }
@@ -235,7 +240,9 @@ function AddUserDetailsForm() {
                 github: URLs.github,
                 linkedin: URLs.linkedin,
                 pinterest: URLs.pinterest,
-              }
+              },
+              tags: userData.tags,
+              avatarUrl:userData.avatarUrl
             })
           )
         } else {
@@ -252,7 +259,9 @@ function AddUserDetailsForm() {
                 github: '',
                 linkedin: '',
                 pinterest: '',
-              }
+              },
+              tags: userData.tags,
+              avatarUrl:userData.avatarUrl
             })
           )
         }
@@ -505,7 +514,7 @@ function AddUserDetailsForm() {
                   ))}
                     
                     {Category.map(category => {
-      if (!tagIds.includes(category._id)) {
+      if (!tagIds.includes(category._id) && category.IsListed) {
         return (
           <Chip
             key={category._id}

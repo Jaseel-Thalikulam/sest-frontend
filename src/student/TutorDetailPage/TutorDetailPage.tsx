@@ -37,7 +37,7 @@ function TutorDetailPage() {
     <div className="profile-container">
       {profileData && (
         <Box className="profile-details">
-          <Avatar alt={profileData.name}src='https://profilemagazine.com/wp-content/uploads/2020/04/Ajmere-Dale-Square-thumbnail.jpg' className="avatar" />
+          <Avatar alt={profileData.name}src={profileData.avatarUrl} className="avatar" />
           <div className="info-container">
             <Typography variant="h4" className="name">
               {properCase(profileData.name)}
