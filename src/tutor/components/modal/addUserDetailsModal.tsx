@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { AddUserDetailsChangeState } from '../../../redux/modalSlice/AddUserDetailsSlice';
 
 import IModalStatus from '../../../interface/Imodal/ImodalStatus';
+import { RootStateType } from '../../../redux/store';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiBackdrop-root': {
@@ -63,7 +64,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function ModalAddUserdetils({ children, data }: ModalProps) {
-  const Status:IModalStatus = useSelector((state: any) => state.adduserdetails)
+  const Status:IModalStatus = useSelector((state: RootStateType) => state.adduserdetails)
 
   const isOpen: boolean = Status.State
 

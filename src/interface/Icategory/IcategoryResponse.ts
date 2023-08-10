@@ -6,7 +6,7 @@ export default interface ICategoryResponse {
       
     message: string;
     success: boolean;
-    categorydata:ICategorydata
+    categorydata:ICategorydata[]
     
   }
   

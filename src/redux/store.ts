@@ -21,6 +21,7 @@ export type RootStateType = {
   forgetPasswordmodal: ForgetPasswordModalType
   modalNewPasswordOtpVerify: ModalStateType
   adduserdetails: LoginFormModalType
+  verifyOTPmodal:ModalStateType
   };
 
 

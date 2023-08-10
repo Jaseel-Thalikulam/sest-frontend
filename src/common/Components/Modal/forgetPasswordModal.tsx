@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux'
 import { handleForgetPasswordChangeState } from '../../../redux/modalSlice/forgetpasswordSlice'
+import { RootStateType } from '../../../redux/store';
 
 
 
@@ -59,7 +60,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function ForgetPasswordModal({ children, data }: ModalProps) {
-    const Status = useSelector((state: any) => state.forgetPasswordmodal)
+    const Status = useSelector((state: RootStateType) => state.forgetPasswordmodal)
     const isOpen:boolean = Status.isOpen
 
 

@@ -7,6 +7,7 @@ import axiosInstance from '../../../interceptor/axiosInstance';
 import Loading from '../../../../common/Components/loadingComponent/Loading';
 import IBlockUserResponse from '../../../../interface/tables/IstudentManagementTable/IBlockUserResponse';
 import IUserSlice from '../../../../interface/Iredux/IuserSlice';
+import IUsersListFetch from '../../../../interface/IuserlistFetch/usersListFetch';
 
 
   
@@ -22,8 +23,8 @@ const StudentManagemnetTable = () => {
       field: 'isBanned',
       headerName: 'Access',
       width: 200,
-      renderCell: (params: GridCellParams) => {
-        const data:{isBanned:boolean} = params.row;
+      renderCell: (params: GridCellParams<IUserSlice>) => {
+        const data: IUserSlice = params.row;
         const isBanned:boolean = data.isBanned
         return (
           <div>
@@ -37,8 +38,8 @@ const StudentManagemnetTable = () => {
       field: 'action',
       headerName: 'Action',
       width: 200,
-      renderCell: (params: GridCellParams) => {
-        const data:{isBanned:boolean} = params.row;
+      renderCell: (params: GridCellParams<IUserSlice>) => {
+        const data: IUserSlice = params.row;
         const isBanned:boolean = data.isBanned 
         return (
           <div>
@@ -92,8 +93,8 @@ const StudentManagemnetTable = () => {
       // Function to fetch all users' data from the server
       const fetchUsers = async () => {
         try {
-          const { data } = await axiosInstance.get('/userslist');
-          let userdata = data.data
+          const response:{ data:IUsersListFetch } = await axiosInstance.get('/userslist');
+          const userdata = response.data.data
           setUsers(userdata);
           setLoading(false)
         } catch (error) {
@@ -109,7 +110,7 @@ const StudentManagemnetTable = () => {
     
 
     const rows = users
-    const getRowId = (row:any) => row._id;
+    const getRowId = (row:IUserSlice) => row._id;
 
 
 

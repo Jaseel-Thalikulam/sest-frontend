@@ -16,6 +16,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { UserDetails } from '../../../redux/userSlice/UserSlice';
+import APIResponse from '../../../interface/IaddUserDetails/IaddUserDetails';
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as stringimport axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import { UserDetails } from '../../../redux/userSlice/UserSlice';
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 
@@ -51,7 +55,7 @@ const ProfilePage: React.FC = () => {
     return date.toLocaleDateString("en-GB", options);
   }
 
-  const { name, email, phoneNumber, role, about, DOB, URLs, tags,_id,avatarUrl } = data;
+  const { name, email, phoneNumber, role, about, DOB, URLs, tags,_id,avatarUrl,_id,avatarUrl } = data;
 
 
   console.log(URLs)
@@ -77,72 +81,8 @@ const ProfilePage: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
 
-      
-      const formData = new FormData();
-      formData.append('image', file);
-      formData.append('userId', _id);
-      
-      const {data} = await axios.post(
-        `${BASE_URL}/upload/avatar`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data', // Important for sending files
-          },
-         
-        }
-      );
-  
-      const { success, message, userData } = data
-      console.log(data)
-      if (success) {
-        const URLs = userData.URLs
 
-      if (URLs) {
-        dispatch(
-          UserDetails({
-            role: userData.role,
-            name: userData.name,
-            email: userData.email,
-            phoneNumber: userData.phoneNumber,
-            DOB: userData.DOB,
-            _id: userData._id,
-            about: userData.about,
-            URLs: {
-              github: URLs.github,
-              linkedin: URLs.linkedin,
-              pinterest: URLs.pinterest,
-            },
-            tags: userData.tags,
-           avatarUrl:userData.avatarUrl
-          })
-        )
-      } else {
-        dispatch(
-          UserDetails({
-            role: userData.role,
-            name: userData.name,
-            email: userData.email,
-            phoneNumber: userData.phoneNumber,
-            DOB: userData.DOB,
-            _id: userData._id,
-            about: userData.about,
-            URLs: {
-              github: '',
-              linkedin: '',
-              pinterest: '',
-            },
-            tags: userData.tags,
-            avatarUrl:userData.avatarUrl
-          })
-        )
-      }
-        toast.success(message)
-      }else{
-        toast.error(message)
-
-      }
-   
+      });
     }
   }
   

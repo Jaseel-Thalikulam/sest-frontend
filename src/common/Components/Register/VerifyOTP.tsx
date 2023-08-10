@@ -14,7 +14,7 @@ const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 const VerifyOTP = () => {
   const dispatch = useDispatch()
   const data = useSelector((state: RootStateType) => state.user);
-  const userId = data.userId;
+  const userId = data._id;
   const email = data.email;
   const paperStyle = {
     padding: '0 15px 40px 15px',

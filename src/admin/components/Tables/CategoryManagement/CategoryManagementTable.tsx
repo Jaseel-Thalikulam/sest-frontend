@@ -19,7 +19,6 @@ const CategoryManagemnetTable = () => {
   
   }
   
-  // const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const [categories, setCategories] = useState<ICategorydata[]>([]);
     
@@ -29,14 +28,12 @@ const CategoryManagemnetTable = () => {
       const response:{ data: ICategoryResponse} = await axiosInstance.post('/unlistCategory', {
         id
       });
-
-      console.log(response.data)
       const updatedCategoryIndex = categories.findIndex((Category) => Category._id === id);
-      const categoryData = response.data.categorydata
+      const categoryDataFromBacKend = response.data.categorydata
       if (updatedCategoryIndex !== -1) {
-        // Update the isBanned property of the user
+    
         const updatedcategories = [...categories];
-        updatedcategories[updatedCategoryIndex].IsListed=categoryData.IsListed;
+        updatedcategories[updatedCategoryIndex].IsListed=categoryDataFromBacKend[0].IsListed;
         setCategories(updatedcategories);
       }
     }
@@ -51,8 +48,8 @@ const CategoryManagemnetTable = () => {
       field: 'isListed',
       headerName: 'IsListed',
       width: 200,
-      renderCell: (params: GridCellParams) => {
-        const data:{IsListed:boolean} = params.row;
+      renderCell: (params:  GridCellParams<ICategorydata>) => {
+        const data:ICategorydata = params.row;
         const IsListed:boolean = data.IsListed
         return (
           <div>
@@ -66,8 +63,8 @@ const CategoryManagemnetTable = () => {
       field: 'action',
       headerName: 'Action',
       width: 200,
-      renderCell: (params: GridCellParams) => {
-        const data:{IsListed:boolean} = params.row;
+      renderCell: (params: GridCellParams<ICategorydata>) => {
+        const data:ICategorydata = params.row;
         const IsListed:boolean = data.IsListed 
         return (
           <div>
@@ -105,14 +102,14 @@ const CategoryManagemnetTable = () => {
 
 
     useEffect(() => {
-      // Function to fetch all users' data from the server
-      const fetchCategories = async () => {
+      
+      const fetchCategories = async () => { 
         try {
-          const { data } = await axiosInstance.get(`/Categories`);
+          const response:{ data:ICategoryResponse } = await axiosInstance.get(`/Categories`);
           
-          setLoading(false)
+          setLoading(false) 
                
-          let categorydata = data.data
+          const categorydata = response.data.categorydata
                
           setCategories(categorydata);
         } catch (error) {
@@ -120,13 +117,13 @@ const CategoryManagemnetTable = () => {
         }
       };
   
-      fetchCategories();
+     void fetchCategories();
     }, [])
     
     
 
     const rows = categories
-    const getRowId = (row: any) => row._id;
+    const getRowId = (row: ICategorydata) => row._id;
 
  
 

@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import {useDispatch, useSelector}from 'react-redux'
 import {Tab} from '@mui/material'
 import {handleLoginChangeState} from'../../../redux/modalSlice/loginModalSlice'
+import { RootStateType } from '../../../redux/store';
 
 
   
@@ -64,12 +65,9 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 export default function LoginModal({ children, data, buttonname}: ModalProps) {
   
 
-  const Status = useSelector((state: any) => state.loginformmodal)
+  const Status = useSelector((state: RootStateType) => state.loginformmodal)
   const isOpen:boolean =Status.State
 
-  
-
-  
   const dispatch = useDispatch();
     
   return (

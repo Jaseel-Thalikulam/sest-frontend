@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
 import {Button} from '@mui/material'
 import {handleOpenAndClose} from'../../../redux/modalSlice/modalSlice'
+import { RootStateType } from '../../../redux/store';
 
 
   
@@ -62,7 +63,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function Modal({ children, data,autoOpen }: ModalProps) {
-  const Status = useSelector((state: any) => state.modal)
+  const Status = useSelector((state: RootStateType) => state.modal)
   let isOpen :boolean=Status.Open
   if (autoOpen == true)isOpen = autoOpen
   

@@ -15,13 +15,19 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import APIResponse from '../../../interface/IaddUserDetails/IaddUserDetails';
 import APICategoryResponse from '../../../interface/Icategory/Icategory';
+import ICategoryResponse from '../../../interface/Icategory/IcategoryResponse';
+import ICategorydata from '../../../interface/Icategory/IcategoryData';
 
-type CategoryType = {
-  _id: string;
-  Name: string;
-  IsListed: boolean;
+// type CategoryType = {
+//   Name: string;
+//   Description: string;
+//   IsListed: boolean
+//   _id?:string
 
-};
+// };
+
+
+  
 
 function AddUserDetailsForm() {
   const data = useSelector((state: RootStateType) => state.user);
@@ -43,7 +49,7 @@ function AddUserDetailsForm() {
   const [githuburl, setgithub] = useState(URLs.github ? URLs.github : '');
   const [linkedinurl, setlinkedin] = useState(URLs.linkedin ? URLs.linkedin : '');
   const [pinteresturl, setpinterest] = useState(URLs.pinterest ? URLs.pinterest : '');
-  const [Category, setCategories] = useState<CategoryType[]>([])
+  const [Category, setCategories] = useState<ICategorydata[]>([])
   const tagIds = tags.map(tag => tag._id);
 
 
@@ -70,6 +76,7 @@ function AddUserDetailsForm() {
             DOB: tutordata.DOB,
             _id: tutordata._id,
             about: tutordata.about,
+            isBanned:tutordata.isBanned,
             URLs: {
               github: URLs.github,
               linkedin: URLs.linkedin,
@@ -89,6 +96,7 @@ function AddUserDetailsForm() {
             DOB: tutordata.DOB,
             _id: tutordata._id,
             about: tutordata.about,
+            isBanned:tutordata.isBanned,
             URLs: {
               github: '',
               linkedin: '',
@@ -129,6 +137,7 @@ function AddUserDetailsForm() {
             DOB: tutordata.DOB,
             _id: tutordata._id,
             about: tutordata.about,
+            isBanned:tutordata.isBanned,
             URLs: {
               github: URLs.github,
               linkedin: URLs.linkedin,
@@ -148,6 +157,7 @@ function AddUserDetailsForm() {
             DOB: tutordata.DOB,
             _id: tutordata._id,
             about: tutordata.about,
+            isBanned:tutordata.isBanned,
             URLs: {
               github: '',
               linkedin: '',
@@ -236,6 +246,7 @@ function AddUserDetailsForm() {
               DOB: userData.DOB,
               _id: userData._id,
               about: userData.about,
+              isBanned:userData.isBanned,
               URLs: {
                 github: URLs.github,
                 linkedin: URLs.linkedin,
@@ -255,6 +266,7 @@ function AddUserDetailsForm() {
               DOB: userData.DOB,
               _id: userData._id,
               about: userData.about,
+              isBanned:userData.isBanned,
               URLs: {
                 github: '',
                 linkedin: '',
@@ -282,10 +294,10 @@ function AddUserDetailsForm() {
 
     const fetchCategories = async () => {
       try {
-        const { data } = await axiosInstanceTutor.get('/getCategories');
-        let Category = data.data
+        const response: { data :ICategoryResponse} = await axiosInstanceTutor.get('/getCategories');
+        const Category = response.data.categorydata
 
-        setCategories(Category.data);
+        setCategories(Category);
 
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -519,7 +531,7 @@ function AddUserDetailsForm() {
           <Chip
             key={category._id}
             label={category.Name}
-            onDelete={() => handleAdd(category._id)}
+            onDelete={() =>void handleAdd(category._id)}
             deleteIcon={<DoneIcon />}
           />
         );

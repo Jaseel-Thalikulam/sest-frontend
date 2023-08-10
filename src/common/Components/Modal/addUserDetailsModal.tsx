@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux'
 import { AddUserDetailsChangeState } from '../../../redux/modalSlice/AddUserDetailsSlice';
+import { RootStateType } from '../../../redux/store';
 
 
 
@@ -59,7 +60,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function ModalAddUserdetils({ children, data }: ModalProps) {
-  const Status = useSelector((state: any) => state.registerformmodal)
+  const Status = useSelector((state: RootStateType) => state.registerformmodal)
   const isOpen: boolean = Status.State
 
   const dispatch = useDispatch();
