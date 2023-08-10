@@ -1,11 +1,13 @@
 import {useEffect, useState} from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button/Button';
 import './CategoryManagementTable.scss'
 import AddCategoryModal from '../../modal/AddCategoryModal';
 import axiosInstance from '../../../interceptor/axiosInstance';
 import AddCategoryForm from '../../form/AddCategory/AddCategoryForm';
 import Loading from '../../../../common/Components/loadingComponent/Loading';
+import ICategorydata from '../../../../interface/Icategory/IcategoryData';
+import ICategoryResponse from '../../../../interface/Icategory/IcategoryResponse';
 
   
 const CategoryManagemnetTable = () => {
@@ -16,30 +18,98 @@ const CategoryManagemnetTable = () => {
     setModal(!modalstate);
   
   }
+  
+
+  const [categories, setCategories] = useState<ICategorydata[]>([]);
+    
+  async function handleButtonClick(categorydata: object) {
+    if ('_id' in categorydata) {
+      const id = categorydata._id
+      const response:{ data: ICategoryResponse} = await axiosInstance.post('/unlistCategory', {
+        id
+      });
+      const updatedCategoryIndex = categories.findIndex((Category) => Category._id === id);
+      const categoryDataFromBacKend = response.data.categorydata
+      if (updatedCategoryIndex !== -1) {
+    
+        const updatedcategories = [...categories];
+        updatedcategories[updatedCategoryIndex].IsListed=categoryDataFromBacKend[0].IsListed;
+        setCategories(updatedcategories);
+      }
+    }
+
+  }
 
   const columns: GridColDef[] = [
 
     { field: 'Name', headerName: 'Name', width: 200 },
-    { field: 'Description', headerName: 'Description', width:500 },
+    { field: 'Description', headerName: 'Description', width: 500 },
+       {
+      field: 'isListed',
+      headerName: 'IsListed',
+      width: 200,
+      renderCell: (params:  GridCellParams<ICategorydata>) => {
+        const data:ICategorydata = params.row;
+        const IsListed:boolean = data.IsListed
+        return (
+          <div>
+            {IsListed}
+            {IsListed ? 'True' : 'False'}
+          </div>
+        );
+      },
+    },
+   {
+      field: 'action',
+      headerName: 'Action',
+      width: 200,
+      renderCell: (params: GridCellParams<ICategorydata>) => {
+        const data:ICategorydata = params.row;
+        const IsListed:boolean = data.IsListed 
+        return (
+          <div>
+            {IsListed}
+            {IsListed ?<Button
+          variant="outlined"
+              color="primary"
+          onClick={(event) => {
+            event.stopPropagation();
+           void handleButtonClick(params.row);
+          }}
+        >
+          Unlist
+        </Button>  : <Button
+          variant="outlined"
+          color="error"
+          onClick={(event) => {
+            event.stopPropagation();
+          void handleButtonClick(params.row);
+          }}
+        >
+          List
+        </Button>}
+          </div>
+        );
+      },
+    },
 
   ];
 
-  type CategoryType = {
-    _id: string; 
-    name: string;
-  };
+  // type CategoryType = {
+  //   _id: string; 
+  //   name: string;
+  // };
 
-  const [categories, setCategories] = useState<CategoryType[]>([]);
 
     useEffect(() => {
-      // Function to fetch all users' data from the server
-      const fetchCategories = async () => {
+      
+      const fetchCategories = async () => { 
         try {
-          const { data } = await axiosInstance.get(`/Categories`);
+          const response:{ data:ICategoryResponse } = await axiosInstance.get(`/Categories`);
           
-          setLoading(false)
+          setLoading(false) 
                
-          let categorydata = data.data
+          const categorydata = response.data.categorydata
                
           setCategories(categorydata);
         } catch (error) {
@@ -47,13 +117,13 @@ const CategoryManagemnetTable = () => {
         }
       };
   
-      fetchCategories();
+     void fetchCategories();
     }, [])
     
     
 
     const rows = categories
-    const getRowId = (row: any) => row._id;
+    const getRowId = (row: ICategorydata) => row._id;
 
  
 

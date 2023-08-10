@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import './tutorDetailPage.scss';
 import axiosInstanceStudent from '../interceptor/axiosInstance.Student';
 import IUserSlice from '../../interface/Iredux/IuserSlice';
+import IFetchTutorResponse from '../../interface/TutorDetailPage/fetchTutor.Interface';
 
 function TutorDetailPage() {
   const { tutorId } = useParams();
@@ -17,27 +18,31 @@ function TutorDetailPage() {
   useEffect(() => {
     const fetchTutor = async () => {
       try {
-        const { data } = await axiosInstanceStudent.post('/tutordata', {
+        const response: { data:IFetchTutorResponse } = await axiosInstanceStudent.post('/tutordata', {
           tutorId,
         });
 
-        let tutordata = data.data;
+        const tutordata = response.data.Tutorsdata;
 
         setProfileData(tutordata);
-        console.log(tutordata, 'datataa'); // Log the fetched data
+        
       } catch (error) {
         console.error('Error fetching tutor data:', error);
       }
     };
 
-    fetchTutor();
+    fetchTutor().catch(error => {
+      
+      console.error('Error in fetchTutor:', error);
+      
+    });
   }, [tutorId]);
 
   return (
     <div className="profile-container">
       {profileData && (
         <Box className="profile-details">
-          <Avatar alt={profileData.name}src='https://profilemagazine.com/wp-content/uploads/2020/04/Ajmere-Dale-Square-thumbnail.jpg' className="avatar" />
+          <Avatar alt={profileData.name}src={profileData.avatarUrl} className="avatar" />
           <div className="info-container">
             <Typography variant="h4" className="name">
               {properCase(profileData.name)}

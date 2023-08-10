@@ -4,11 +4,12 @@
     name: string;
     email?: string;
     DOB?: null | Date;
-    _id?: string;
+    _id: string;
     phoneNumber?: string;
    about?: string;
-   isBanned?: boolean;
+   isBanned: boolean;
    tags: Tag[];
+   avatarUrl:string
 }
 
 interface URLs {

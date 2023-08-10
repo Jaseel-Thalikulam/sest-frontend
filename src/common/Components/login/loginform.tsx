@@ -122,7 +122,9 @@ try{
                 github: URLs.github,
                 linkedin: URLs.linkedin,
                 pinterest: URLs.pinterest,
-              }
+              },  tags: userData.tags,
+              avatarUrl:userData.avatarUrl
+              
             })
           )
         } else {
@@ -139,7 +141,9 @@ try{
                 github: '',
                 linkedin: '',
                 pinterest: '',
-              }
+              },
+              tags: userData.tags,
+              avatarUrl:userData.avatarUrl
             })
           )
         }

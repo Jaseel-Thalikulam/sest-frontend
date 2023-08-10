@@ -1,7 +1,9 @@
 export default interface ICategorydata{
       
     Name: string;
-    Description: string;
+  Description: string;
+  IsListed: boolean;
+  _id:string
     
   }
   

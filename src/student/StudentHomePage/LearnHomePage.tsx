@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../redux/store';
 import { Button, Avatar, Typography, AppBar, TextField, Toolbar } from '@mui/material';
@@ -7,6 +7,7 @@ import './LearnHomePage.scss';
 import axiosInstanceStudent from '../interceptor/axiosInstance.Student';
 import IUserSlice from '../../interface/Iredux/IuserSlice';
 import { Link } from 'react-router-dom';
+import IFetchTutorsResponse from '../../interface/TutorDetailPage/fetchTutors.interface';
 
 const LearnHomePage = () => {
   const [loading, setLoading] = useState(true);
@@ -33,30 +34,34 @@ const LearnHomePage = () => {
     
     const fetchtutorlist = async () => {
       try {
-        const { data } = await axiosInstanceStudent.get('/tutorlist');
-        let tutordata = data.data
+        const response : { data:IFetchTutorsResponse } = await axiosInstanceStudent.get('/tutorlist');
+
+        
+        const tutordata = response.data.Tutorsdata
         
         setTutors(tutordata);
+
         setLoading(false)
       } catch (error){
         console.error('Error fetching users:', error);
+
         setLoading(false)
 
       }
     };
 
    void fetchtutorlist();
-  }, [])
+  },[])
 
 
   return (
     <div className='learn-home-page'>
-      <AppBar position="fixed"  sx={{ backgroundColor: '#2196F3', borderBottom: '1px solid #ccc' }}> {/* Add a fixed AppBar */}
+      <AppBar position="fixed"  sx={{ backgroundColor: '#2196F3', borderBottom: '1px solid #ccc' }}> 
         <Toolbar>
-          <div className="logo-container"> {/* Add a div for the logo */}
+          <div className="logo-container">
             <img src="path_to_logo_image" alt="Logo" className="logo" />
           </div>
-          <TextField variant="outlined" placeholder="Search" className="search-field" /> {/* Add a search field */}
+          <TextField variant="outlined" placeholder="Search" className="search-field" /> 
         </Toolbar>
       </AppBar>
     <div className='col-3 profile-menu'>
@@ -84,11 +89,11 @@ const LearnHomePage = () => {
     <div className='col-3 tutorlist-menu'>
   <h2>Tutors</h2>
   <ul>
-  {tutors.map((tutor) => (
+  {tutors.map((tutor:IUserSlice) => (
   <li key={tutor._id} className="tutor-item">
     <Link className="tutor-link" to={`tutor/${tutor._id}`}>
       <div className="tutor-details">
-        <Avatar alt={tutor.name} sx={{ width: 40, height: 40 }} />
+        <Avatar alt={tutor.name} sx={{ width: 40, height: 40 }} src={tutor.avatarUrl} />
         <Typography variant='body2'>{properCase(tutor.name)}</Typography>
       </div>
 

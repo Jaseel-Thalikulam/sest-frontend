@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
 import {handleOpenAndCloseNewPasswordVerifyOtp} from'../../../redux/modalSlice/newpasswordModalSlice'
+import { RootStateType } from '../../../redux/store';
 
 
   
@@ -60,7 +61,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function NewPasswordOTPModal({ children, data}: ModalProps) {
-  const Status = useSelector((state: any) => state.modalNewPasswordOtpVerify)
+  const Status = useSelector((state: RootStateType) => state.modalNewPasswordOtpVerify)
   const isOpen:boolean = Status.Open
   
   

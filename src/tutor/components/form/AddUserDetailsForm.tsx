@@ -15,12 +15,19 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import APIResponse from '../../../interface/IaddUserDetails/IaddUserDetails';
 import APICategoryResponse from '../../../interface/Icategory/Icategory';
+import ICategoryResponse from '../../../interface/Icategory/IcategoryResponse';
+import ICategorydata from '../../../interface/Icategory/IcategoryData';
 
-type CategoryType = {
-  _id: string;
-  Name: string;
+// type CategoryType = {
+//   Name: string;
+//   Description: string;
+//   IsListed: boolean
+//   _id?:string
 
-};
+// };
+
+
+  
 
 function AddUserDetailsForm() {
   const data = useSelector((state: RootStateType) => state.user);
@@ -42,7 +49,7 @@ function AddUserDetailsForm() {
   const [githuburl, setgithub] = useState(URLs.github ? URLs.github : '');
   const [linkedinurl, setlinkedin] = useState(URLs.linkedin ? URLs.linkedin : '');
   const [pinteresturl, setpinterest] = useState(URLs.pinterest ? URLs.pinterest : '');
-  const [Category, setCategories] = useState<CategoryType[]>([])
+  const [Category, setCategories] = useState<ICategorydata[]>([])
   const tagIds = tags.map(tag => tag._id);
 
 
@@ -74,10 +81,11 @@ function AddUserDetailsForm() {
               linkedin: URLs.linkedin,
               pinterest: URLs.pinterest,
             },
-            tags: tutordata.tags
+            tags: tutordata.tags, 
+            avatarUrl:tutordata.avatarUrl
           })
-        )
-      } else {
+          )
+        } else {
         dispatch(
           UserDetails({
             role: tutordata.role,
@@ -92,7 +100,8 @@ function AddUserDetailsForm() {
               linkedin: '',
               pinterest: '',
             },
-            tags: tutordata.tags
+            tags: tutordata.tags,
+            avatarUrl:tutordata.avatarUrl
           })
         )
       }
@@ -131,11 +140,12 @@ function AddUserDetailsForm() {
               linkedin: URLs.linkedin,
               pinterest: URLs.pinterest,
             },
-            tags: tutordata.tags
+            tags: tutordata.tags,
+            avatarUrl:tutordata.avatarUrl
           })
-        )
-      } else {
-        dispatch(
+          )
+        } else {
+          dispatch(
           UserDetails({
             role: tutordata.role,
             name: tutordata.name,
@@ -149,7 +159,8 @@ function AddUserDetailsForm() {
               linkedin: '',
               pinterest: '',
             },
-            tags: tutordata.tags
+            tags: tutordata.tags,
+            avatarUrl:tutordata.avatarUrl
           })
         )
       }
@@ -235,7 +246,9 @@ function AddUserDetailsForm() {
                 github: URLs.github,
                 linkedin: URLs.linkedin,
                 pinterest: URLs.pinterest,
-              }
+              },
+              tags: userData.tags,
+              avatarUrl:userData.avatarUrl
             })
           )
         } else {
@@ -252,7 +265,9 @@ function AddUserDetailsForm() {
                 github: '',
                 linkedin: '',
                 pinterest: '',
-              }
+              },
+              tags: userData.tags,
+              avatarUrl:userData.avatarUrl
             })
           )
         }
@@ -273,10 +288,10 @@ function AddUserDetailsForm() {
 
     const fetchCategories = async () => {
       try {
-        const { data } = await axiosInstanceTutor.get('/getCategories');
-        let Category = data.data
+        const response: { data :ICategoryResponse} = await axiosInstanceTutor.get('/getCategories');
+        const Category = response.data.categorydata
 
-        setCategories(Category.data);
+        setCategories(Category);
 
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -505,12 +520,12 @@ function AddUserDetailsForm() {
                   ))}
                     
                     {Category.map(category => {
-      if (!tagIds.includes(category._id)) {
+      if (!tagIds.includes(category._id) && category.IsListed) {
         return (
           <Chip
             key={category._id}
             label={category.Name}
-            onDelete={() => handleAdd(category._id)}
+            onDelete={() =>void handleAdd(category._id)}
             deleteIcon={<DoneIcon />}
           />
         );

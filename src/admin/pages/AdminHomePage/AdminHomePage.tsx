@@ -1,13 +1,11 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {  useSelector } from 'react-redux'
 import { RootStateType } from '../../../redux/store'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { UserDetails } from '../../../redux/userSlice/UserSlice'
 import './AdminHomePage.scss'
 const AdminHomePage = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+
     const data = useSelector((state: RootStateType) => state.user)
     console.log("userData from lead page", data)
   

@@ -12,9 +12,12 @@ import IconButton from '@mui/material/IconButton';
 import { AddUserDetailsChangeState } from '../../../redux/modalSlice/AddUserDetailsSlice';
 import AddUserDetails from './AddUserDetails';
 import { ChangeEvent } from 'react';
-import axiosInstanceTutor from '../../interceptor/axiosInstanceTutor';
 import 'react-toastify/dist/ReactToastify.css';
-
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import { UserDetails } from '../../../redux/userSlice/UserSlice';
+import APIResponse from '../../../interface/IaddUserDetails/IaddUserDetails';
+const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 
 const ProfilePage: React.FC = () => {
@@ -32,7 +35,7 @@ const ProfilePage: React.FC = () => {
 
     dispatch(AddUserDetailsChangeState())
 
-  }
+  } 
 
   function toProperCase(str: string) {
     return str.replace(/\w\S*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -49,7 +52,7 @@ const ProfilePage: React.FC = () => {
     return date.toLocaleDateString("en-GB", options);
   }
 
-  const { name, email, phoneNumber, role, about, DOB, URLs, tags } = data;
+  const { name, email, phoneNumber, role, about, DOB, URLs, tags,_id,avatarUrl } = data;
 
 
   console.log(URLs)
@@ -74,12 +77,76 @@ const ProfilePage: React.FC = () => {
   async function handleAvatarChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      await axiosInstanceTutor.post('/upload/profilepicture', {
 
+      
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('userId', _id);
+      
+      const response:{data:APIResponse} = await axios.post(
+        `${BASE_URL}/upload/avatar`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data', // Important for sending files
+          },
+         
+        }
+      );
+  
+      const { success, message, userData } = response.data
+     
+      if (success) {
+        const URLs = userData.URLs
 
-      });
+      if (URLs) {
+        dispatch(
+          UserDetails({
+            role: userData.role,
+            name: userData.name,
+            email: userData.email,
+            phoneNumber: userData.phoneNumber,
+            DOB: userData.DOB,
+            _id: userData._id,
+            about: userData.about,
+            URLs: {
+              github: URLs.github,
+              linkedin: URLs.linkedin,
+              pinterest: URLs.pinterest,
+            },
+            tags: userData.tags,
+           avatarUrl:userData.avatarUrl
+          })
+        )
+      } else {
+        dispatch(
+          UserDetails({
+            role: userData.role,
+            name: userData.name,
+            email: userData.email,
+            phoneNumber: userData.phoneNumber,
+            DOB: userData.DOB,
+            _id: userData._id,
+            about: userData.about,
+            URLs: {
+              github: '',
+              linkedin: '',
+              pinterest: '',
+            },
+            tags: userData.tags,
+            avatarUrl:userData.avatarUrl
+          })
+        )
+      }
+        toast.success(message)
+      }else{
+        toast.error(message)
+
+      }
+   
     }
   }
+  
 
   return (
     <>
@@ -124,7 +191,7 @@ const ProfilePage: React.FC = () => {
                 <div className="col-md-6 ml-auto mr-auto">
                   <div className="profile">
                     <div className="avatar">
-                      <img src="https://profilemagazine.com/wp-content/uploads/2020/04/Ajmere-Dale-Square-thumbnail.jpg" alt="Circle Image" className="img-raised rounded-circle img-fluid avatar-img" />
+                      <img src={avatarUrl} alt="Circle Image" className="img-raised rounded-circle img-fluid avatar-img" />
                       <i className="fa fa-solid fa-camera icon" onClick={handleAvatarSubmit}></i>
                     </div>
                     <input type="file" id="avatar-upload" className='fileinput' accept="image/*" onChange={(event) => void handleAvatarChange(event)} />
@@ -159,7 +226,9 @@ const ProfilePage: React.FC = () => {
               </div>
               <div className="col-md-6 ml-auto mr-auto" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' ,justifyContent: 'center'}} >
                 {tags.map((tag) => (
-                  <Chip label={tag.Name} variant="outlined" color="default" size="small" />
+                   tag.IsListed ? (
+                    <Chip label={tag.Name} variant="outlined" color="default" size="small" />
+                  ) : null
                 ))}
 
               </div>
@@ -232,6 +301,7 @@ const ProfilePage: React.FC = () => {
         <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossOrigin="anonymous"></script>
 
       </body>
+      <ToastContainer />
       <AddUserDetails />
     </>
   );

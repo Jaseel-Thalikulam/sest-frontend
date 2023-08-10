@@ -32,7 +32,7 @@ const NewPasswordVerifyOTP = () => {
 
   const dispatch = useDispatch()
   const data = useSelector((state: RootStateType) => state.user);
-  const userId = data.userId;
+  const userId = data._id;
   const email = data.email;
   const paperStyle = {
     padding: '0 15px 40px 15px',
@@ -124,7 +124,7 @@ const NewPasswordVerifyOTP = () => {
 
   }
 
-  function onSubmit() { }
+  
 
   
 
@@ -136,12 +136,9 @@ const NewPasswordVerifyOTP = () => {
           <Typography variant='caption'>Please Enter New Password & Confirm your identity with the emailed OTP.</Typography>
         </Grid>
 
-
-
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={() => {}} >
           {(props) => (
             <Form noValidate >
-
 
               <Field as={TextField} name='password' label='Password' type='password' fullWidth
                 error={props.errors.password && props.touched.password}

@@ -21,6 +21,7 @@ export type RootStateType = {
   forgetPasswordmodal: ForgetPasswordModalType
   modalNewPasswordOtpVerify: ModalStateType
   adduserdetails: LoginFormModalType
+  verifyOTPmodal:ModalStateType
   };
 
 
@@ -50,6 +51,7 @@ type UserStateType = {
     pinterest: string;
   };
   tags: Tag[];
+  avatarUrl: string;
  
 }
 

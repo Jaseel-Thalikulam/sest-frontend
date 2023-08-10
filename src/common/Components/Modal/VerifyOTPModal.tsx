@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
 import {handleOpenAndCloseVerifyOtp} from'../../../redux/modalSlice/VerifyOtpModalSlice'
+import { RootStateType } from '../../../redux/store';
 
 
   
@@ -60,7 +61,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function OTPModal({ children, data}: ModalProps) {
-  const Status = useSelector((state: any) => state.verifyOTPmodal)
+  const Status = useSelector((state: RootStateType) => state.verifyOTPmodal)
   const isOpen:boolean =Status.Open
   
   
@@ -68,7 +69,6 @@ export default function OTPModal({ children, data}: ModalProps) {
   const dispatch = useDispatch();
   return (
       <div>
-    
       <BootstrapDialog
         onClose={()=>dispatch(handleOpenAndCloseVerifyOtp())}
         aria-labelledby="customized-dialog-title"

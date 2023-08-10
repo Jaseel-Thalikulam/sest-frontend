@@ -131,7 +131,9 @@ const RegisterForm = () => {
                 github: '',
                 linkedin: '',
                 pinterest: '',
-              }
+              },
+              tags: userData.tags,
+              avatarUrl:userData.avatarUrl
             })
             )
           dispatch(handleOpenAndCloseVerifyOtp())
@@ -150,7 +152,10 @@ const RegisterForm = () => {
                 github: '',
                 linkedin: '',
                 pinterest: '',
-              }
+                
+              },
+              tags: userData.tags,
+              avatarUrl:userData.avatarUrl
             })
             
             )
