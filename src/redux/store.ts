@@ -40,7 +40,8 @@ type ForgetPasswordModalType = {
 type UserStateType = {
     role: string;
   name: string;
-    email: string;
+  email: string;
+    username:string
     phoneNumber: string | null;
   DOB: string | null;
   _id: string;

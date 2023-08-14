@@ -32,7 +32,7 @@ function AddCategoryForm() {
 
 
     try {
-      console.log(Description, Name)
+ 
       const response: { data: IaddCategoryForm } = await axiosInstance.post(`/addCategory`, {
         Name, Description
       });

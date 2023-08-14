@@ -1,6 +1,7 @@
 
-import ModalAddUserdetils from '../../components/modal/addUserDetailsModal'
-import AddUserDetailsForm from '../../components/form/AddUserDetailsForm'
+import ModalAddUserdetils from '../../Components/Modal/addUserDetailsModal/addUserDetailsModal'
+import AddUserDetailsForm from '../../Components/form/AddUserDetailsForm' 
+
 function AddUserDetails() {
    const autoOpen =false
   return (

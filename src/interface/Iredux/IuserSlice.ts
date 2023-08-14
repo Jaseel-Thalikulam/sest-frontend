@@ -2,20 +2,21 @@
      URLs: URLs;
     role?: string;
     name: string;
-    email?: string;
+   email?: string;
+   username: string;
     DOB?: null | Date;
     _id: string;
-    phoneNumber?: string;
-   about?: string;
+    phoneNumber: string|null;
+   about?: string|null;
    isBanned: boolean;
-   tags: Tag[];
-   avatarUrl:string
+   tags: Tag[]|null;
+   avatarUrl:string|null
 }
 
 interface URLs {
-    github?: string;
-    linkedin?: string;
-    pinterest?: string;
+    github?: string|null;
+  linkedin?: string|null;
+    pinterest?: string|null;
   }
 
   interface Tag {

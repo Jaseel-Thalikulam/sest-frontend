@@ -10,13 +10,12 @@ const LeadHomePage = () => {
     
   
     const LogOutHandler = () => {
-      {
-        localStorage.removeItem('persist:user');
-        localStorage.removeItem('jwt-lead')
-        navigate('/')
-       
-      }
+      
+      localStorage.removeItem('persist:user');
+      localStorage.removeItem('jwt-lead');
+      navigate('/');
     }
+    
   
   return (
     <div>

@@ -35,10 +35,12 @@ const VerifyOTP = () => {
 console.log(OTP)
   const navigate = useNavigate();
   
-  async function sendOTP():Promise<undefined | void> {
+  async function sendOTP(): Promise<undefined | void> {
+    
     const response: { data: ILoginResponse } = await axios.post(`${BASE_URL}/verifyotp`, {
       OTP, userId
     });
+    console.log(response)
     
     const { success, message, token, userData } = response.data
 
@@ -127,7 +129,7 @@ console.log(OTP)
             style={btnStyle}
             variant='contained'
             color='primary'
-            onClick={void sendOTP}
+            onClick={()=>void sendOTP()}
           >
             Verify
           </Button>
@@ -142,7 +144,7 @@ console.log(OTP)
               style={btnStyle}
               variant='contained'
               color='primary'
-              onClick={void resendOTP}
+              onClick={()=>void resendOTP()}
             >
               Resend OTP
             </Button>

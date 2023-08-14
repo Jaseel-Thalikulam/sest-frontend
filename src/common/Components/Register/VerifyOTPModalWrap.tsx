@@ -1,4 +1,4 @@
-import React from 'react'
+
 import OTPModal from '../Modal/VerifyOTPModal'
 import VerifyOTP from './VerifyOTP'
 

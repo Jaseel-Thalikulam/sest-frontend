@@ -3,7 +3,8 @@ import IUserSlice from '../../interface/Iredux/IuserSlice';
 const INITIAL_STATE: IUserSlice = {
     role: "",
     name: "",
-    email: "",
+  email: "",
+    username:"",
     DOB: null,
     _id: "",
     phoneNumber: "",
@@ -14,6 +15,7 @@ const INITIAL_STATE: IUserSlice = {
         pinterest: "",
   },
   tags: [],
+  isBanned:true,
   avatarUrl:''
 }
 
@@ -23,7 +25,7 @@ const UserSlice = createSlice({
     reducers: {
         UserDetails: (state, action: PayloadAction<IUserSlice>) => {
           
-            const { role, name, email, phoneNumber, DOB, _id, about, URLs,tags,avatarUrl } = action.payload;
+            const { role, name,username, email, phoneNumber, DOB, _id, about, URLs,tags,avatarUrl } = action.payload;
 
             if (role !== undefined) {
               state.role = role;
@@ -62,6 +64,9 @@ const UserSlice = createSlice({
         }
         if (tags !== undefined) {
           state.tags = tags; // Set the tags field
+      }
+        if (username !== undefined) {
+          state.username = username; // Set the tags field
       }
 
 

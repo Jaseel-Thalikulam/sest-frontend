@@ -1,8 +1,6 @@
 .profile-container {
   display: flex;
   align-items: center;
-  border: 1px solid grey;
-  border-radius: 8px;
   padding: 20px;
   margin: 20px;
   @media (max-width: 768px) {
@@ -50,12 +48,20 @@
     }
 
     .follow-button {
-      margin-top: 10px;
+      margin: 10px;
       width: 20px;
     }
 
     .courses {
       font-size: 1.2rem;
     }
+
+    .button-container {
+      display: flex;
+      gap: 10px; /* Adjust the gap as needed */
+    }
   }
+  
 }
+
+/* tutorDetailPage.scss */

@@ -24,7 +24,6 @@ const LoginForm = () => {
 
   const navigate = useNavigate()
 
-
   const paperStyle = {
     padding: '0 15px 40px 15px',
     width: '90%',
@@ -38,13 +37,12 @@ const LoginForm = () => {
     backgroundColor: '#8080D7'
   }
 
-
-
   const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
   const initialValues = {
 
     email: '',
     password: '',
+    
   }
   const validationSchema = Yup.object().shape({
 
@@ -101,49 +99,57 @@ try{
 
       const { success, message, userData, token } = response.data
 
+      console.log(userData)
       
 
       if (!success) {
         toast.error(message)
       } else {
-        console.log("before ")
+       
         const URLs = userData.URLs
         if (URLs) {
           dispatch(
             UserDetails({
+
               role: userData.role,
               name: userData.name,
               email: userData.email,
-              phoneNumber: userData.phoneNumber,
-              DOB: userData.DOB,
+              username:userData.username,
+              phoneNumber: userData.phoneNumber !== undefined ? userData.phoneNumber : null,
+              DOB: userData.DOB!== undefined ? userData.DOB : null,
               _id: userData._id,
-              about: userData.about,
-              URLs: {
-                github: URLs.github,
-                linkedin: URLs.linkedin,
-                pinterest: URLs.pinterest,
-              },  tags: userData.tags,
-              avatarUrl:userData.avatarUrl
+              about: userData.about!== undefined ? userData.about : null,
+              isBanned:userData.isBanned,
+              URLs:{
+                github: URLs.github!== undefined ? userData.URLs.github : null,
+                linkedin: URLs.linkedin!== undefined ? userData.URLs.linkedin : null,
+                pinterest: URLs.pinterest!== undefined ? userData.URLs.pinterest : null,
+              },
+              tags: userData.tags!== undefined ? userData.tags : null,
+              avatarUrl:userData.avatarUrl!== undefined ? userData.avatarUrl : null
               
             })
           )
         } else {
           dispatch(
             UserDetails({
+             
               role: userData.role,
               name: userData.name,
               email: userData.email,
-              phoneNumber: userData.phoneNumber,
-              DOB: userData.DOB,
+              username:userData.username,
+              phoneNumber: userData.phoneNumber !== undefined ? userData.phoneNumber : null,
+              DOB: userData.DOB!== undefined ? userData.DOB : null,
               _id: userData._id,
-              about: userData.about,
-              URLs: {
+              about: userData.about!== undefined ? userData.about : null,
+              isBanned:userData.isBanned,
+              URLs:{
                 github: '',
                 linkedin: '',
                 pinterest: '',
               },
-              tags: userData.tags,
-              avatarUrl:userData.avatarUrl
+              tags: userData.tags!== undefined ? userData.tags : null,
+              avatarUrl:userData.avatarUrl!== undefined ? userData.avatarUrl : null
             })
           )
         }
@@ -171,7 +177,7 @@ try{
 
 
 
-      }
+      } 
 
     } else {
 

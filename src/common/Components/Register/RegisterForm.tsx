@@ -120,20 +120,23 @@ const RegisterForm = () => {
         if (!isGoogle) {
           dispatch(
             UserDetails({
-              role: role,
-              name: name,
-              email: email,
+             
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              username:userData.username,
+              phoneNumber: userData.phoneNumber !== undefined ? userData.phoneNumber : null,
+              DOB: userData.DOB!== undefined ? userData.DOB : null,
               _id: userData._id,
-              DOB: null,
-              phoneNumber: '',
-              about: '',
-              URLs: {
-                github: '',
+              about: userData.about!== undefined ? userData.about : null,
+              isBanned:userData.isBanned,
+              URLs:{
+                github:'',
                 linkedin: '',
-                pinterest: '',
+                pinterest:'',
               },
-              tags: userData.tags,
-              avatarUrl:userData.avatarUrl
+              tags: userData.tags!== undefined ? userData.tags : null,
+              avatarUrl:userData.avatarUrl!== undefined ? userData.avatarUrl : null
             })
             )
           dispatch(handleOpenAndCloseVerifyOtp())
@@ -141,21 +144,22 @@ const RegisterForm = () => {
 
           dispatch(
             UserDetails({
-              role: role,
-              name: name,
-              email: email,
-              DOB: null,
-              _id: '',
-              phoneNumber: '',
-              about: '',
-              URLs: {
-                github: '',
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              username:userData.username,
+              phoneNumber: userData.phoneNumber !== undefined ? userData.phoneNumber : null,
+              DOB: userData.DOB!== undefined ? userData.DOB : null,
+              _id: userData._id,
+              about: userData.about!== undefined ? userData.about : null,
+              isBanned:userData.isBanned,
+              URLs:{
+                github:'',
                 linkedin: '',
-                pinterest: '',
-                
+                pinterest:'',
               },
-              tags: userData.tags,
-              avatarUrl:userData.avatarUrl
+              tags: userData.tags!== undefined ? userData.tags : null,
+              avatarUrl:userData.avatarUrl!== undefined ? userData.avatarUrl : null
             })
             
             )

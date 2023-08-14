@@ -24,7 +24,14 @@ const RegisterIsLearnOrLead = () => {
                     github: '',
                     linkedin: '',
                     pinterest: '',
-                  }
+                  },
+                  name: '',
+                  username: '',
+                  _id: '',
+                  phoneNumber: null,
+                  isBanned: false,
+                  tags: null,
+                  avatarUrl: null
                 })  
           )
  
