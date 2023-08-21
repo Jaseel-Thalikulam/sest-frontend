@@ -55,6 +55,13 @@
   }
 }
 
+/* $outfit: "Outfit", sans-serif;
+* {
+  margin: 0 ;
+  padding: 0 ;
+  font-family: $outfit;
+  } */
+
 
 // Hide scrollbar for Chrome, Safari, and Opera
 body::-webkit-scrollbar {
@@ -73,3 +80,12 @@ body {
     scrollbar-arrow-color: transparent;
   }
 }
+
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+section::-webkit-scrollbar {
+  width: 0 !important
+  }

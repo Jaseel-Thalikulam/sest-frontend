@@ -1,93 +1,65 @@
-import  React from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import {useDispatch, useSelector}from 'react-redux'
-import {Tab} from '@mui/material'
-import {handleLoginChangeState} from'../../../redux/modalSlice/loginModalSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { handleLoginChangeState } from '../../../redux/modalSlice/loginModalSlice';
 import { RootStateType } from '../../../redux/store';
 
-
-  
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiBackdrop-root': {
-      backgroundColor: 'transparent',
-    },
-    '& .MuiPaper-root': {
-        backgroundColor: '#090B42', 
-        fontFamily: 'outfit', // Change font to "outfit"
-      color: '#fff',
-      borderRadius: 10,
-    },
-    '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-    [theme.breakpoints.up('lg')]: {
-      top: theme.spacing(-18),
-      right: theme.spacing(4),
-      bottom: theme.spacing(4),
-      left: 'auto',
-      margin: 'auto',
-      maxWidth: 'none',
-      width: '30%',
-    },
-  }));
-  
+  '& .MuiBackdrop-root': {
+    backgroundColor: 'transparent',
+  },
+  '& .MuiPaper-root': {
+    backgroundColor: '#fff',
+    fontFamily: 'outfit',
+    color: '#000',
+    borderRadius: 10,
+  },
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
 
 interface ModalProps {
-    children: React.ReactNode;
-    data: string;
-  buttonname: string;  
-  }
-export interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
+  children: React.ReactNode;
+  data: string;
+  buttonname: string;
 }
 
-function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, ...other } = props;
-
-   
-   
-    
-  return (
-    <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
-      {children}
-    </DialogTitle>
-  );
-}
-
-export default function LoginModal({ children, data, buttonname}: ModalProps) {
-  
-
-  const Status = useSelector((state: RootStateType) => state.loginformmodal)
-  const isOpen:boolean =Status.State
-
+export default function LoginModal({ children, data, buttonname }: ModalProps) {
+  const Status = useSelector((state: RootStateType) => state.loginformmodal);
+  const isOpen: boolean = Status.State;
   const dispatch = useDispatch();
-    
+
   return (
-      <div>
-      <Tab label={buttonname} onClick={() => dispatch(handleLoginChangeState())} />
+    <div>
       <BootstrapDialog
-        onClose={()=>dispatch(handleLoginChangeState())}
+        onClose={() => dispatch(handleLoginChangeState())}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
+        fullWidth
+        maxWidth="md" // Increase the size of the modal
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        PaperProps={{
+          sx: {
+            height: '80%', // Set initial height as a percentage
+            '@media (max-width: 600px)': {
+              height: '90%', // Adjust height for smaller screens
+            },
+            overflowY: 'auto', // Enable scrolling if content overflows
+          },
+        }}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>dispatch(handleLoginChangeState())}>
-          {data}
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-        {children}
-        </DialogContent>
-      
+        <DialogContent dividers>{children}</DialogContent>
       </BootstrapDialog>
     </div>
   );
 }
-
-

@@ -71,7 +71,15 @@ export default function Modal({ children, data,autoOpen }: ModalProps) {
   const dispatch = useDispatch();
   return (
       <div>
-      <Button type='button'  onClick={() => dispatch(handleOpenAndClose())} className='RegisterBtn' variant='contained' color='primary'>Register now</Button> 
+     <Button
+  type='button'
+  onClick={() => dispatch(handleOpenAndClose())}
+  className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full'
+  variant='contained'
+>
+  Register now
+</Button>
+
       <BootstrapDialog
         onClose={()=>dispatch(handleOpenAndClose())}
         aria-labelledby="customized-dialog-title"

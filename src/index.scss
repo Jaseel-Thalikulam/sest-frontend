@@ -1,9 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap");
 
-$outfit: "Outfit", sans-serif;
-* {
-  margin: 0 ;
-  padding: 0 ;
-  font-family: $outfit;
-  }
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 

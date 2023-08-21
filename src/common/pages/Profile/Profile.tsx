@@ -261,7 +261,7 @@ const ProfilePage: React.FC = () => {
                         <img
                           src={avatarUrl}
                           alt="Circle Image"
-                          className="img-raised rounded-circle img-fluid avatar-img"
+                          className="avatar_IMG"
                         />
                       ) : (
                         // You can replace 'null' with any fallback JSX you want to render when avatarUrl is undefined

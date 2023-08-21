@@ -17,8 +17,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     top: "10%", // Adjust the top distance
     right: "3%", // Adjust the right distance
   },
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(1),
+  "& .MuiDialogContent-root":{
+    padding: theme.spacing(2),
     width: "95%",
     overflow: "hidden",
   },
@@ -51,7 +51,10 @@ export default function ChatUIModal({
         aria-labelledby="customized-dialog-title"
         open={isOpen}
       >
-        <DialogContent>{children}</DialogContent>
+        <DialogContent>
+        <div style={{ height: '73vh', overflow: 'hidden' }}>
+          {children}</div>
+        </DialogContent>
       </BootstrapDialog>
     </div>
   );

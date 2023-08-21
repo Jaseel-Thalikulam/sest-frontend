@@ -92,4 +92,18 @@
       cursor: pointer;
     }
   }
+
+
+  
+}
+
+/* Add this CSS to your stylesheet */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0; /* Chrome and Safari */
+  height: 0;
 }

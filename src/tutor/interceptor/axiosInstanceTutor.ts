@@ -9,7 +9,7 @@ axiosInstanceTutor.interceptors.request.use(
   (config) => {
    
         const tokenString = localStorage.getItem("jwt-lead");
-        console.log(tokenString,"from the interceptor")
+      
         
         const accessToken = tokenString;       
         

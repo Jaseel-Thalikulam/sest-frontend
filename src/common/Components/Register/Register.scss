@@ -2,7 +2,39 @@
     border-color: #12134F !important;
     border-radius: 20px !important;
   }
-  
+
+
+  /* Register.scss */
+/* Add this to your styles */
+.input-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-label {
+  position: absolute;
+  top: 15px; /* Adjust this value to control the vertical position */
+  left: 1rem;
+  pointer-events: none;
+  transition: transform 0.3s ease-in-out, font-size 0.3s ease-in-out;
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.input-field {
+  width: 100%;
+  padding: 1rem 1rem 0.5rem 1rem;
+  border: none;
+  border-bottom: 1px solid #d1d5db;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-field:focus + .input-label,
+.input-field:not(:placeholder-shown) + .input-label {
+  transform: translateY(-100%) translateX(-0.5rem) scale(0.75);
+}
+
   .divider {
     display: flex;
     
