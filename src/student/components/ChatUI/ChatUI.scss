@@ -3,18 +3,23 @@
 }
 
 .chatMessagesWrapper {
-  flex: 1; /* Allow messages wrapper to expand and take available space */
-  max-height: 100%; /* Limit maximum height within the container */
-  overflow-y: auto; /* Default maximum height for larger screens */
-  height: 410px;
+  flex: 1;
+  max-height: 100%;
+  overflow-y: auto;
   width: calc(100% + 1em);
   margin-right: -1em;
 
   @media (max-width: 1250px) {
-    height: 315px; /* Adjusted max height for smaller screens */
-    max-height: 315px; /* Adjusted max height for smaller screens */
+    max-height: 70%; /* Adjusted max height for smaller screens */
+  }
+
+  @media (max-width: 768px) {
+    max-height: 60%; /* Further adjusted max height for even smaller screens */
+    width: 100%;
+    margin-right: 0;
   }
 }
+
 
 .chatContainer {
   display: flex;

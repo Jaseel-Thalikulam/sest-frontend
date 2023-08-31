@@ -1,28 +1,46 @@
+import React, { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
-
 import ChatList from "../../../student/pages/MessagingUI/ChatList/ChatList";
 import ReceiverDetail from "../../../student/pages/MessagingUI/ReceiverDetail/ReceiverDetail";
 import { useSelector } from "react-redux";
 import PublicMethods from "../../../Methods/PublicMethods";
 import { RootStateType } from "../../../redux/store";
-import { useState } from "react";
 import ChatUI from "../../../student/components/ChatUI/ChatUI";
+import { WebSocketProvider, socket } from "../../../contexts/WebSocket";
 
 function LeadMessageUI() {
   const data = useSelector((state: RootStateType) => state.user);
   const publicmethod = new PublicMethods();
   const { name, username, avatarUrl } = data;
 
-  const [selectedChatId, setSelectedChatId] = useState('');
-  const [selectedChatAvatarUrl, setSelectedChatAvatarUrl] = useState('');
-  const [selectedChatName, setSelectedChatName] = useState('');
+  const [selectedChatId, setSelectedChatId] = useState("");
+  const [selectedChatAvatarUrl, setSelectedChatAvatarUrl] = useState("");
+  const [selectedChatName, setSelectedChatName] = useState("");
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  const handleChatSelect = (chatId:string, avatarUrl:string, name:string) => {
-     
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const handleChatSelect = (
+    chatId: string,
+    avatarUrl: string,
+    name: string
+  ) => {
     setSelectedChatId(chatId);
     setSelectedChatAvatarUrl(avatarUrl);
-      setSelectedChatName(publicmethod.properCase(name));
+    setSelectedChatName(publicmethod.properCase(name));
   };
+
+  const shouldShowReceiverDetail = screenWidth >= 1025;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -51,31 +69,34 @@ function LeadMessageUI() {
                   </div>
                   {/* Display search input */}
                   <ChatList onSelectChat={handleChatSelect} />
-                 
                 </div>
-                <div className="w-2/4 p-2 border-r">
-                  <div style={{ height: "73vh", overflow: "hidden" }}>
+                <div className="w-full p-2" style={{ flex: shouldShowReceiverDetail ? "2" : "3" }}>
+                  <div className="h-full flex flex-col">
                     {/* Containing the ChatUI component */}
-                    {
-                  selectedChatId!='' &&(
-               
-                        <ChatUI recipientAvatarUrl={selectedChatAvatarUrl} chatId={selectedChatId}  recipientName={selectedChatName} />
-                    
-                        )
-                      }
+                    {selectedChatId !== "" && (
+                      <WebSocketProvider value={socket}>
+                        <ChatUI
+                          recipientAvatarUrl={selectedChatAvatarUrl}
+                          chatId={selectedChatId}
+                          recipientName={selectedChatName}
+                        />
+                      </WebSocketProvider>
+                    )}
                   </div>
                 </div>
-                <div className="w-1/4 p-2">
-                  {/* Content for receiver's details */}
-                  {
-                  selectedChatId!='' &&(
-                  
-               
-                    <ReceiverDetail avatar={selectedChatAvatarUrl }name={selectedChatName}  />   
-                       
-                        )
-                      }
-                </div>
+
+                {/* Conditionally render the ReceiverDetail component */}
+                {shouldShowReceiverDetail && (
+                  <div className="w-1/4 p-2">
+                    {/* Content for receiver's details */}
+                    {selectedChatId !== "" && (
+                      <ReceiverDetail
+                        avatar={selectedChatAvatarUrl}
+                        name={selectedChatName}
+                      />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -19,10 +19,18 @@ function TutorList() {
   useEffect(() => {
     const fetchTutorList = async () => {
       try {
+        
         const response: { data: IFetchTutorsResponse } = await axiosInstanceStudent.get('/tutorlist');
-        const tutordata = response.data.Tutorsdata;
-        setTutors(tutordata);
-        setLoading(false); // Set loading to false after fetching data
+        if (response.data.success) {
+      
+          const tutordata = response.data.Tutorsdata;
+          
+          console.log(tutordata,"helo")
+          setTutors(tutordata);
+          setLoading(false); // Set loading to false after fetching data
+        } else {
+          alert (response.data.message)
+        }
       } catch (error) {
         console.error('Error fetching users:', error);
       }

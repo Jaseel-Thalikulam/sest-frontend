@@ -5,7 +5,7 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstanceStudent from "../../../interceptor/axiosInstance.Student";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../../redux/store";
@@ -15,7 +15,7 @@ import IFetchChatList, {
 import PublicMethods from "../../../../Methods/PublicMethods";
 import axiosInstanceTutor from "../../../../tutor/interceptor/axiosInstanceTutor";
 import { ChatListProps } from "../../../../interface/chatListProp/chatListProp";
-
+import { format } from 'date-fns';
 
 
 function ChatList({ onSelectChat }: ChatListProps) {
@@ -90,6 +90,15 @@ function ChatList({ onSelectChat }: ChatListProps) {
                 primary={publicmethods.properCase(Chat.users[0].name)}
                 primaryTypographyProps={{ variant: "subtitle2" }}
                 secondaryTypographyProps={{ variant: "body2" }}
+                secondary={
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    {Chat.latestMessage ? Chat.latestMessage.content : null}
+                    <span>
+                      {Chat.latestMessage ? format(new Date(Chat.latestMessage.timeStamp),"h:mm a") : null}
+                     
+                    </span>
+                  </div>
+                }
               />
              
               
@@ -102,3 +111,4 @@ function ChatList({ onSelectChat }: ChatListProps) {
 }
 
 export default ChatList;
+

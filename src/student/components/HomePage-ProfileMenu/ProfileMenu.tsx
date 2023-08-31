@@ -4,8 +4,11 @@ import { Typography, Avatar, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import defaultAvatar from '../../../../public/defaultAvatar/defaultavatar.png';
 import { RootStateType } from '../../../redux/store';
+import PublicMethods from '../../../Methods/PublicMethods';
 
 function ProfileMenu() {
+
+  const publicmethods = new PublicMethods()
   const data = useSelector((state: RootStateType) => state.user);
   const navigate = useNavigate();
 
@@ -38,7 +41,7 @@ function ProfileMenu() {
         ) : (
           <Avatar alt="Avatar" className="mx-auto mb-2" src={defaultAvatar} />
         )}
-        <Typography variant="subtitle2">{data.name}</Typography>
+        <Typography variant="subtitle2">{publicmethods.properCase(data.name)}</Typography>
         <Typography onClick={() =>void handlenavigateProfile()} className="cursor-pointer" variant="body2">
           Profile
         </Typography>
