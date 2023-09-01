@@ -14,29 +14,75 @@ import ChatUI from "../../components/ChatUI/ChatUI";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
+import IFollowIndicator from "../../../interface/relationship/IfollowIndicator";
+import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 function TutorDetailPage() {
   const { tutorId } = useParams();
   const [profileData, setProfileData] = useState<IUserSlice | null>(null);
   const [chatUI, setChatUI] = useState(false);
   const [isSubscriptionOpen, setSubscription] = useState(false);
+  const [isFollowing, setfollowindicator] = useState(false);
+  const [profileDataId, setprofileDataId] = useState('');
   const data = useSelector((state: RootStateType) => state.user);
 
-  const {  _id } = data;
+  const { _id } = data;
 
-  const publicmethod = new PublicMethods()
- 
-  async function handleChatUI() {
+  const publicmethod = new PublicMethods();
 
-
-    const response = await axiosInstanceStudent.post('/chat/access', {senderId:_id,receiverId:profileData?._id
+  async function handleFollowButton(followedBy: string, following: string) {
+    if (followedBy && following) {
       
-    })
-    // console.log(response.data.Chat)
+      const response:{data:ICommonAPI} = await axiosInstanceStudent.post("/follow", {
+        followedBy,
+        following,
+      });
+
+      if (response.data.success) {
+        setfollowindicator(!isFollowing)
+      } else {
+        
+      }
+      
+    }
+  
+  }
+
+  async function handleChatUI() {
+    const response = await axiosInstanceStudent.post("/chat/access", {
+      senderId: _id,
+      receiverId: profileData?._id,
+    });
+   
     setChatUI(!chatUI);
   }
+
   function handleSubscription() {
     setSubscription(!isSubscriptionOpen);
   }
+  
+  useEffect(() => {
+    if (profileDataId) {
+    (async function handlefollowindictaor() {
+        
+        const response:{data:IFollowIndicator} = await axiosInstanceStudent.get("/followindicator", {
+          params: {
+            followedBy: _id,
+            following:profileDataId
+          }
+        })
+      const {isFollowing,message,success} = response.data
+      
+      if (success) {
+        setfollowindicator(isFollowing)
+      } else {
+        
+      }
+      })();
+    }
+
+
+  },[profileDataId])
+
 
   useEffect(() => {
     const fetchTutor = async () => {
@@ -49,6 +95,7 @@ function TutorDetailPage() {
         const tutordata = response.data.Tutorsdata;
 
         setProfileData(tutordata);
+        setprofileDataId(tutordata._id)
       } catch (error) {
         console.error("Error fetching tutor data:", error);
       }
@@ -59,11 +106,8 @@ function TutorDetailPage() {
     });
   }, [tutorId]);
 
- 
-
   return (
     <div className="bg-gray-100 min-h-screen">
-    
       <div className="container mx-auto py-10">
         <div className="flex flex-col lg:flex-row bg-white p-6 rounded-lg shadow-md">
           {profileData && (
@@ -81,13 +125,24 @@ function TutorDetailPage() {
                   @{profileData.username}
                 </Typography>
                 <div className="flex">
+{ isFollowing ?(
                   <Button
+                    onClick={()=>void handleFollowButton(_id, profileData._id)}
                     variant="contained"
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full mr-2"
                   >
-                    Connect
+                    Following
                   </Button>
-                  <Button
+                  ):(
+                    <Button
+                    onClick={()=>void handleFollowButton(_id, profileData._id)}
+                    variant="contained"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full mr-2"
+                  >
+                    Follow
+                  </Button>
+)
+}                  <Button
                     variant="outlined"
                     className="border-gray-500 text-gray-500 font-semibold py-2 px-4 rounded-full hover:bg-gray-200"
                     onClick={handleChatUI}
@@ -234,7 +289,9 @@ function TutorDetailPage() {
       {chatUI && (
         <ChatUIModal CloseModal={handleChatUI} isOpen={chatUI}>
           <ChatUI
-            recipientName={profileData ? publicmethod.properCase(profileData.name) : ""}
+            recipientName={
+              profileData ? publicmethod.properCase(profileData.name) : ""
+            }
             recipientAvatarUrl={profileData ? profileData.avatarUrl : ""}
           />
         </ChatUIModal>
