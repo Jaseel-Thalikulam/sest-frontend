@@ -1,15 +1,12 @@
-import { Tab, Tabs, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import {useMediaQuery, useTheme } from "@mui/material";
 import "./Header.scss";
-import AppBar from "@mui/material/AppBar";
-import LOGO from "../../../../public/Logo/White logo - no background.svg";
-import DrawerComponent from "./DrawerComponent";
 import Login from "../login/login";
 import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlice";
-const PAGES = ["Contact Us", "About Us"];
+
 import { useDispatch } from "react-redux";
 const Header = () => {
   const theme = useTheme();
-  const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
+  
   const dispatch = useDispatch();
   return (
     <>

@@ -24,6 +24,7 @@ function ChatList({ onSelectChat }: ChatListProps) {
   const { _id } = data;
   const [ChatsList, setChatsList] = useState<IChat[]>([]);
   useEffect(() => {
+    
     (async function fetchChatList() {
       try {
         if (localStorage.getItem("jwt-learn")) {
@@ -76,11 +77,13 @@ function ChatList({ onSelectChat }: ChatListProps) {
                 onSelectChat(
                   Chat._id,
                   Chat.users[0].avatarUrl,
-                  Chat.users[0].name
+                  Chat.users[0].name,
+                  Chat.users[0].about
                 )
               }
             >
               <ListItemAvatar>
+                
                 <Avatar>
                   <img src={Chat.users[0].avatarUrl} alt="avatar" />
                 </Avatar>

@@ -8,7 +8,7 @@ import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
 import { useEffect, useState } from "react";
 import { WebSocketProvider, socket } from "../../../contexts/WebSocket";
-
+import SelectaChatIllustartion from "../../../../public/illustrations/undraw_personal_opinions_re_qw29.svg";
 function MessagingUI() {
   const data = useSelector((state: RootStateType) => state.user);
   const publicmethod = new PublicMethods();
@@ -17,6 +17,9 @@ function MessagingUI() {
   const [selectedChatId, setSelectedChatId] = useState("");
   const [selectedChatAvatarUrl, setSelectedChatAvatarUrl] = useState("");
   const [selectedChatName, setSelectedChatName] = useState("");
+  const [selectedChatabout, setselectedChatabout] = useState<
+    string | null | undefined
+  >("");
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
@@ -35,20 +38,22 @@ function MessagingUI() {
   const handleChatSelect = (
     chatId: string,
     avatarUrl: string,
-    name: string
+    name: string,
+    about: string | null | undefined
   ) => {
     setSelectedChatId(chatId);
     setSelectedChatAvatarUrl(avatarUrl);
     setSelectedChatName(publicmethod.properCase(name));
+    setselectedChatabout(about);
   };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-grow bg-gray-100">
+      <div className="flex-grow bg-white">
         <div className="container mx-auto py-8">
           <div className="w-full md:w-4/4 mb-4 md:mb-0">
             <div
-              className="bg-white p-4 rounded-lg shadow-md"
+              className="bg-white p-4 rounded-lg shadow-md "
               style={{ height: "80vh" }}
             >
               <div className="flex h-full">
@@ -70,10 +75,14 @@ function MessagingUI() {
                   {/* Display search input */}
                   <ChatList onSelectChat={handleChatSelect} />
                 </div>
-                <div className="w-full p-2" style={{ flex: shouldShowReceiverDetail ? "2" : "3" }}>
-                  <div className="h-full flex flex-col">
-                    {/* Containing the ChatUI component */}
-                    {selectedChatId != "" && (
+
+                {selectedChatId !== "" ? ( // Check if a chat is selected
+                  <div
+                    className="w-full p-2"
+                    style={{ flex: shouldShowReceiverDetail ? "2" : "3" }}
+                  >
+                    <div className="h-full flex flex-col">
+                      {/* Containing the ChatUI component */}
                       <WebSocketProvider value={socket}>
                         <ChatUI
                           chatId={selectedChatId}
@@ -81,14 +90,22 @@ function MessagingUI() {
                           recipientName={selectedChatName}
                         />
                       </WebSocketProvider>
-                    )}
+                    </div>
                   </div>
+                ) : (
+                  <div className="w-full p-2 flex flex-col items-center justify-center">
+                  {/* No Message Illustration */}
+                 
+                  <p className="mt-4 text-gray-500 text-lg font-semibold">Select A Chat</p>
                 </div>
+                )}
+
                 {shouldShowReceiverDetail && (
                   <div className="w-1/4 p-2">
                     {/* Content for receiver's details */}
                     {selectedChatId !== "" && (
                       <ReceiverDetail
+                        about={selectedChatabout}
                         avatar={selectedChatAvatarUrl}
                         name={selectedChatName}
                       />

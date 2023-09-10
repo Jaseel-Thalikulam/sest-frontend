@@ -17,6 +17,7 @@ function LeadMessageUI() {
   const [selectedChatAvatarUrl, setSelectedChatAvatarUrl] = useState("");
   const [selectedChatName, setSelectedChatName] = useState("");
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [selectedChatabout, setselectedChatabout] = useState<string | null|undefined>("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -33,11 +34,14 @@ function LeadMessageUI() {
   const handleChatSelect = (
     chatId: string,
     avatarUrl: string,
-    name: string
+    name: string,
+    about:string|null|undefined
   ) => {
     setSelectedChatId(chatId);
     setSelectedChatAvatarUrl(avatarUrl);
     setSelectedChatName(publicmethod.properCase(name));
+    setselectedChatabout(about)
+
   };
 
   const shouldShowReceiverDetail = screenWidth >= 1025;
@@ -93,6 +97,7 @@ function LeadMessageUI() {
                       <ReceiverDetail
                         avatar={selectedChatAvatarUrl}
                         name={selectedChatName}
+                        about={selectedChatabout}
                       />
                     )}
                   </div>

@@ -50,7 +50,7 @@ return (
         
        
     )
-
+  
 }
 
 export default RegisterIsLearnOrLead;

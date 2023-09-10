@@ -1,11 +1,11 @@
 import { LayoutProps } from '../../interface/LayoutProp/Layoutprop';
-import NavBar from '../components/NavBar/NavBar';
+import NavBar from '../Components/NavBar/NavBar';
 
 
 const Layout = ({ children }:LayoutProps) => {
   return (
-    <div>
-      <NavBar />
+    <div className="relative" >
+      <NavBar  />
       {children}
     </div>
   );

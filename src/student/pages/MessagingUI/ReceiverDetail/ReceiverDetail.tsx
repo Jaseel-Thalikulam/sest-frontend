@@ -1,8 +1,12 @@
 import { Avatar } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 
-function ReceiverDetail(props:{avatar:string,name:string}) {
-  const {avatar,name} =props
+function ReceiverDetail(props: { avatar: string, name: string, about: string|null|undefined }) {
+  
+  const { avatar, name, about } = props
+  useEffect(() => {
+    console.log(about,name)
+  })
   return (
       <>
           <div className="flex flex-col items-center mt-4 mb-6">
@@ -20,8 +24,11 @@ function ReceiverDetail(props:{avatar:string,name:string}) {
                     <div className="mt-2 text-lg font-semibold">
                       {name}
                     </div>
-                    <div className="text-gray-500">
-                      {/* {receiverDetails.username} */}
+        <div className="text-gray-500">
+          <p className="text-center">
+            
+                      {about}
+        </p>
                     </div>
                   </div>
       </>

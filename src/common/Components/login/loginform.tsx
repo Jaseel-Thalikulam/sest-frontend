@@ -1,5 +1,4 @@
 import { Grid, Paper, Button, Typography, Box } from "@mui/material";
-import { TextField } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import "../Register/Register.scss";
@@ -295,6 +294,7 @@ const LoginForm = () => {
                 )}
               </div>
               <button
+                
                 id="loginButton"
                 type="button"
                 onClick={() =>
@@ -308,12 +308,13 @@ const LoginForm = () => {
               >
                 Login
               </button>
+              
             </Form>
           )}
         </Formik>
 
         {/* <ForgetPassword/> */}
-        <Button variant="text" onClick={() => void forgetpassword()}>
+        <Button color="error" variant="text" onClick={() => void forgetpassword()}>
           Forget Password
         </Button>
         <ToastContainer />

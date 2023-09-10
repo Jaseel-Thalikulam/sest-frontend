@@ -8,7 +8,7 @@ const axiosInstanceStudent = axios.create({
   baseURL: `${BASE_URL}/learn`,
 });
 
-// Request interceptor
+// Request interceptor  
 axiosInstanceStudent.interceptors.request.use(
   (config) => {
     const tokenString = localStorage.getItem('jwt-learn');

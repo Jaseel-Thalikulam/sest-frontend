@@ -10,7 +10,8 @@
    about?: string|null;
    isBanned: boolean;
    tags: Tag[]|null;
-   avatarUrl:string
+   avatarUrl: string
+   createdAt:Date
 }
 
 interface URLs {

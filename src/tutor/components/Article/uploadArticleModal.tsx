@@ -75,12 +75,12 @@ export default function UploadArticleModal({ children, data,isOpen,CloseModal}: 
         <BootstrapDialogTitle id="customized-dialog-title" onClose={() => CloseModal()}>
           {data}
         </BootstrapDialogTitle>
-        <DialogContent dividers>
+        <DialogContent >
         {children}
         </DialogContent>
       
       </BootstrapDialog>
     </div>
   );
-  
+
 }

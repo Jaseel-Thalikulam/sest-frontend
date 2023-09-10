@@ -198,48 +198,8 @@ const ProfilePage: React.FC = () => {
       </head>
 
       <body className="profile-page">
-        {/* Navigation */}
-        <nav
-          className="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg"
-          color-on-scroll="100"
-          id="sectionsNav"
-        >
-          <div className="container">
-            <div className="navbar-translate">
-              <Button
-                variant="text"
-                startIcon={<ArrowBackIosIcon />}
-                disableRipple
-                style={{ color: "white" }}
-                onClick={handleGoBack}
-              >
-                Back
-              </Button>
+        <div className="page-head h-40  bg-gray-100" data-parallax="true"></div>
 
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-                <span className="navbar-toggler-icon"></span>
-                <span className="navbar-toggler-icon"></span>
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* Header */}
-        <div
-          className="page-header header-filter"
-          data-parallax="true"
-          style={{
-            backgroundImage:
-              "url('http://wallpapere.org/wp-content/uploads/2012/02/black-and-white-city-night.png')",
-          }}
-        ></div>
         <div className="main main-raised">
           <div
             className="button-container"
@@ -256,19 +216,17 @@ const ProfilePage: React.FC = () => {
                 {/* Profile Info */}
                 <div className="col-md-6 ml-auto mr-auto">
                   <div className="profile">
-                    <div className="avatar">
+                    <div className="avatar ">
                       {avatarUrl !== null ? (
                         <img
                           src={avatarUrl}
-                          alt="Circle Image"
-                          className="avatar_IMG"
+                         
+                          className="rounded-md "
                         />
                       ) : (
-                        // You can replace 'null' with any fallback JSX you want to render when avatarUrl is undefined
                         <img
                           src={defaultAvatar}
-                          alt="Circle Image"
-                          className="img-raised rounded-circle img-fluid avatar-img"
+                          className="rounded-md"
                         />
                       )}
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { Avatar } from "@mui/material";
+import { Avatar, Button, IconButton } from "@mui/material";
 import "./ChatUI.scss";
 import IChatUI from "../../../interface/IchatUI/IchatUI";
 import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
@@ -9,7 +9,8 @@ import { useSelector } from "react-redux";
 import InewMessage from "../../../interface/IMessage/InewMessage";
 import { WebSocketContext } from "../../../contexts/WebSocket";
 import Imessage from "../../../interface/IMessage/Imessage";
-import { format } from 'date-fns';
+import SendIcon from "@mui/icons-material/Send";
+import { format } from "date-fns";
 
 function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
   const currentUser = useSelector((state: RootStateType) => state.user);
@@ -21,20 +22,19 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
   const socket = useContext(WebSocketContext);
 
   useEffect(() => {
-    
     socket.on("connect", () => {
       console.log("Connected");
     });
 
     socket.on(chatId, (data) => {
-      const { content, senderId,timeStamp }: Imessage = data;
+      const { content, senderId, timeStamp }: Imessage = data;
 
       // Create a new message object
       const newMessage: InewMessage = {
         content: content,
         sender: senderId,
         status: "read",
-        timeStamp:timeStamp
+        timeStamp: timeStamp,
       };
 
       // Append the new message to the existing messages
@@ -66,7 +66,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
       ChatId: chatId,
       Content: newMessage,
       SenderId: currentUserId,
-      timeStamp:new Date().toISOString(),
+      timeStamp: new Date().toISOString(),
     });
   };
   useEffect(() => {
@@ -91,7 +91,6 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
         const Messages = response.data.data;
 
         setMessages(Messages);
-  
       } else if (localStorage.getItem("jwt-learn")) {
         const response: { data } = await axiosInstanceStudent.get(
           "/chat/fetchAllMessage",
@@ -104,11 +103,8 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
 
         const Messages = response.data.data;
         setMessages(Messages);
-
       }
     })();
-
-    
   }, [chatId]);
 
   return (
@@ -169,11 +165,14 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                     
+                      color:  message.sender == currentUser._id
+                      ? "#fff"
+                      : "#000",
+
                       backgroundColor:
                         message.sender == currentUser._id
-                          ? "#DCF8C6"
-                          : "#F4F6F8",
+                          ? "#6C63FF"
+                          : "#EDEDED ",
                       padding: "10px",
                       borderRadius:
                         message.sender == currentUser._id
@@ -208,10 +207,20 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                         )}
                       </span>
                     )} */}
-                      <span style={{ fontSize: "10px", color: "#999", marginLeft: "6px" }}>
-                    {/* Format the message timestamp */}
-                    {message.timeStamp?format(new Date(message.timeStamp), "h:mm a"):null}
-                  </span>
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color:  message.sender == currentUser._id
+                          ? "#fff"
+                          : "#000",
+                          marginLeft: "6px",
+                        }}
+                      >
+                        {/* Format the message timestamp */}
+                        {message.timeStamp
+                          ? format(new Date(message.timeStamp), "h:mm a")
+                          : null}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -244,29 +253,39 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
               }
             }}
           />
-          <button
-            style={{
-              backgroundColor: "#0084ff",
-              color: "white",
-              border: "none",
-              borderRadius: "20px",
-              padding: "8px 16px",
-              cursor: "pointer",
-            }}
+
+          <IconButton
             onClick={handleSendMessage}
+            aria-label="send"
+            color="primary"
           >
-            Send
-          </button>
-          <button
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              marginLeft: "8px",
-              cursor: "pointer",
-            }}
-          >
-            😀
-          </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5"
+            >
+              <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+            </svg>
+          </IconButton>
+          <IconButton aria-label="send" color="primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
+              />
+            </svg>
+          </IconButton>
+
+       
         </div>
       </div>
     </>

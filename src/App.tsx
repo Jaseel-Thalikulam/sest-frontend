@@ -12,12 +12,15 @@ import TutorRoutes from './routes/TutorRoutes';
 import Studentroutes from './routes/StudentRoutes';
 import Adminroutes from './routes/AdminRoutes';
 import SuperAdminRoutes from './routes/SuperAdminRoutes';
-
+import { ThemeProvider } from '@mui/material';
+import { Muitheme } from './mui/muiThemeCreator';
 function App() {
 
 
   return (
     <>
+      <ThemeProvider theme={Muitheme}>
+
       <BrowserRouter>
         <Routes>
         <Route  path='/' element={<UserPublicRoute><Suspense fallback={<Loading/>}>
@@ -36,6 +39,7 @@ function App() {
         </Routes>
         
       </BrowserRouter>
+      </ThemeProvider>
     </>
   )
 }
