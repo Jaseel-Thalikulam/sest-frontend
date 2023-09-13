@@ -40,7 +40,7 @@ function Studentroutes() {
         <Route path="/message" element={<MessagingUI />} />
         <Route path='/ShowAllPosts' element={<ShowAllPosts />} />
         <Route path='/Connections' element={<Connections />} />
-        <Route path='/Meet' element={<JitsiMeet />} />
+        <Route path='/Meet/:MeetId/:Token' element={<JitsiMeet />} />
       </Routes>
     </Layout>
   );

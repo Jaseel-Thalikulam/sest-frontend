@@ -8,13 +8,33 @@ import { useState } from 'react';
 import UploadArticleModal from '../../../tutor/components/Article/UploadArticleModal';
 import UploadArticleForm from '../../../tutor/components/Article/UploadArticleForm';
 import { ToastContainer } from "react-toastify";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "react-toastify/dist/ReactToastify.css";
+import { Jitsihelper } from '../../../common/Helper/JistiMeetHelper';
+import PublicMethods from '../../../Methods/PublicMethods';
+import { useSelector } from 'react-redux';
+import { RootStateType } from '../../../redux/store';
+
 const LearnHomePage = () => {
+  const data = useSelector((state: RootStateType) => state.user);
+const navigate = useNavigate()
+  const publicmethod =  new PublicMethods()
+  const jitsi = new Jitsihelper()
   const [isArticleModalOpen, setArticleModal] = useState(false);
   async function handelArticleButtonClick() {
     setArticleModal(!isArticleModalOpen);
   }
+  
+ async function MeetButtonClick(){
+    
+   const meetId: string = publicmethod.generateRandomString(10)
+
+   const token :string= await jitsi.getToken(meetId,data)
+
+   navigate(`/learn/meet/${meetId}/${token}`)
+
+  }
+
   return (
     <>
     <div className="flex flex-col min-h-screen">
@@ -33,15 +53,15 @@ const LearnHomePage = () => {
                     <div className="flex space-x-4 justify-center relative"  >
                       {/* Centered Button - Meeting */}
 
-                      <Link to={`/learn/meet`} className="flex items-center space-x-2">
 
-                      <Button
+                        <Button 
+                         onClick={()=>void MeetButtonClick()}
                         variant="text"
                         startIcon={<Videocam className="text-red-500" /> }
                         >
                         Meet
                       </Button>
-                          </Link>
+                          
                       {/* Centered Button - Image/Video */}
                    
                       {/* Centered Button - Article */}

@@ -37,7 +37,7 @@ type ForgetPasswordModalType = {
 }
 
 
-type UserStateType = {
+export type UserStateType = {
     role: string;
   name: string;
   email: string;
