@@ -4,7 +4,7 @@ import NavBar from '../Components/NavBar/NavBar';
 
 const Layout = ({ children }:LayoutProps) => {
   return (
-    <div className="relative" >
+    <div className="relative " >
       <NavBar  />
       {children}
     </div>

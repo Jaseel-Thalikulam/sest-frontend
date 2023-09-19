@@ -27,6 +27,14 @@ export default class PublicMethods {
   }
 
   
+  truncateDescription = (text: string, maxWords = 20) => {
+    const words = text.split(" ");
+    if (words.length <= maxWords) {
+      return text;
+    }
+    return words.slice(0, maxWords).join(" ") + " ...";
+  };
+  
 
   generateRandomString(length:number) {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -37,6 +45,11 @@ export default class PublicMethods {
     }
   
     return result;
+  }
+
+  getCurrentUserData() {
+return localStorage.getItem('persist:user')
+
   }
   
   

@@ -78,7 +78,7 @@
         ) : (
           <ul>
             {tutors.map((tutor: IUserSlice) => (
-              <li key={tutor._id} className="mb-2">
+              <li key={tutor._id} className="mb-2 hover hover:scale-105 transition-transform duration-300 cursor-pointer ">
                 <Link to={`user/${tutor._id}`} className="flex items-center space-x-2">
                   <div>
                     {tutor.avatarUrl !== null ? (

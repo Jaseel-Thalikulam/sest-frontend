@@ -4,9 +4,9 @@ import { Button } from "@mui/material";
 import Posts from "../../../student/components/HomePage-Posts/Posts";
 import UploadMediaForm from "../../components/Media/UploadMediaForm";
 import UploadMediaModal from "../../components/Media/UploadMediaModal";
-import { Videocam, Image, Poll, Description,Book } from "@mui/icons-material";
-import UploadArticleForm from "../../components/Article/UploadArticleForm";
-import UploadArticleModal from "../../components/Article/UploadArticleModal";
+import { Videocam, Image, Description,Book } from "@mui/icons-material";
+import UploadArticleForm from "../../components/Article/uploadArticleForm";
+import UploadArticleModal from "../../components/Article/uploadArticleModal";
 import UploadPollForm from "../../components/Poll/UploadPollForm";
 import UploadPollModal from "../../components/Poll/UploadPollModal";
 import ProfileMenu from "../../../student/components/HomePage-ProfileMenu/ProfileMenu";
@@ -50,7 +50,7 @@ const LeadHomePage = () => {
   }
   
   async function CourseButtonClick() {
-    navigate('/lead/upload/course')
+    navigate('/lead/course')
   }
 
   return (
@@ -81,14 +81,14 @@ const LeadHomePage = () => {
                       <Button
                         onClick={()=>void CourseButtonClick()}
                         variant="text"
-                        startIcon={<Book className="text-purple-500" />}
+                        startIcon={<Book className="text-gray-500" />}
                         >
                         Course
                       </Button>
                       {/* Centered Button - Image/Video */}
                       <Button
                         variant="text"
-                        startIcon={<Image className="text-blue-500" />}
+                        startIcon={<Image className="text-purple-500" />}
                         onClick={() => void handleMediaButtonClick()}
                       >
                         Media
@@ -122,6 +122,7 @@ const LeadHomePage = () => {
       </div>
 
       <UploadArticleModal
+        
         isOpen={isArticleModalOpen}
         CloseModal={handelArticleButtonClick}
         data="Author Your Content"

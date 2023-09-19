@@ -21,9 +21,8 @@ axiosInstanceTutor.interceptors.request.use(
   },
   (error) => {
 
-
-      console.log(error, "from the interceptor")
-      return Promise.reject(error);
+    return Promise.reject(error);
+    
   }
 );
 

@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
 import IUserSlice from "../../../interface/Iredux/IuserSlice";
-function NavBar() {
+function  NavBar() {
   const navigate = useNavigate();
   const [searchInput, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("Tutor");
@@ -64,7 +64,7 @@ function NavBar() {
 
   return (
     <>
-      <div id="drawer-container">
+      <div id="drawer-container" className="top-0 sticky z-30">
         <div className="sticky top-0 bg-white border-b border-gray-300 flex justify-between items-center">
           <div className="container mx-auto">
             <div className="flex items-center justify-between p-4">
@@ -249,7 +249,7 @@ function NavBar() {
               <div className="hidden md:flex space-x-4">
                 <IconButton
                   onClick={() => void handleMessagesNavigate()}
-                  className="transition-colors custompurple hover:text-white"
+                  className="transition-colors  hover:text-white hover:bg-blue-600"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

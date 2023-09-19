@@ -40,7 +40,7 @@ export class Jitsihelper {
         iss: "chat",
         room: "*",
         nbf: currentTimeInSeconds, 
-        exp: currentTimeInSeconds    + 60 * 60,
+        exp: currentTimeInSeconds + 24 * 60 * 60,
       };
 
       const response = await axiosInstanceStudent.get("/meet/token", {
@@ -52,7 +52,7 @@ export class Jitsihelper {
       
       return response.data.token;
     } else if (localStorage.getItem("jwt-lead")) {
-      const meetData = {
+      const meetData = { 
         alg: "RS256",
         kid: APP_KEY,
         aud: "jitsi",

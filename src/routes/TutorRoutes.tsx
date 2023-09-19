@@ -14,7 +14,9 @@ import TutorDetailPage from "../student/pages/TutorDetailPage/TutorDetailPage";
 import ShowAllPosts from "../common/pages/ShowAllPost/ShowAllPosts";
 import Connections from "../common/pages/Connections/Connections";
 import JitsiMeet from "../util/JitsiMeet";
-import LeadUploadTutorial from "../tutor/pages/LeadUploadTutorial/LeadUploadTutorial";
+import CourseDetailPage from "../common/pages/CourseDetailPage/CourseDetailPage";
+import LeadCoursePage from "../tutor/pages/LeadCoursePage/LeadCoursePage";
+import VideoPlayerPage from "../common/pages/VideoPlayerPage/VideoPlayerPage";
 
 function TutorRoutes() {
   return (
@@ -56,6 +58,12 @@ function TutorRoutes() {
               <TutorDetailPage />
               </LeadPrivateRoute>}
           />
+          <Route
+            path="/tutorial/:videoId/:courseId"
+            element={<LeadPrivateRoute>
+              <VideoPlayerPage />
+              </LeadPrivateRoute>}
+          />
 
           <Route
             path="/ShowAllPosts"
@@ -63,7 +71,10 @@ function TutorRoutes() {
           />
           <Route path='/Connections' element={<LeadPrivateRoute><Connections /></LeadPrivateRoute>} />
         <Route path='/Meet/:MeetId/:Token' element={<LeadPrivateRoute><JitsiMeet /></LeadPrivateRoute>} />
-        <Route path='/upload/course' element={<LeadPrivateRoute><LeadUploadTutorial /></LeadPrivateRoute>} />
+          <Route path='/course/:CourseId' element={<LeadPrivateRoute>
+            <CourseDetailPage/>
+        </LeadPrivateRoute>} />
+        <Route path='/course' element={<LeadPrivateRoute><LeadCoursePage/></LeadPrivateRoute>} />
 
         </Routes>
       </Layout>

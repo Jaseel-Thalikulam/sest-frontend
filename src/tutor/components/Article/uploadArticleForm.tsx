@@ -16,7 +16,7 @@ interface Props {
   ThumbnailUrl?: string;
 }
 
-function UploadArticleForm({ CloseModal,Title,Content,ThumbnailUrl }:Props,) {
+function UploadArticleForm({ CloseModal }:Props,) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
