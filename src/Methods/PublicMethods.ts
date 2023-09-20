@@ -25,7 +25,14 @@ export default class PublicMethods {
   }
     
   }
-
+  formatRupees(amount:number) {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 2, // You can adjust this to control decimal places
+    }).format(amount);
+  }
+  
   
   truncateDescription = (text: string, maxWords = 20) => {
     const words = text.split(" ");

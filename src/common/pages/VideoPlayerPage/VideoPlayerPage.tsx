@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import 'vidstack/styles/defaults.css';
-import 'vidstack/styles/community-skin/video.css';
-import ReactPlayer from 'react-player';
 import axiosInstanceTutor from '../../../tutor/interceptor/axiosInstanceTutor';
 import { IVideo } from '../../../interface/IVideo/IVideo';
 import axiosInstanceStudent from '../../../student/interceptor/axiosInstance.Student';
 import VideoPlayer from '../../Components/videoPlayer/VideoPlayer';
-import CommentIcon from "@mui/icons-material/Comment";
+
 import { ICourse } from '../../../interface/ICourse/Icourse';
 function VideoPlayerPage() {
   const { videoId, courseId } = useParams();
@@ -33,7 +30,19 @@ function VideoPlayerPage() {
           console.error(error);
         }
       } else if (localStorage.getItem('jwt-learn')) {
-        // Handle other cases if needed
+        try {
+          const response = await axiosInstanceStudent.get('/getvideoData', {
+            params: {
+              videoId: videoId,
+            },
+          });
+
+          if (response.data.success) {
+            setVideo(response.data.videoData);
+          }
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
 
@@ -56,7 +65,7 @@ function VideoPlayerPage() {
             params: { CourseId: courseId },
           });
         }
-        const courseData: ICourse = response.data.CourseData;
+        const courseData: ICourse = response!.data.CourseData;
         setVideos(courseData.videos || []);
         setCourseTitle(courseData.Title || null);
       } catch (error) {

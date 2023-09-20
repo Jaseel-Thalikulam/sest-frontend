@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-import CommentIcon from "@mui/icons-material/Comment";
 import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
 import axiosInstanceStudent from "../../interceptor/axiosInstance.Student";
 import { RootStateType } from "../../../redux/store";
