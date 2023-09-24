@@ -1,4 +1,3 @@
-import React from 'react'
 import ForgetPasswordModal from '../Modal/forgetPasswordModal'
 import ForgetPasswordForm from './ForgetPasswordForm'
 import { RootStateType } from '../../../redux/store'

@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Button, TextField, TextareaAutosize, Grid } from "@mui/material";
+import React, { ChangeEvent, useState } from "react";
+import { Button, TextField, TextareaAutosize,  } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { RootStateType } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import axiosInstanceTutor from "../../interceptor/axiosInstanceTutor";
-import { toast, ToastContainer } from "react-toastify";
-import axiosInstanceStudent from "../../../student/interceptor/axiosInstance.Student";
+import { toast } from "react-toastify";
+import {axiosInstance} from "../../../common/interceptor/axiosInstance";
+import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 
 type CloseModalFunction = () => void;
 
@@ -104,22 +104,9 @@ function UploadArticleForm({ CloseModal }:Props,) {
         formData.append("type", "Article");
         formData.append("articleTitle", article.title);
         formData.append("articleContent", article.content);
-        if (localStorage.getItem("jwt-lead")) {   
-          const response = await axiosInstanceTutor.post(
-            "/post/article",
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data", // Important for sending files
-              },
-            }
-          );
-          if (response.data.success) {
-            CloseModal();
-            toast.success("Article Successfully Uploaded");
-          }
-        } else if (localStorage.getItem('jwt-learn')) {
-          const response = await axiosInstanceStudent.post(
+       
+       
+        const response:{data:ICommonAPI} = await axiosInstance.post(
             "/post/article",
             formData,
             {
@@ -133,7 +120,6 @@ function UploadArticleForm({ CloseModal }:Props,) {
             CloseModal();
             toast.success("Article Successfully Uploaded");
           }
-        }
       }
     }
   };
@@ -166,7 +152,7 @@ function UploadArticleForm({ CloseModal }:Props,) {
         </label>
         <div className="text-red-500">{errors.image}</div>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event)=>void handleSubmit(event)}>
         <TextField
           fullWidth
           id="title"

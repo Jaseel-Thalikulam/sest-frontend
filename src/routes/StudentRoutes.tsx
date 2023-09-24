@@ -17,6 +17,7 @@ const LoadingProfilePage = lazy(() => import('../common/pages/Profile/Profile'))
 function Studentroutes() {
   return (
     <Layout>
+      
       <Routes>
         <Route
           path="/"

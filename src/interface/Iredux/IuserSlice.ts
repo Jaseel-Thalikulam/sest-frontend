@@ -14,13 +14,13 @@
    createdAt:Date
 }
 
-interface URLs {
+export interface URLs {
     github?: string|null;
   linkedin?: string|null;
     pinterest?: string|null;
   }
 
-  interface Tag {
+ export interface Tag {
     _id: string;
     Name: string;
     Description: string;

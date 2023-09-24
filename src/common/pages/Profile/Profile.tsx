@@ -2,9 +2,8 @@ import * as React from "react";
 import { RootStateType } from "../../../redux/store";
 import "./scss/Profile.scss";
 import AddIcon from "@mui/icons-material/Add";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Chip } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Tab from "@mui/material/Tab";
@@ -86,9 +85,7 @@ const ProfilePage: React.FC = () => {
   const Name = toProperCase(name);
   const DateOfBirth = formatDate(DOB);
 
-  const handleGoBack = () => {
-    navigate(-1);
-  };
+  
 
   function handleAvatarSubmit() {
     const avatarUpload = document.getElementById(
@@ -159,6 +156,7 @@ const ProfilePage: React.FC = () => {
               },
               tags: userData.tags,
               avatarUrl: userData.avatarUrl,
+            
             })
           );
         }

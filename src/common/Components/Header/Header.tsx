@@ -1,4 +1,4 @@
-import {useMediaQuery, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import "./Header.scss";
 import Login from "../login/login";
 import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlice";
@@ -10,21 +10,21 @@ const Header = () => {
   const dispatch = useDispatch();
   return (
     <>
-      <div className="sticky top-0 bg-white p-4 border-b border-gray-300 flex justify-between items-center">
+      <div className=" top-0 bg-white   border-gray-300 flex justify-between items-center mr-20 ml-20">
         <div className="flex items-center">
           {/* Replace 'logo.svg' with your logo image */}
           <img src="logo.svg" alt="Logo" className="w-8 h-8" />
           {/* <span className="ml-2 text-xl font-bold">Your Brand</span> */}
         </div>
         <div className="space-x-4">
-          <a href="#" className="text-gray-600 hover:text-gray-800">
-            Contact Us
+          <a href="#" className="text-c0c0c0 font-medium text-sm m-3">
+            CONTACT US
           </a>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full"
+            className="text-c0c0c0 font-medium text-sm rounded-full "
             onClick={() => dispatch(handleLoginChangeState())}
           >
-            Login
+            LOGIN
           </button>
 
         </div>

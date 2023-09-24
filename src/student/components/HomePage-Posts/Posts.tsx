@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
-import axiosInstanceStudent from "../../interceptor/axiosInstance.Student";
+import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import { RootStateType } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import IFetchFeedPost, { Post } from "../../../interface/IPost/IFetchFeedPost";
@@ -12,6 +11,7 @@ import Stack from "@mui/material/Stack"; // Import Stack
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CommentIllustarte from "../../../../public/illustrations/undraw_opinion_re_jix4.svg";  
+import {  IPostAPI } from "../../../interface/IPost/IPostAPI";
 function Posts() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -31,23 +31,11 @@ function Posts() {
 
   useEffect(() => {
     // Simulate fetching posts from an API
-    (async function fetchPost() {
-      if (localStorage.getItem("jwt-lead")) {
-        const response: { data: IFetchFeedPost } = await axiosInstanceTutor.get(
-          "/fetchFeedPost",
-          {
-            params: {
-              userId: _id,
-            },
-          }
-        );
-
-        setPosts(response.data.FeedPost);
-
-        setIsLoading(false);
-      } else if (localStorage.getItem("jwt-learn")) {
+    void(async function fetchPost() {
+     
+  console.warn(_id,"ddddddd")
         const response: { data: IFetchFeedPost } =
-          await axiosInstanceStudent.get("/fetchFeedPost", {
+          await axiosInstance.get("/fetchFeedPost", {
             params: {
               userId: _id,
             },
@@ -55,15 +43,14 @@ function Posts() {
 
         setPosts(response.data.FeedPost);
         setIsLoading(false);
-      }
     })();
-  }, []);
+  }, [_id]);
 
   async function handleLike(postId: string) {
     const timeStamp = new Date().toISOString();
 
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.post("/post/like", {
+    
+      const response:{data:IPostAPI} = await axiosInstance.post("/post/like", {
         postId,
         timeStamp,
         userId: _id,
@@ -77,32 +64,12 @@ function Posts() {
         updatedPosts[postIndex] = {
           ...updatedPosts[postIndex],
 
-          likes: response.data.data.likes,
+          likes: response.data.Postdata.likes,
         };
 
         setPosts(updatedPosts);
       }
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.post("/post/like", {
-        postId,
-        timeStamp,
-        userId: _id,
-      });
 
-      const postIndex = posts.findIndex((post) => post._id === postId);
-
-      if (postIndex !== -1) {
-        const updatedPosts = [...posts];
-
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-
-          likes: response.data.data.likes,
-        };
-
-        setPosts(updatedPosts);
-      }
-    }
   }
 
   const handleCommentIconClick = (postId: string) => {
@@ -114,8 +81,8 @@ function Posts() {
 
   const handleCommentSubmit = async (postId: string) => {
     const timeStamp = new Date().toISOString();
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.post("/post/addComment", {
+
+      const response:{data:IPostAPI} = await axiosInstance.post("/post/addComment", {
         postId,
         userId: _id,
         content: commentText,
@@ -130,33 +97,12 @@ function Posts() {
         updatedPosts[postIndex] = {
           ...updatedPosts[postIndex],
 
-          comments: response.data.data.comments,
+          comments: response.data.Postdata.comments,
         };
 
         setPosts(updatedPosts);
       }
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.post("/post/addComment", {
-        postId,
-        userId: _id,
-        content: commentText,
-        timeStamp,
-      });
 
-      const postIndex = posts.findIndex((post) => post._id === postId);
-
-      if (postIndex !== -1) {
-        const updatedPosts = [...posts];
-
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-
-          comments: response.data.data.comments,
-        };
-
-        setPosts(updatedPosts);
-      }
-    }
   };
 
   function handleToggleOptions(commentId: string) {
@@ -165,8 +111,8 @@ function Posts() {
   }
 
   async function handleDeleteComment(commentId: string, postId: string) {
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.delete(
+    
+      const response:{data:IPostAPI} = await axiosInstance.delete(
         "/post/deletecomment",
         {
           data: {
@@ -184,39 +130,17 @@ function Posts() {
         updatedPosts[postIndex] = {
           ...updatedPosts[postIndex],
 
-          comments: response.data.data.comments,
+          comments: response.data.Postdata.comments,
         };
 
         setPosts(updatedPosts);
       }
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.delete("/post/deletecomment", {
-        data: {
-          userId: _id,
-          postId,
-          commentId,
-        },
-      });
-
-      const postIndex = posts.findIndex((post) => post._id === postId);
-
-      if (postIndex !== -1) {
-        const updatedPosts = [...posts];
-
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-
-          comments: response.data.data.comments,
-        };
-
-        setPosts(updatedPosts);
-      }
-    }
+   
   }
 
   async function handleLikeComment(commentId: string, postId: string) {
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.post("/post/likecomment", {
+    
+      const response:{data:IPostAPI} = await axiosInstance.post("/post/likecomment", {
         userId: _id,
         postId,
         commentId,
@@ -224,17 +148,8 @@ function Posts() {
 
       const updatedPosts = [...posts]; // Create a copy of the posts array
       const postIndex = posts.findIndex((post) => post._id === postId);
-      const commentIndex = updatedPosts.findIndex(
-        (post) =>
-          post &&
-          post.comments &&
-          post.comments.some((comment) => comment._id === commentId)
-      );
-      const comments = response.data.data.comments;
-
-      console.log(comments[commentIndex].likes);
-
-      // Find the post that contains the comment with the given commentId
+    
+      const comments = response.data.Postdata.comments;
 
       updatedPosts[postIndex] = {
         ...updatedPosts[postIndex],
@@ -243,33 +158,7 @@ function Posts() {
       };
 
       setPosts(updatedPosts);
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.post("/post/likecomment", {
-        userId: _id,
-        postId,
-        commentId,
-      });
-
-      const updatedPosts = [...posts]; // Create a copy of the posts array
-      const postIndex = posts.findIndex((post) => post._id === postId);
-      const commentIndex = updatedPosts.findIndex(
-        (post) =>
-          post &&
-          post.comments &&
-          post.comments.some((comment) => comment._id === commentId)
-      );
-      const comments = response.data.data.comments;
-
-      // Find the post that contains the comment with the given commentId
-
-      updatedPosts[postIndex] = {
-        ...updatedPosts[postIndex],
-
-        comments: comments,
-      };
-
-      setPosts(updatedPosts);
-    }
+   
   }
 
   const renderPost = (post: Post) => {
@@ -330,13 +219,13 @@ function Posts() {
                     xmlns="http://www.w3.org/2000/svg"
                     fill={userHasLiked ? "currentColor" : "none"}
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="w-6 h-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                     />
                   </svg>
@@ -353,7 +242,7 @@ function Posts() {
                   onClick={() => handleCommentIconClick(post._id)}
                 >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-  <path fill-rule="evenodd" d="M3.43 2.524A41.29 41.29 0 0110 2c2.236 0 4.43.18 6.57.524 1.437.231 2.43 1.49 2.43 2.902v5.148c0 1.413-.993 2.67-2.43 2.902a41.202 41.202 0 01-5.183.501.78.78 0 00-.528.224l-3.579 3.58A.75.75 0 016 17.25v-3.443a41.033 41.033 0 01-2.57-.33C1.993 13.244 1 11.986 1 10.573V5.426c0-1.413.993-2.67 2.43-2.902z" clip-rule="evenodd" />
+  <path fillRule="evenodd" d="M3.43 2.524A41.29 41.29 0 0110 2c2.236 0 4.43.18 6.57.524 1.437.231 2.43 1.49 2.43 2.902v5.148c0 1.413-.993 2.67-2.43 2.902a41.202 41.202 0 01-5.183.501.78.78 0 00-.528.224l-3.579 3.58A.75.75 0 016 17.25v-3.443a41.033 41.033 0 01-2.57-.33C1.993 13.244 1 11.986 1 10.573V5.426c0-1.413.993-2.67 2.43-2.902z" clipRule="evenodd" />
 </svg>
 
 
@@ -376,12 +265,12 @@ function Posts() {
                     size="small"
                     fullWidth
                     value={commentText}
-                    onChange={(e) => setCommentText(e.target.value)}
+                    onChange={(e) =>void setCommentText(e.target.value)}
                   />
                   <IconButton
                     aria-label="send"
                     color="primary"
-                    onClick={() => handleCommentSubmit(post._id)}
+                    onClick={() => void handleCommentSubmit(post._id)}
                   >
                     <SendIcon />
                   </IconButton>
@@ -419,7 +308,7 @@ function Posts() {
                           </div>
                           <button
                             className="text-blue-500 hover:text-blue-700 mt-2"
-                            onClick={() =>
+                            onClick={() => void
                               handleLikeComment(comment._id, post._id)
                             }
                           >
@@ -443,7 +332,7 @@ function Posts() {
                                 <div className="bg-white absolute top-0 right-10  p-2 rounded-lg shadow-lg">
                                   {/* ... Edit options based on comment.type ... */}
                                   <button
-                                    onClick={() =>
+                                    onClick={() => void
                                       handleDeleteComment(comment._id, post._id)
                                     }
                                     className="flex items-center space-x-2 text-gray-700 hover:text-red-500 mt-2"
@@ -591,13 +480,13 @@ function Posts() {
                     xmlns="http://www.w3.org/2000/svg"
                     fill={userHasLiked ? "currentColor" : "none"}
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="w-6 h-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                     />
                   </svg>
@@ -611,7 +500,7 @@ function Posts() {
                   onClick={() => handleCommentIconClick(post._id)}
                 >
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-  <path fill-rule="evenodd" d="M3.43 2.524A41.29 41.29 0 0110 2c2.236 0 4.43.18 6.57.524 1.437.231 2.43 1.49 2.43 2.902v5.148c0 1.413-.993 2.67-2.43 2.902a41.202 41.202 0 01-5.183.501.78.78 0 00-.528.224l-3.579 3.58A.75.75 0 016 17.25v-3.443a41.033 41.033 0 01-2.57-.33C1.993 13.244 1 11.986 1 10.573V5.426c0-1.413.993-2.67 2.43-2.902z" clip-rule="evenodd" />
+  <path fillRule="evenodd" d="M3.43 2.524A41.29 41.29 0 0110 2c2.236 0 4.43.18 6.57.524 1.437.231 2.43 1.49 2.43 2.902v5.148c0 1.413-.993 2.67-2.43 2.902a41.202 41.202 0 01-5.183.501.78.78 0 00-.528.224l-3.579 3.58A.75.75 0 016 17.25v-3.443a41.033 41.033 0 01-2.57-.33C1.993 13.244 1 11.986 1 10.573V5.426c0-1.413.993-2.67 2.43-2.902z" clipRule="evenodd" />
 </svg>
                 </IconButton>
                 <span className="text-xs text-gray-500 ml-1">
@@ -634,12 +523,12 @@ function Posts() {
                     size="small"
                     fullWidth
                     value={commentText}
-                    onChange={(e) => setCommentText(e.target.value)}
+                    onChange={(e) => void setCommentText(e.target.value)}
                   />
                   <IconButton
                     aria-label="send"
                     color="primary"
-                    onClick={() => handleCommentSubmit(post._id)}
+                    onClick={() => void handleCommentSubmit(post._id)}
                   >
                     <SendIcon />
                   </IconButton>
@@ -676,7 +565,7 @@ function Posts() {
                           </div>
                           <button
                             className="text-blue-500 hover:text-blue-700 mt-2"
-                            onClick={() =>
+                            onClick={() => void
                               handleLikeComment(comment._id, post._id)
                             }
                           >

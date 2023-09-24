@@ -8,9 +8,7 @@ import AddCategoryForm from '../../form/AddCategory/AddCategoryForm';
 import Loading from '../../../../common/Components/loadingComponent/Loading';
 import ICategorydata from '../../../../interface/Icategory/IcategoryData';
 import ICategoryResponse from '../../../../interface/Icategory/IcategoryResponse';
-import EditCategoryModal from '../../modal/EditCategoryModal';
-import EditCategoryForm from '../../form/EditCategory/EditCategoryForm';
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const CategoryManagemnetTable = () => {
   const [modalstate, setModal] = useState<boolean>(false);
@@ -44,7 +42,7 @@ const CategoryManagemnetTable = () => {
     }
   }
 
-  async function handleEditButtonClick(categorydata: object) {
+   function handleEditButtonClick(categorydata: ICategorydata) {
     if ('_id' in categorydata) {
       const id = categorydata._id;
       const selectedCategory = categories.find((category) => category._id === id);
@@ -176,9 +174,6 @@ const CategoryManagemnetTable = () => {
       <AddCategoryModal data={"Add Category"} isOpen={modalstate} CloseModal={handleModalOpenClose}>
         <AddCategoryForm />
       </AddCategoryModal>
-      <EditCategoryModal data='Edit Category' isOpen={editmodalstate} CloseModal={handleditModalOpenClose}>
-        <EditCategoryForm selectedCategory={selectedCategory} setCategory={setCategories} categories={categories} CloseModal={handleditModalOpenClose} />
-      </EditCategoryModal>
       <ToastContainer />
     </>
   );

@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import "./NavBar.scss";
 import { IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstanceStudent from "../../../student/interceptor/axiosInstance.Student";
-import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
+import {axiosInstance} from "../../interceptor/axiosInstance";
 import { Chip } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
-import IUserSlice from "../../../interface/Iredux/IuserSlice";
+import { ISearchAPI, ISearchData } from "../../../interface/IsearchAPi/ISearchAPI";
 function  NavBar() {
   const navigate = useNavigate();
   const [searchInput, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("Tutor");
   const [showOptions, setShowOptions] = useState(false);
-  const [searchResults, setSearchResults] = useState<IUserSlice[]>([]);
+  const [searchResults, setSearchResults] = useState<ISearchData[]>([]);
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
   const publicmethod = new PublicMethods();
@@ -42,24 +41,15 @@ function  NavBar() {
   async function handleSearch(searchQuery: string) {
     setSearchQuery(searchQuery);
 
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.get("/search", {
+      const response:{data:ISearchAPI} = await axiosInstance.get("/search", {
         params: {
           searchInput: searchQuery,
           option: selectedOption,
         },
       });
 
-      setSearchResults(response.data.data);
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.get("/search", {
-        params: {
-          searchInput: searchQuery,
-          option: selectedOption,
-        },
-      });
-      setSearchResults(response.data.data);
-    }
+      setSearchResults(response.data.Data);
+   
   }
 
   return (
@@ -85,9 +75,9 @@ function  NavBar() {
                       className="w-6 h-6"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   </IconButton>
@@ -96,12 +86,12 @@ function  NavBar() {
                     className="bg-white outline-none text-gray-500 flex-grow rounded-xl  hover:bg-gray-200"
                     placeholder="Search..."
                     value={searchInput}
-                    onChange={(e) => handleSearch(e.target.value)}
+                    onChange={(e) => void handleSearch(e.target.value)}
                   />
                   <div className="relative">
                     <button
-                      onClick={() => handleToggleOptions()}
-                      onChange={() => handleSearch(searchInput)}
+                      onClick={() =>void handleToggleOptions()}
+                      onChange={() =>void handleSearch(searchInput)}
                       className={`ml-2 text-gray-600 p-2 rounded-full hover:bg-gray-300 hover:text-gray-700 options-container`}
                     >
                       {selectedOption}
@@ -206,7 +196,7 @@ function  NavBar() {
 
                 {searchInput && searchResults.length > 0 && (
                   <div className="absolute left-35 w-56 top-20 mt-2 p-2 bg-white border border-gray-300 rounded-lg shadow-lg">
-                    {searchResults.map((result: IUserSlice, index) => (
+                    {searchResults.map((result: ISearchData, index) => (
                       <div key={index} className="p-2 hover:bg-gray-200">
                    <Link to={`user/${result._id}`} className="flex items-center space-x-2">
                         <div className="flex items-center">

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axiosInstanceTutor from '../../../tutor/interceptor/axiosInstanceTutor';
 import { IVideo } from '../../../interface/IVideo/IVideo';
-import axiosInstanceStudent from '../../../student/interceptor/axiosInstance.Student';
+import {axiosInstance} from '../../interceptor/axiosInstance';
 import VideoPlayer from '../../Components/videoPlayer/VideoPlayer';
 
 import { ICourse } from '../../../interface/ICourse/Icourse';
+import { ICourseAPI } from '../../../interface/ICourse/ICourseAPI';
+import { IVideoAPI } from '../../../interface/ICourse/IVideoAPI';
 function VideoPlayerPage() {
   const { videoId, courseId } = useParams();
   const [video, setVideo] = useState<IVideo | null>(null);
@@ -14,10 +15,10 @@ function VideoPlayerPage() {
 
   useEffect(() => {
     // Fetch video data
-    async function getVideoData() {
-      if (localStorage.getItem('jwt-lead')) {
+    void(async function getVideoData() {
+
         try {
-          const response = await axiosInstanceTutor.get('/getvideoData', {
+          const response :{data:IVideoAPI}= await axiosInstance.get('/getvideoData', {
             params: {
               videoId: videoId,
             },
@@ -29,51 +30,30 @@ function VideoPlayerPage() {
         } catch (error) {
           console.error(error);
         }
-      } else if (localStorage.getItem('jwt-learn')) {
-        try {
-          const response = await axiosInstanceStudent.get('/getvideoData', {
-            params: {
-              videoId: videoId,
-            },
-          });
+      
+    })()
 
-          if (response.data.success) {
-            setVideo(response.data.videoData);
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
-
-    getVideoData();
+    
   }, [videoId]);
 
   useEffect(() => {
     // Fetch course details and videos
-    async function getCourseDetail() {
+ void(   async function getCourseDetail() {
       try {
-        let response;
-        if (localStorage.getItem('jwt-lead')) {
-          response = await axiosInstanceTutor.get('/getCourseDetail', {
-            params: {
-              CourseId: courseId,
-            },
-          });
-        } else if (localStorage.getItem('jwt-learn')) {
-          response = await axiosInstanceStudent.get('/getCourseDetail', {
+      
+       
+        const response:{data:ICourseAPI} = await axiosInstance.get('/getCourseDetail', {
             params: { CourseId: courseId },
           });
-        }
-        const courseData: ICourse = response!.data.CourseData;
+        
+        const courseData: ICourse = response.data.CourseData;
         setVideos(courseData.videos || []);
         setCourseTitle(courseData.Title || null);
       } catch (error) {
         console.error('Error fetching course data:', error);
       }
-    }
+    })()
 
-    getCourseDetail();
   }, [courseId]);
 
 

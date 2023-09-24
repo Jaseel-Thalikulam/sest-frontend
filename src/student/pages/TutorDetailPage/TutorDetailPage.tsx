@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import axiosInstanceStudent from "../../interceptor/axiosInstance.Student";
+import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import IUserSlice from "../../../interface/Iredux/IuserSlice";
 import IFetchTutorResponse from "../../../interface/TutorDetailPage/fetchTutor.Interface";
 import { useSelector } from "react-redux";
@@ -14,12 +14,13 @@ import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
 import IFollowIndicator from "../../../interface/relationship/IfollowIndicator";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
-import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
 import StripPaymentModal from "../../../common/Components/stripePayment/StripPaymentModal";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import StripPayment from "../../../common/Components/stripePayment/StripPayement";
 import { ICourse } from "../../../interface/ICourse/Icourse";
+import { ISubscriptionDetail } from "../../../interface/ISubscription/ISubscriptionDetail";
+import { IgetTutorCourses } from "../../../interface/ICourse/IgetTutorCourses";
 const PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string;
 const stripePromise = loadStripe(PUBLISHABLE_KEY);
 function TutorDetailPage() {
@@ -31,7 +32,7 @@ function TutorDetailPage() {
   const [isStripOpen, setStripeModal] = useState(false);
   const [isFollowing, setfollowindicator] = useState(false);
   const [profileDataId, setprofileDataId] = useState("");
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState<ICourse[]>([]);
   const [amount, setSelectedAmount] = useState(0);
   const data = useSelector((state: RootStateType) => state.user);
 
@@ -39,14 +40,14 @@ function TutorDetailPage() {
 
   const publicmethod = new PublicMethods();
 
-  async function handlestripModal(amount:number) {
+   function handlestripModal(amount:number) {
     setSelectedAmount(amount)
     setStripeModal(!isStripOpen);
     
   }
   
   
-  async function handlesetSubscribed() {
+   function handlesetSubscribed() {
     setSubscribed(true)
     setStripeModal(!isStripOpen);
     
@@ -55,8 +56,8 @@ function TutorDetailPage() {
 
   async function handleFollowButton(followedBy: string, following: string) {
     if (followedBy && following) {
-      if (localStorage.getItem("jwt-learn")) {
-        const response: { data: ICommonAPI } = await axiosInstanceStudent.post(
+      
+        const response: { data: ICommonAPI } = await axiosInstance.post(
           "/follow",
           {
             followedBy,
@@ -66,41 +67,20 @@ function TutorDetailPage() {
 
         if (response.data.success) {
           setfollowindicator(!isFollowing);
-        } else {
-        }
-      } else if (localStorage.getItem("jwt-lead")) {
-        const response: { data: ICommonAPI } = await axiosInstanceTutor.post(
-          "/follow",
-          {
-            followedBy,
-            following,
-          }
-        );
-
-        if (response.data.success) {
-          setfollowindicator(!isFollowing);
-        } else {
-        }
-      }
+        } 
+   
     }
   }
 
   async function handleChatUI() {
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.post("/chat/access", {
+
+      await axiosInstance.post("/chat/access", {
         senderId: _id,
         receiverId: profileData?._id,
       });
 
       setChatUI(!chatUI);
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.post("/chat/access", {
-        senderId: _id,
-        receiverId: profileData?._id,
-      });
-
-      setChatUI(!chatUI);
-    }
+    
   }
 
   function handleSubscription() {
@@ -109,36 +89,21 @@ function TutorDetailPage() {
 
   useEffect(() => {
     if (profileDataId) {
-      (async function handlefollowindictaor() {
-        if (localStorage.getItem("jwt-learn")) {
+      void(async function handlefollowindictaor() {
+      
           const response: { data: IFollowIndicator } =
-            await axiosInstanceStudent.get("/followindicator", {
+            await axiosInstance.get("/followindicator", {
               params: {
                 followedBy: _id,
                 following: profileDataId,
               },
             });
-          const { isFollowing, message, success } = response.data;
+          const { isFollowing, success } = response.data;
 
           if (success) {
             setfollowindicator(isFollowing);
-          } else {
-          }
-        } else if (localStorage.getItem("jwt-lead")) {
-          const response: { data: IFollowIndicator } =
-            await axiosInstanceTutor.get("/followindicator", {
-              params: {
-                followedBy: _id,
-                following: profileDataId,
-              },
-            });
-          const { isFollowing, message, success } = response.data;
-
-          if (success) {
-            setfollowindicator(isFollowing);
-          } else {
-          }
-        }
+          } 
+ 
       })();
     }
   }, [profileDataId]);
@@ -146,9 +111,9 @@ function TutorDetailPage() {
   useEffect(() => {
     const fetchTutor = async () => {
       try {
-        if (localStorage.getItem("jwt-learn")) {
+        
           const response: { data: IFetchTutorResponse } =
-            await axiosInstanceStudent.post("/userdata", {
+            await axiosInstance.post("/userdata", {
               userId,
             });
 
@@ -158,7 +123,7 @@ function TutorDetailPage() {
           setprofileDataId(tutordata._id);
 
 
-          const subscriptionresponse =  await axiosInstanceStudent.get('/getSubscriptionDetails', {
+          const subscriptionresponse:{data:ISubscriptionDetail} =  await axiosInstance.get('/getSubscriptionDetails', {
             params: {
               TutorId: tutordata._id,
               StudentId:_id
@@ -167,7 +132,7 @@ function TutorDetailPage() {
 
           setSubscribed(subscriptionresponse.data.success)
           
-          const tutorCourses = await axiosInstanceStudent.get("/gettutorcourses", {
+          const tutorCourses:{data:IgetTutorCourses} = await axiosInstance.get("/gettutorcourses", {
             params: {
               tutorId: tutordata._id,
             },
@@ -177,38 +142,7 @@ function TutorDetailPage() {
       setCourses(tutorCourses.data.Corusedata);
 
 
-        } else if (localStorage.getItem("jwt-lead")) {
-     
-
-          const response: { data: IFetchTutorResponse } =
-            await axiosInstanceTutor.post("/userdata", {
-              userId,
-            });
-
-          const tutordata = response.data.Tutorsdata;
-
-          setProfileData(tutordata);
-          setprofileDataId(tutordata._id);
-          
-        const subscriptionresponse =  await axiosInstanceTutor.get('/getSubscriptionDetails', {
-            params: {
-              TutorId: tutordata._id,
-              StudentId:_id
-            }
-        })
-          
-          
-          setSubscribed(subscriptionresponse.data.success)
-          
-          const tutorCourses = await axiosInstanceTutor.get("/gettutorcourses", {
-            params: {
-              tutorId: tutordata._id,
-            },
-          });
-
-
-      setCourses(tutorCourses.data.Corusedata);
-        }
+   ``
       } catch (error) {
         console.error("Error fetching tutor data:", error);
       }
@@ -281,7 +215,7 @@ function TutorDetailPage() {
                   <Button
                     variant="outlined"
                     className=" border-gray-500 text-gray-500 font-semibold py-2 px-4 rounded-full hover:bg-gray-200"
-                    onClick={handleChatUI}
+                    onClick={void handleChatUI}
                   >
                     Contact Me
                   </Button>

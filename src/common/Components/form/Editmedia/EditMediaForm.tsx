@@ -3,9 +3,10 @@ import { Button, IconButton } from "@mui/material";
 import { CloudUpload, Delete } from "@mui/icons-material";
 import { RootStateType } from "../../../../redux/store";
 import { useSelector } from "react-redux";
-import axiosInstanceTutor from "../../../../tutor/interceptor/axiosInstanceTutor";
+import { axiosInstance } from "../../../interceptor/axiosInstance";
 import { toast } from "react-toastify";
 import { Post } from "../../../../interface/IPost/IFetchFeedPost";
+import { IPostAPI } from "../../../../interface/IPost/IPostAPI";
 
 type CloseModalFunction = () => void;
 
@@ -19,7 +20,6 @@ interface Props {
 function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
   const [mediaFiles, setMediaFiles] = useState<string | File>(""); // Initialize with string for the existing image URL
   const [caption, setCaption] = useState(selectedPost.mediaCaption); // Initialize with the existing caption
-  const MAX_FILES = 1; // Accept only one image
   const [mediaFilesError, setMediaFilesError] = useState("");
   const [captionError, setCaptionError] = useState("");
   const data = useSelector((state: RootStateType) => state.user);
@@ -89,14 +89,14 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
       
     
   
-    const response = await axiosInstanceTutor.post("/post/editmedia", formData, {
+    const response :{data:IPostAPI}= await axiosInstance.post("/post/editmedia", formData, {
       headers: {
         "Content-Type": "multipart/form-data", // Important for sending files
       },
     });
 
     if (response.data.success) {
-      const postIndex = posts.findIndex((post) => post._id === response.data.data._id);
+      const postIndex = posts.findIndex((post) => post._id === response.data.Postdata._id);
       console.log(postIndex)
       if (postIndex !== -1) {
         const updatedPosts = [...posts];
@@ -104,8 +104,8 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
         updatedPosts[postIndex] = {
           ...updatedPosts[postIndex],
 
-          mediaThumbnailURL: response.data.data.mediaThumbnailURL,
-          mediaCaption: response.data.data.mediaCaption,
+          mediaThumbnailURL: response.data.Postdata.mediaThumbnailURL,
+          mediaCaption: response.data.Postdata.mediaCaption,
         };
 
         setPost(updatedPosts);
@@ -122,7 +122,7 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
 
   return (
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto p-8">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event)=>void handleSubmit(event)}>
         <div className="mb-4">
           {mediaFiles && (
             <div className="flex mb-4">

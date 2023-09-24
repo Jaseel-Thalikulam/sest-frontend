@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar'; // Import Avatar component
-import axiosInstanceStudent from '../../../student/interceptor/axiosInstance.Student';
+import {axiosInstance} from '../../interceptor/axiosInstance';
 import IUserSlice from '../../../interface/Iredux/IuserSlice';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../redux/store';
 import PublicMethods from '../../../Methods/PublicMethods';
-import axiosInstanceTutor from '../../../tutor/interceptor/axiosInstanceTutor';
+import IFollowAPI from '../../../interface/relationship/IFollowAPI';
+
 
 
 function Connections() {
@@ -18,18 +19,18 @@ function Connections() {
   const data = useSelector((state: RootStateType) => state.user);
     const { _id } = data;
     const publicmethods = new PublicMethods()
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (event, newValue:number) => {
     setSelectedTab(newValue);
   };
 
-  const [Followers, setFollowers] = useState([]);
-  const [Followings, setFollowings] = useState([]);
+  const [Followers, setFollowers] = useState<IUserSlice[]>([]);
+  const [Followings, setFollowings] = useState<IUserSlice[]>([]);
 
   useEffect(() => {
-    async function getFollowers() {
+void(async function getFollowers() {
       try {
-        if (localStorage.getItem('jwt-learn')) {
-          const response = await axiosInstanceStudent.get('/getfollowers', {
+        
+          const response:{data:IFollowAPI} = await axiosInstance.get('/getfollowers', {
             params: {
               userId: _id,
             },
@@ -39,28 +40,17 @@ function Connections() {
             setFollowers(response.data.followers);
             setFollowings(response.data.follwingUsers);
           }
-        } else if (localStorage.getItem('jwt-lead')) {
-            const response = await axiosInstanceTutor.get('/getfollowers', {
-                params: {
-                  userId: _id,
-                },
-              });
-    
-              if (response.data.success) {
-                setFollowers(response.data.followers);
-                setFollowings(response.data.follwingUsers);
-              }
-        }
+       
       } catch (error) {
         console.error('Error fetching followers:', error);
       }
-    }
+    })()
 
-    getFollowers(); // Call the async function
+   
   }, [_id]);
 
-  const usersData = selectedTab === 0 ? Followers : Followings;
-  const tabLabel = selectedTab === 0 ? 'Followers' : 'Followings';
+  const usersData = selectedTab === 0 ? Followers : Followings
+  // const tabLabel = selectedTab === 0 ? 'Followers' : 'Followings';
 
   return (
     <Box>

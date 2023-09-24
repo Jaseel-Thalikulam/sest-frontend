@@ -5,23 +5,23 @@ import Posts from '../../components/HomePage-Posts/Posts';
 import { Button } from '@mui/material';
 import { Videocam,Description } from '@mui/icons-material';
 import { useState } from 'react';
-import UploadArticleModal from '../../../tutor/components/Article/UploadArticleModal';
-import UploadArticleForm from '../../../tutor/components/Article/UploadArticleForm';
+import UploadArticleModal from '../../../tutor/components/Article/uploadArticleModal';
+import UploadArticleForm from '../../../tutor/components/Article/uploadArticleForm';
 import { ToastContainer } from "react-toastify";
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import "react-toastify/dist/ReactToastify.css";
 import { Jitsihelper } from '../../../common/Helper/JistiMeetHelper';
 import PublicMethods from '../../../Methods/PublicMethods';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../redux/store';
-
+import { AxiosInstanceComponent } from '../../../common/interceptor/axiosInstance';
 const LearnHomePage = () => {
   const data = useSelector((state: RootStateType) => state.user);
 const navigate = useNavigate()
   const publicmethod =  new PublicMethods()
   const jitsi = new Jitsihelper()
   const [isArticleModalOpen, setArticleModal] = useState(false);
-  async function handelArticleButtonClick() {
+   function handelArticleButtonClick() {
     setArticleModal(!isArticleModalOpen);
   }
   
@@ -29,7 +29,7 @@ const navigate = useNavigate()
     
    const meetId: string = publicmethod.generateRandomString(10)
 
-   const token :string= await jitsi.getToken(meetId,data)
+   const token :string= await jitsi.getToken(data)
 
    navigate(`/learn/meet/${meetId}/${token}`)
 
@@ -88,13 +88,13 @@ const navigate = useNavigate()
     </div>
     <UploadArticleModal
         isOpen={isArticleModalOpen}
-        CloseModal={handelArticleButtonClick}
+        CloseModal={()=>void handelArticleButtonClick()}
         data="Author Your Content"
       >
-        <UploadArticleForm CloseModal={handelArticleButtonClick} />
+        <UploadArticleForm CloseModal={()=>void handelArticleButtonClick()} />
       </UploadArticleModal>
       <ToastContainer/>
-
+<AxiosInstanceComponent/>
                         </>
   );
 };

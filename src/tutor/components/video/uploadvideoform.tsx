@@ -1,17 +1,19 @@
 import React, { useCallback, useState } from 'react';
 import { CloudUpload } from '@mui/icons-material';
-import ProgressBar from '@ramonak/react-progress-bar';
 import { useDropzone } from 'react-dropzone';
 import classnames from 'classnames';
-import axiosInstanceTutor from '../../interceptor/axiosInstanceTutor';
+import { axiosInstance } from '../../../common/interceptor/axiosInstance';
 import { TextField, Typography, Button } from '@mui/material';
 import { RootStateType } from '../../../redux/store';
 import { useSelector } from 'react-redux';
 import { IVideo } from '../../../interface/IVideo/IVideo';
+import { ChangeEvent } from 'react';
+import { IUploadVideo } from '../../../interface/IVideo/IUploadVideo';
 
 type FileUploadState = {
   videoFile: File | null;
   thumbnailFile: File | null;
+  percentCompleted:number
 };
 
 type Prop = {
@@ -25,7 +27,6 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
   const { _id } = data;
 
   const [fileUpload, setFileUpload] = useState<FileUploadState | null>(null);
-  const [showprogress, setProgress] = useState(false);
   const [title, setTitle] = useState('');
   const [errors, setErrors] = useState<{ title: string; videoFile: string; thumbnailFile: string }>({
     title: '',
@@ -33,7 +34,7 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
     thumbnailFile: '',
   });
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
@@ -97,24 +98,19 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
       formData.append('courseId', courseId);
       formData.append('userId', _id);
 
-   const response =   await axiosInstanceTutor
+   const response:{data:IUploadVideo} =   await axiosInstance
         .post(`/upload/video`, formData, {
           headers: {
             "Content-Type": "multipart/form-data" 
           },
-          onUploadProgress: (p) => {
-            const percentCompleted = Math.round((p.loaded * 100) / p.total);
-            setFileUpload({ ...fileUpload, percentCompleted });
-            setProgress(true);
-            console.log(`${percentCompleted}% Uploaded`);
-          },
+
         })
       
       // console.log(response)
       
       if (response.data.success) {
         void handlecloseModal()
-console.log(response.data)
+
         videos.push(response.data.videoData)
         // videos
       } else {
@@ -200,18 +196,9 @@ console.log(response.data)
           </Typography>
         )}
       </section>
-      {showprogress && (
-        <div className="mt-10 bg-blue-100">
-          <div className="flex">
-            <div className="w-full">
-              <p className="mb-4">{fileUpload.videoFile.name} </p>
-              <ProgressBar completed={fileUpload.percentCompleted} bgColor="#0766ea" />
-            </div>
-          </div>
-        </div>
-      )}
+    
       <div className="form-button">
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
+        <Button variant="contained" color="primary" onClick={()=> void handleSubmit()}>
           Upload
         </Button>
       </div>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Typography, Avatar, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +42,7 @@ function ProfileMenu() {
     }
   };
 
-  const showMyPosts = localStorage.getItem('jwt-lead');
+
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">

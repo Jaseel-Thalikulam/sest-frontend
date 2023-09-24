@@ -50,7 +50,7 @@ const JitsiMeet = () => {
           email: email,
         }}
         getIFrameRef={(iframeRef) => {
-          iframeRef.style.height = "800px";
+          iframeRef.style.height = "88vh";
         }}/>
       
 

@@ -35,7 +35,7 @@ const RegisterForm = () => {
     width: '100%',
     maxWidth: 450,
     borderRadius: 20,
-    backgroundColor: '#8080D7'
+   
   }
 
   const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
@@ -224,20 +224,20 @@ const RegisterForm = () => {
               <Field as={TextField} name='name' label='Name' fullWidth
                 error={props.errors.name && props.touched.name}
                 helperText={<ErrorMessage name='name' />}
-                required InputLabelProps={{ style: { color: '#fff' } }} />
+                required InputLabelProps={{ style: { color: '' } }} />
 
 
               <Field as={TextField} name='email' label='Email' fullWidth
                 error={props.errors.email && props.touched.email}
-                helperText={<ErrorMessage name='email' />} required InputLabelProps={{ style: { color: '#fff' } }} />
+                helperText={<ErrorMessage name='email' />} required InputLabelProps={{ style: { color: '' } }} />
               
               <Field as={TextField} name='password' label='Password' type='password' fullWidth
                 error={props.errors.password && props.touched.password}
-                helperText={<ErrorMessage name='password' />} required InputLabelProps={{ style: { color: '#fff' } }} />
+                helperText={<ErrorMessage name='password' />} required InputLabelProps={{ style: { color: '' } }} />
 
 
               <Button type='submit' onClick={() =>void DataSubmit(props.values.name, props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
-                color='primary'>Register</Button>
+                className='bg-blue-600'>Register</Button>
               
              
 

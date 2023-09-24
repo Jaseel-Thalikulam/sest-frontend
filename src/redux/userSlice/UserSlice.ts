@@ -16,7 +16,8 @@ const INITIAL_STATE: IUserSlice = {
   },
   tags: [],
   isBanned:true,
-  avatarUrl:''
+  avatarUrl: '',
+  
 }
 
 const UserSlice = createSlice({

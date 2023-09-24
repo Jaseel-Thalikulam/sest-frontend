@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useElements, useStripe, CardElement } from '@stripe/react-stripe-js';
-import axiosInstanceTutor from '../../../tutor/interceptor/axiosInstanceTutor';
-import axiosInstanceStudent from '../../../student/interceptor/axiosInstance.Student';
+import {axiosInstance} from '../../interceptor/axiosInstance';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../redux/store';
 import TextField from '@mui/material/TextField'; // Import MUI TextField
-import Button from '@mui/material/Button'; // Import MUI Button
 import PublicMethods from '../../../Methods/PublicMethods';
 import Paymentfailed from '../../../../public/illustrations/undraw_warning_re_eoyh.svg'
 import SuccessFullySubscribed from '../../../../public/illustrations/undraw_completing_re_i7ap.svg'
 import creditCardPayment from '../../../../public/illustrations/undraw_credit_card_payments_re_qboh.svg'
+import { ISubscriptionPayment } from '../../../interface/ISubscription/ISubscriptionPayment';
+import ICommonAPI from '../../../interface/IcommonAPI/IcommonAPI';
 
 interface IProp {
   amount: number;
@@ -49,26 +49,13 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
 
   const handlePay = async () => {
     if (!isEmailValid) {
-      // If the email is not valid, prevent payment and show an error message
+
       console.error('Invalid email address');
       return;
     }
 
-    if (localStorage.getItem('jwt-lead')) {
-      const response = await axiosInstanceTutor.post('/Subscription/Payment', {
-        amount: amount * 100,
-        email: paymentEmail,
-        StudentId: _id,
-        TutorId
-      });
 
-      if (response.data.success) {
-        setClientSecret(response.data.client_secret);
-      } else {
-        console.error(response);
-      }
-    } else if (localStorage.getItem('jwt-learn')) {
-      const response = await axiosInstanceStudent.post('/Subscription/Payment', {
+      const response:{ data:ISubscriptionPayment} = await axiosInstance.post('/Subscription/Payment', {
         amount: amount * 100,
         email: paymentEmail,
         StudentId: _id,
@@ -79,7 +66,7 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
       } else {
         console.error(response);
       }
-    }
+    
 
     const cardElement = elements!.getElement(CardElement);
 
@@ -97,8 +84,8 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
 
       if (confirmCardPayment?.paymentIntent?.status === 'succeeded') {
 
-        if (localStorage.getItem('jwt-lead')) {
-          const response = await axiosInstanceTutor.post('/addSubscription', {
+        
+          const response:{data:ICommonAPI} = await axiosInstance.post('/addSubscription', {
             StudentId: _id,
             amount,
             TutorId
@@ -107,17 +94,7 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
             handlesetSubscribed();
             setStatus('success');
           }
-        } else if (localStorage.getItem('jwt-learn')) {
-          const response = await axiosInstanceStudent.post('/addSubscription', {
-            StudentId: _id,
-            amount,
-            TutorId
-          });
-          if (response.data.success) {
-            handlesetSubscribed();
-            setStatus('success');
-          }
-        }
+        
       } else {
         setStatus('rejected');
       }
@@ -168,7 +145,7 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
         </div>
       ) : (
         // Render the Pay button when status is 'pending'
-        <button onClick={handlePay}>
+        <button onClick={()=>void handlePay()}>
           Pay {publicMethod.formatRupees(amount)}
         </button>
       )}

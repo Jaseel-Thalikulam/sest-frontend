@@ -1,19 +1,15 @@
   import { useEffect, useState } from 'react';
   import { Avatar, Typography } from '@mui/material';
   import { Link } from 'react-router-dom';
-  import axiosInstanceStudent from '../../interceptor/axiosInstance.Student';
+  import {axiosInstance} from '../../../common/interceptor/axiosInstance';
   import defaultAvatar from '../../../../public/defaultAvatar/defaultavatar.png';
   import IUserSlice from '../../../interface/Iredux/IuserSlice';
   import IFetchTutorsResponse from '../../../interface/TutorDetailPage/fetchTutors.interface';
-  import axiosInstanceTutor from '../../../tutor/interceptor/axiosInstanceTutor';
-  import { RootStateType } from '../../../redux/store';
-  import { useSelector } from 'react-redux';
   import PublicMethods from '../../../Methods/PublicMethods';
   function TutorList() {
     const [tutors, setTutors] = useState<IUserSlice[]>([]);
     const [loading, setLoading] = useState(true); // Add loading state
-    const data = useSelector((state: RootStateType) => state.user);
-    const { _id } = data;
+   
     const publicmethods = new PublicMethods()
   
 
@@ -22,9 +18,9 @@
     useEffect(() => {
       const fetchTutorList = async () => {
         try {
-          if (localStorage.getItem('jwt-learn')) {
+          
             
-            const response: { data: IFetchTutorsResponse } = await axiosInstanceStudent.get('/tutorlist');
+            const response: { data: IFetchTutorsResponse } = await axiosInstance.get('/tutorlist');
             if (response.data.success) {
               
               const tutordata = response.data.Tutorsdata;
@@ -35,21 +31,7 @@
             } else {
               alert (response.data.message)
             }
-          } else if (localStorage.getItem('jwt-lead')) {
-                
-            const response: { data: IFetchTutorsResponse } = await axiosInstanceTutor.get('/tutorlist');
-            if (response.data.success) {
-              
-              const tutordata = response.data.Tutorsdata;
-              const filteredTutorData = tutordata.filter((tutor) => tutor._id !== _id);
-              
-              setTutors(filteredTutorData);
-
-              setLoading(false); // Set loading to false after fetching data
-            } else {
-              alert (response.data.message)
-            }
-          }
+          
         } catch (error) {
           console.error('Error fetching users:', error);
         }

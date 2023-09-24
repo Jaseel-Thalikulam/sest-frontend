@@ -8,7 +8,6 @@ import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
 import { useEffect, useState } from "react";
 import { WebSocketProvider, socket } from "../../../contexts/WebSocket";
-import SelectaChatIllustartion from "../../../../public/illustrations/undraw_personal_opinions_re_qw29.svg";
 function MessagingUI() {
   const data = useSelector((state: RootStateType) => state.user);
   const publicmethod = new PublicMethods();

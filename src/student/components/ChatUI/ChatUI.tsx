@@ -1,21 +1,19 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { Avatar, Button, IconButton } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import "./ChatUI.scss";
 import IChatUI from "../../../interface/IchatUI/IchatUI";
-import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
-import axiosInstanceStudent from "../../interceptor/axiosInstance.Student";
+import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import { RootStateType } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import InewMessage from "../../../interface/IMessage/InewMessage";
+import IMessage from "../../../interface/IMessage/IMessage";
 import { WebSocketContext } from "../../../contexts/WebSocket";
-import Imessage from "../../../interface/IMessage/Imessage";
-import SendIcon from "@mui/icons-material/Send";
 import { format } from "date-fns";
+import { IFetchMessagesAPI } from "../../../interface/IMessage/IfetchmessagesAPI";
 
 function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
   const currentUser = useSelector((state: RootStateType) => state.user);
   const currentUserId = currentUser._id;
-  const [messages, setMessages] = useState<InewMessage[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
@@ -26,13 +24,13 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
       console.log("Connected");
     });
 
-    socket.on(chatId, (data) => {
-      const { content, senderId, timeStamp }: Imessage = data;
+    socket.on(chatId, (data:IMessage) => {
+      const { content, senderId, timeStamp }: IMessage = data;
 
       // Create a new message object
-      const newMessage: InewMessage = {
+      const newMessage: IMessage = {
         content: content,
-        sender: senderId,
+        senderId: senderId,
         status: "read",
         timeStamp: timeStamp,
       };
@@ -54,18 +52,18 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
       socket.off("connect");
       socket.off(chatId);
     };
-  }, []);
+  }, [chatId,socket]);
 
   function handleOnchangemessage(value: string) {
     setNewMessage(value);
   }
-  const handleSendMessage = async () => {
+  const handleSendMessage =  () => {
     if (newMessage.trim() === "") return;
 
     socket.emit("message", {
       ChatId: chatId,
       Content: newMessage,
-      SenderId: currentUserId,
+      senderIdId: currentUserId,
       timeStamp: new Date().toISOString(),
     });
   };
@@ -77,9 +75,9 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
     }
   }, []);
   useEffect(() => {
-    (async function fetchAllMessage() {
-      if (localStorage.getItem("jwt-lead")) {
-        const response: { data } = await axiosInstanceTutor.get(
+    void(async function fetchAllMessage() {
+      
+        const response: { data:IFetchMessagesAPI } = await axiosInstance.get(
           "/chat/fetchAllMessage",
           {
             params: {
@@ -88,22 +86,9 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
           }
         );
 
-        const Messages = response.data.data;
-
-        setMessages(Messages);
-      } else if (localStorage.getItem("jwt-learn")) {
-        const response: { data } = await axiosInstanceStudent.get(
-          "/chat/fetchAllMessage",
-          {
-            params: {
-              ChatId: chatId,
-            },
-          }
-        );
-
-        const Messages = response.data.data;
-        setMessages(Messages);
-      }
+        
+        setMessages(response.data.data);
+      
     })();
   }, [chatId]);
 
@@ -125,14 +110,14 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
         </div>
         <div className="chatMessagesWrapper" ref={messagesContainerRef}>
           <div className="chatMessages">
-            {messages.map((message: InewMessage, index: number) => (
+            {messages.map((message: IMessage, index: number) => (
               <div
                 key={index}
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems:
-                    message.sender == currentUser._id
+                    message.senderId == currentUser._id
                       ? "flex-end"
                       : "flex-start",
                   marginBottom: "10px",
@@ -143,12 +128,12 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                     display: "flex",
                     maxWidth: "70%",
                     alignSelf:
-                      message.sender == currentUser._id
+                      message.senderId == currentUser._id
                         ? "flex-end"
                         : "flex-start",
                   }}
                 >
-                  {/* {message.sender[0] !== currentUser._id  && (
+                  {/* {message.senderId[0] !== currentUser._id  && (
                   <Avatar
                     alt="Recipient"
                     src={recipientAvatarUrl}
@@ -165,17 +150,17 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      color:  message.sender == currentUser._id
+                      color:  message.senderId == currentUser._id
                       ? "#fff"
                       : "#000",
 
                       backgroundColor:
-                        message.sender == currentUser._id
+                        message.senderId == currentUser._id
                           ? "#6C63FF"
                           : "#EDEDED ",
                       padding: "10px",
                       borderRadius:
-                        message.sender == currentUser._id
+                        message.senderId == currentUser._id
                           ? "15px 0px 15px 15px"
                           : "0px 15px 15px 15px", // Border radius for message containers
                     }}
@@ -190,7 +175,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                         marginTop: "4px",
                       }}
                     >
-                      {/* { message.sender[0] === currentUser._id && (
+                      {/* { message.senderId[0] === currentUser._id && (
                       <span
                         style={{
                           fontSize: "12px",
@@ -210,7 +195,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                       <span
                         style={{
                           fontSize: "10px",
-                          color:  message.sender == currentUser._id
+                          color:  message.senderId == currentUser._id
                           ? "#fff"
                           : "#000",
                           marginLeft: "6px",
@@ -255,7 +240,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
           />
 
           <IconButton
-            onClick={handleSendMessage}
+            onClick={()=>void handleSendMessage()}
             aria-label="send"
             color="primary"
           >

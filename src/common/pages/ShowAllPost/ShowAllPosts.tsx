@@ -8,8 +8,7 @@ import SendIcon from "@mui/icons-material/Send";
 import PublicMethods from "../../../Methods/PublicMethods";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../redux/store";
-import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
-import axiosInstanceStudent from "../../../student/interceptor/axiosInstance.Student";
+import {axiosInstance} from "../../interceptor/axiosInstance";
 import IFetchUserPost from "../../../interface/IfetchUserPost/IfetchUserPost";
 import DialogContent from "@mui/material/DialogContent";
 import {
@@ -28,6 +27,8 @@ import EditMediaModal from "../../Components/Modal/editMediaModal/editMediaModal
 import EditMediaForm from "../../Components/form/Editmedia/EditMediaForm";
 import { Post } from "../../../interface/IPost/IFetchFeedPost";
 import CommentIllustarte from "../../../../public/illustrations/undraw_opinion_re_jix4.svg";
+import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
+import { IPostAPI } from "../../../interface/IPost/IPostAPI";
 function ShowAllPosts() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -55,22 +56,10 @@ function ShowAllPosts() {
  
 
   useEffect(() => {
-    (async function fetchPost() {
-      if (localStorage.getItem("jwt-lead")) {
-        const response: { data: IFetchUserPost } = await axiosInstanceTutor.get(
-          "/userPost",
-          {
-            params: {
-              userId: _id,
-            },
-          }
-        );
-
-        setPosts(response.data.UserPost);
-        setIsLoading(false);
-      } else if (localStorage.getItem("jwt-learn")) {
+    void(async function fetchPost() {
+   
         const response: { data: IFetchUserPost } =
-          await axiosInstanceStudent.get("/userPost", {
+          await axiosInstance.get("/userPost", {
             params: {
               userId: _id,
             },
@@ -78,21 +67,21 @@ function ShowAllPosts() {
 
         setPosts(response.data.UserPost);
         setIsLoading(false);
-      }
+      
     })();
   }, [_id, deleteindicator]);
 
-  async function handleEditMedia(postdata: object) {
+   function handleEditMedia(postdata: object) {
     if ("_id" in postdata) {
       const id = postdata._id;
-      const selectedPost = posts.find((post) => post._id === id);
+      const selectedPost = posts.find((post) => post._id === id) || null;
       setSelectedPost(selectedPost);
       handleMediaeditModalOpenClose();
     }
   }
   async function handleDeleteComment(commentId: string, postId: string) {
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.delete(
+    
+      const response:{data:IPostAPI} = await axiosInstance.delete(
         "/post/deletecomment",
         {
           data: {
@@ -110,39 +99,17 @@ function ShowAllPosts() {
         updatedPosts[postIndex] = {
           ...updatedPosts[postIndex],
 
-          comments: response.data.data.comments,
+          comments: response.data.Postdata.comments,
         };
 
         setPosts(updatedPosts);
       }
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.delete("/post/deletecomment", {
-        data: {
-          userId: _id,
-          postId,
-          commentId,
-        },
-      });
 
-      const postIndex = posts.findIndex((post) => post._id === postId);
-
-      if (postIndex !== -1) {
-        const updatedPosts = [...posts];
-
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-
-          comments: response.data.data.comments,
-        };
-
-        setPosts(updatedPosts);
-      }
-    }
   }
 
   async function handleLikeComment(commentId: string, postId: string) {
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.post("/post/likecomment", {
+   
+    const response: {data:IPostAPI}= await axiosInstance.post("/post/likecomment", {
         userId: _id,
         postId,
         commentId,
@@ -156,7 +123,7 @@ function ShowAllPosts() {
           post.comments &&
           post.comments.some((comment) => comment._id === commentId)
       );
-      const comments = response.data.data.comments;
+      const comments = response.data.Postdata.comments;
 
       console.log(comments[commentIndex].likes);
 
@@ -169,75 +136,24 @@ function ShowAllPosts() {
       };
 
       setPosts(updatedPosts);
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.post("/post/likecomment", {
-        userId: _id,
-        postId,
-        commentId,
-      });
 
-      console.log(response.data);
-      const updatedPosts = [...posts]; // Create a copy of the posts array
-      const postIndex = posts.findIndex((post) => post._id === postId);
-      const commentIndex = updatedPosts.findIndex(
-        (post) =>
-          post &&
-          post.comments &&
-          post.comments.some((comment) => comment._id === commentId)
-      );
-      const comments = response.data.data.comments;
-
-      console.log(comments[commentIndex].likes);
-
-      // Find the post that contains the comment with the given commentId
-
-      updatedPosts[postIndex] = {
-        ...updatedPosts[postIndex],
-
-        comments: comments,
-      };
-
-      setPosts(updatedPosts);
-    }
   }
   async function handleLike(postId: string) {
     console.log(postId);
     const timeStamp = new Date().toISOString();
 
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.post("/post/like", {
+     await axiosInstance.post("/post/like", {
         postId,
         timeStamp,
         userId: _id,
       });
-    } else if (localStorage.getItem("jwt-lead")) {
-      console.log(postId, "if elseee");
-      const response = await axiosInstanceTutor.post("/post/like", {
-        postId,
-        timeStamp,
-        userId: _id,
-      });
-
-      const postIndex = posts.findIndex((post) => post._id === postId);
-
-      if (postIndex !== -1) {
-        const updatedPosts = [...posts];
-
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-
-          likes: response.data.data.likes,
-        };
-
-        setPosts(updatedPosts);
-      }
-    }
+ 
   }
 
   const handleCommentSubmit = async (postId: string) => {
     const timeStamp = new Date().toISOString();
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.post("/post/addComment", {
+  
+      const response:{data:IPostAPI} = await axiosInstance.post("/post/addComment", {
         postId,
         userId: _id,
         content: commentText,
@@ -252,34 +168,12 @@ function ShowAllPosts() {
         updatedPosts[postIndex] = {
           ...updatedPosts[postIndex],
 
-          comments: response.data.data.comments,
+          comments: response.data.Postdata.comments,
         };
 
         setPosts(updatedPosts);
       }
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.post("/post/addComment", {
-        postId,
-        userId: _id,
-        content: commentText,
-        timeStamp,
-      });
-
-      const postIndex = posts.findIndex((post) => post._id === postId);
-
-      if (postIndex !== -1) {
-        const updatedPosts = [...posts];
-
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-
-          comments: response.data.data.comments,
-        };
-
-        setPosts(updatedPosts);
-       
-      }
-    }
+  
   };
 
   //    async function handleEditPost(postId: string, type: string) {
@@ -329,8 +223,8 @@ function ShowAllPosts() {
   const handleDeletePost = async (postId: string) => {
     handledeletemodalVisibilty();
 
-    if (localStorage.getItem("jwt-learn")) {
-      const response = await axiosInstanceStudent.delete("/deletepost", {
+ 
+      const response:{data:ICommonAPI} = await axiosInstance.delete("/deletepost", {
         data: {
           userId: _id,
           postId: postId,
@@ -343,21 +237,7 @@ function ShowAllPosts() {
       } else {
         toast.error(response.data.message);
       }
-    } else if (localStorage.getItem("jwt-lead")) {
-      const response = await axiosInstanceTutor.delete("/deletepost", {
-        data: {
-          userId: _id,
-          postId: postId,
-        },
-      });
 
-      if (response.data.success) {
-        toast.success(response.data.message);
-        setdeleteindicator(!deleteindicator);
-      } else {
-        toast.error(response.data.message);
-      }
-    }
 
     setOptionsVisible(false);
   };
@@ -400,7 +280,7 @@ function ShowAllPosts() {
               {post.type === "Media" && (
                 <>
                   <button
-                    onClick={() => handleEditMedia(post)}
+                    onClick={() =>void handleEditMedia(post)}
                     className="flex items-center space-x-2 text-gray-700 hover:text-blue-500"
                   >
                     <EditIcon fontSize="small" />
@@ -451,7 +331,7 @@ function ShowAllPosts() {
               Cancel
             </Button>
             <Button
-              onClick={() => handleDeletePost(post._id)}
+              onClick={() =>void handleDeletePost(post._id)}
               color="error"
               startIcon={<DeleteIcon />}
             >
@@ -538,12 +418,12 @@ function ShowAllPosts() {
                       size="small"
                       fullWidth
                       value={commentText}
-                      onChange={(e) => setCommentText(e.target.value)}
+                      onChange={(e) =>void setCommentText(e.target.value)}
                     />
                     <IconButton
                       aria-label="send"
                       color="primary"
-                      onClick={() => handleCommentSubmit(post._id)}
+                      onClick={() =>void handleCommentSubmit(post._id)}
                     >
                       <SendIcon />
                     </IconButton>
@@ -586,7 +466,7 @@ function ShowAllPosts() {
                             <button
                               className="text-blue-500 hover:text-blue-700 mt-2"
                               onClick={() =>
-                                handleLikeComment(comment._id, post._id)
+                               void handleLikeComment(comment._id, post._id)
                               }
                             >
                               <ThumbUpIcon fontSize="small" /> Like
@@ -610,7 +490,7 @@ function ShowAllPosts() {
                                     {/* ... Edit options based on comment.type ... */}
                                     <button
                                       onClick={() =>
-                                        handleDeleteComment(
+                                       void handleDeleteComment(
                                           comment._id,
                                           post._id
                                         )
@@ -728,12 +608,12 @@ function ShowAllPosts() {
                         size="small"
                         fullWidth
                         value={commentText}
-                        onChange={(e) => setCommentText(e.target.value)}
+                        onChange={(e) =>void setCommentText(e.target.value)}
                       />
                       <IconButton
                         aria-label="send"
                         color="primary"
-                        onClick={() => handleCommentSubmit(post._id)}
+                        onClick={() =>void handleCommentSubmit(post._id)}
                       >
                         <SendIcon />
                       </IconButton>
@@ -778,7 +658,7 @@ function ShowAllPosts() {
                               <button
                                 className="text-blue-500 hover:text-blue-700 mt-2"
                                 onClick={() =>
-                                  handleLikeComment(comment._id, post._id)
+                                 void handleLikeComment(comment._id, post._id)
                                 }
                               >
                                 <ThumbUpIcon fontSize="small" /> Like

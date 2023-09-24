@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Button, IconButton } from "@mui/material";
 import { CloudUpload, Delete } from "@mui/icons-material";
-import axiosInstance from "../../../admin/interceptor/axiosInstance";
 import { RootStateType } from "../../../redux/store";
+import { axiosInstance } from "../../../common/interceptor/axiosInstance";
 import { useSelector } from "react-redux";
-import axiosInstanceTutor from "../../interceptor/axiosInstanceTutor";
 import { toast } from "react-toastify";
+import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 type CloseModalFunction = () => void;
 
 interface Props {
@@ -14,7 +14,6 @@ interface Props {
 function UploadMediaForm({ CloseModal }:Props) {
   const [mediaFiles, setMediaFiles] = useState<File[]>([]);
   const [caption, setCaption] = useState("");
-  const MAX_FILES = 1; // Accept only one image
   const [mediaFilesError, setMediaFilesError] = useState("");
   const [captionError, setCaptionError] = useState("");
   const data = useSelector((state: RootStateType) => state.user);
@@ -67,7 +66,7 @@ function UploadMediaForm({ CloseModal }:Props) {
 
     
         
-        const response = await axiosInstanceTutor.post(
+        const response :{data:ICommonAPI}= await axiosInstance.post(
           "/post/media",
           formData,
           {
@@ -92,7 +91,7 @@ function UploadMediaForm({ CloseModal }:Props) {
 
   return (
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto p-8">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event)=> void handleSubmit(event)}>
         <div className="mb-4">
           {mediaFiles.length > 0 && (
             <div className="flex mb-4">

@@ -1,6 +1,13 @@
+
+
 export default interface IMessage {
-  msg: string;
+      
+   
+    senderId: string;
+    status: string;
   content: string;
-  senderId: string;
-  timeStamp:string
-}
+  timeStamp: string;
+
+    
+  }
+  

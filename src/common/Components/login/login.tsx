@@ -1,4 +1,3 @@
-import React from 'react';
 import LoginModal from '../Modal/loginModal';
 import ForgetPassword from '../Forgetpassword/ForgetPassword';
 import LoginForm from './loginform';

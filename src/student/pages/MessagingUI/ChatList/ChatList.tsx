@@ -6,14 +6,13 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import axiosInstanceStudent from "../../../interceptor/axiosInstance.Student";
+import  {axiosInstance} from "../../../../common/interceptor/axiosInstance";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../../redux/store";
 import IFetchChatList, {
   IChat,
 } from "../../../../interface/IFetchChats/ChatList.Inteface";
 import PublicMethods from "../../../../Methods/PublicMethods";
-import axiosInstanceTutor from "../../../../tutor/interceptor/axiosInstanceTutor";
 import { ChatListProps } from "../../../../interface/chatListProp/chatListProp";
 import { format } from 'date-fns';
 
@@ -25,23 +24,15 @@ function ChatList({ onSelectChat }: ChatListProps) {
   const [ChatsList, setChatsList] = useState<IChat[]>([]);
   useEffect(() => {
     
-    (async function fetchChatList() {
+   void(async function fetchChatList() {
       try {
-        if (localStorage.getItem("jwt-learn")) {
           const response: { data: IFetchChatList } =
-            await axiosInstanceStudent.post("/chat/fetchallchats", {
+            await axiosInstance.post("/chat/fetchallchats", {
               userId: _id,
             });
           
             setChatsList(response.data.Chats);
-          } else if (localStorage.getItem("jwt-lead")) {
-            const response: { data: IFetchChatList } =
-            await axiosInstanceTutor.post("/chat/fetchallchats", {
-              userId: _id,
-            });
-          setChatsList(response.data.Chats);
-          
-        }
+       
 
         // Handle the response here
         
@@ -51,7 +42,7 @@ function ChatList({ onSelectChat }: ChatListProps) {
       }
     })();
    
-  }, []);
+  }, [_id]);
 
   return (
     <>

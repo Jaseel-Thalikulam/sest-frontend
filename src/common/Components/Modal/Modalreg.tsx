@@ -15,9 +15,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
       backgroundColor: 'transparent',
     },
     '& .MuiPaper-root': {
-        backgroundColor: '#090B42', 
+        backgroundColor: '#fff', 
         fontFamily: 'outfit', // Change font to "outfit"
-      color: '#fff',
+     
       borderRadius: 10,
     },
     '& .MuiDialogContent-root': {

@@ -5,19 +5,20 @@ import AddCourseModal from "../../components/course/addCourseModal";
 import AddCourseForm from "../../components/course/addCourseForm";
 import UploadvideoModal from "../../components/video/uploadvideoModal";
 import Uploadvideoform from "../../components/video/uploadvideoform";
-import axiosInstanceTutor from "../../interceptor/axiosInstanceTutor";
+import { axiosInstance } from "../../../common/interceptor/axiosInstance";
 import PublicMethods from "../../../Methods/PublicMethods";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../redux/store";
 import { ICourse } from "../../../interface/ICourse/Icourse";
 import { Link } from "react-router-dom";
+import { IgetTutorCourses } from "../../../interface/ICourse/IgetTutorCourses";
 
 function LeadCoursePage() {
   const [addCoursestate, setaddCourseState] = useState(false);
   const [newVideoModal, SetnewvideoModal] = useState(false);
   const publicmethod = new PublicMethods();
   const [CourseId, SetCourseID] = useState("");
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState<ICourse[]>([]);
 
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
@@ -34,12 +35,12 @@ function LeadCoursePage() {
   }
 
   useEffect(() => {
-    (async function getTutorCourses() {
-      const response = await axiosInstanceTutor.get("/gettutorcourses", {
+    void(async function getTutorCourses() {
+      const response:{data:IgetTutorCourses} = await axiosInstance.get("/gettutorcourses", {
         params: {
           tutorId: _id,
         },
-      });
+      })
 
       setCourses(response.data.Corusedata);
     })();

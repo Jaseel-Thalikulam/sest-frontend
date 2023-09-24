@@ -1,12 +1,14 @@
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import Register from '../Register/Register';
-import bannerillustrate from '../../../../public/illustrations/undraw_online_learning_re_qw08.svg';
+import bannerImage from '../../../../public/images/slider-image-1 (1).jpg';
 
 const Banner = () => {
   return (
     <Box
       sx={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
@@ -17,43 +19,98 @@ const Banner = () => {
     >
       <Box
         sx={{
-          px: 4,
+          px: [2, 4],
           mx: 'auto',
-          maxWidth: 'xl',
-          py: 10, // Consistent padding for both xs and lg
+          maxWidth: ['full', 'xl'],
+          py: 10,
           display: 'flex',
-          flexDirection: 'row-reverse', // Always reverse order
+          flexDirection: ['column', 'row-reverse'],
           alignItems: 'center',
         }}
       >
-        <div className="w-full md:w-1/2 lg:w-1/3 xl:w-2/4">
-          <img
-            src={bannerillustrate}
-            alt="Illustration"
-            className="w-full h-auto mx-auto" // Center the illustration
-          />
+        <div className="w-full md:w-1/2 lg:w-1/3 xl:w-2/4 pl-14 ">
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxHeight: '100%',
+            }}
+          >
+            <svg
+              viewBox="0 0 250 250"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                position: 'absolute',
+                zIndex: 0,
+                width: '100%',
+                height: 'auto',
+              }}
+            >
+              <path fill="#8A3FFC" d="M50.2,-57.8C65.9,-46.7,79.9,-31.6,82.4,-15C84.8,1.7,75.5,20,65,36.8C54.4,53.5,42.5,68.8,25.8,78C9,87.3,-12.5,90.4,-29.7,83.4C-46.9,76.4,-59.8,59.2,-68.9,41C-78,22.8,-83.4,3.6,-79.4,-13.2C-75.5,-30,-62.4,-44.3,-47.6,-55.5C-32.8,-66.7,-16.4,-74.8,0.4,-75.4C17.3,-75.9,34.5,-68.8,50.2,-57.8Z" transform="translate(100 100)" />
+            </svg>
+
+            {/* Smaller image size */}
+            <img
+              src={bannerImage}
+              alt="Illustration"
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '70%', // Adjust the width to make the image smaller
+                height: 'auto',
+                maxWidth: '100%',
+                zIndex: 1,
+                clipPath: 'polygon(20% 0, 100% 0, 85% 100%, 0% 75%)',
+              }}
+            />
+          </div>
         </div>
 
         <Box
           sx={{
             flex: '1',
-            ml: 10, // Consistent margin for both xs and lg
+            mt: [6, -20],
+            ml: [0, 10],
+            textAlign: ['center', 'left'],
           }}
         >
           <Typography
-            variant="h2"
+            variant="h3"
             component="h1"
             sx={{
-              mt: -20,
-              mb: 5,
-              fontSize: '2.5rem', // Consistent font size
+              mb: 2,
+              fontSize: ['5vw', '5rem'], // Use 'vw' for responsive font size
               fontWeight: 'bold',
               lineHeight: 'none',
-              color: '#1A8FE3',
-              maxWidth: '70%',
+              color: '#12222E',
+              maxWidth: '90%',
             }}
           >
-            Ignite Your Career Path: Master New Skills, Shape Your Future
+            Ready to stand out from the crowd?
+          </Typography>
+
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontSize: ['1.5vw', '1.5rem'], // Use 'vw' for responsive font size
+              color: '#555',
+              mb: 0.5,
+              fontWeight: 'bold',
+            }}
+          >
+            Your journey begins here.
+          </Typography>
+
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontSize: ['1.2vw', 'md'], // Use 'vw' for responsive font size
+              color: '#777',
+              mb: 6,
+            }}
+          >
+            Explore endless possibilities.
           </Typography>
 
           <Register />

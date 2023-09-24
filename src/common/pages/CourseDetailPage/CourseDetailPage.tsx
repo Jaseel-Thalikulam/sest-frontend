@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstanceTutor from '../../../tutor/interceptor/axiosInstanceTutor';
-import axiosInstanceStudent from '../../../student/interceptor/axiosInstance.Student';
+import {axiosInstance} from '../../interceptor/axiosInstance';
 import'./CourseDetailpage.scss'
 import { Link, useParams } from 'react-router-dom';
 import { ICourse } from '../../../interface/ICourse/Icourse';
@@ -16,6 +15,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import StripPayment from '../../Components/stripePayment/StripPayement';
 import { loadStripe } from "@stripe/stripe-js";
 import StripPaymentModal from '../../Components/stripePayment/StripPaymentModal';
+import { ICourseAPI } from '../../../interface/ICourse/ICourseAPI';
+import { ISubscriptionDetail } from '../../../interface/ISubscription/ISubscriptionDetail';
 const PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string;
 const stripePromise = loadStripe(PUBLISHABLE_KEY);
 function CourseDetailPage() {
@@ -35,12 +36,11 @@ function CourseDetailPage() {
 const [PublisherId,setPublisherId]=useState('')
 const [PublisherName,setPublisherName]=useState('')
 
-  async function handlestripModal(amount:number) {
+   function handlestripModal(amount:number) {
     setPleaseSubscribemodal(false);
     setSelectedAmount(amount)
     setStripeModal(!isStripOpen);
 
-    
   }
 
   function handlesetSubscribed() {
@@ -54,22 +54,13 @@ const [PublisherName,setPublisherName]=useState('')
   }
 
   useEffect(() => {
-    (async function getCourseDetail() {
+  void(async function getCourseDetail() {
       try {
-        let response;
-        if (localStorage.getItem('jwt-lead')) {
-          response = await axiosInstanceTutor.get('/getCourseDetail', {
-            params: {
-              CourseId: CourseId,
-            },
-          });
-          
-         
-        } else if (localStorage.getItem('jwt-learn')) {
-          response = await axiosInstanceStudent.get('/getCourseDetail', {
+     
+         const response:{data:ICourseAPI} = await axiosInstance.get('/getCourseDetail', {
             params: { CourseId: CourseId },
           });
-        }
+        
         setCourse(response.data.CourseData);
         setPublisherId(response?.data.CourseData.publisherId._id)
         setPublisherName(response?.data.CourseData.publisherId.name)
@@ -81,25 +72,15 @@ const [PublisherName,setPublisherName]=useState('')
   }, [CourseId]);
 
   useEffect(() => {
-(    async function FetchTutorSubscriptionDetail() {
+    void(async function FetchTutorSubscriptionDetail() {
     
       if (  course && _id === course.publisherId._id) {
         
         setPublisher(true);
       } else {
         setPublisher(false);
-        if (localStorage.getItem('jwt-lead')) {
-          const subscriptionresponse =  await axiosInstanceTutor.get('/getSubscriptionDetails', {
-            params: {
-              TutorId: course!.publisherId._id,
-              StudentId:_id
-            }
-        })
-          
-          console.log(subscriptionresponse.data)
-          setSubscribed(subscriptionresponse.data.success)
-        } else if (localStorage.getItem('jwt-learn')) {
-          const subscriptionresponse =  await axiosInstanceStudent.get('/getSubscriptionDetails', {
+
+          const subscriptionresponse :{data:ISubscriptionDetail}=  await axiosInstance.get('/getSubscriptionDetails', {
             params: {
               TutorId: course!.publisherId._id,
               StudentId:_id
@@ -107,9 +88,9 @@ const [PublisherName,setPublisherName]=useState('')
           })
           
           
-          console.log(subscriptionresponse.data)
+          
           setSubscribed(subscriptionresponse.data.success)
-        }
+        
       }
     })()
   }, [ course, _id]);
@@ -187,7 +168,7 @@ const [PublisherName,setPublisherName]=useState('')
         {/* Publisher Details */}
         {!isPublisher && (
           <div style={{ flex: '0.5' }}>
-            <div className="border hover:scale-105 transition-transform duration-300 m-5 border border-gray-200 rounded-md ">
+            <div className="border hover:scale-105 transition-transform duration-300 m-5  border-gray-200 rounded-md ">
               <div className="flex flex-col items-center pt-4">
                 {/* Add avatar here */}
                 <img
@@ -238,12 +219,12 @@ const [PublisherName,setPublisherName]=useState('')
 
 {isPublisher || isSubscribed ? (
   localStorage.getItem('jwt-lead') ? (
-    <Link to={`/lead/tutorial/${video._id}/${course?._id}`}>
+    <Link to={`/lead/tutorial/${video._id}/${course!._id}`}>
       <img src={video.ThumbnailURL} alt={`Video Thumbnail ${index}`} className="w-full h-auto" />
       <p className="text-lg font-semibold mt-2">{publicmethods.properCase(video.Title)}</p>
     </Link>
   ) : localStorage.getItem('jwt-learn') ? (
-    <Link to={`/learn/tutorial/${video._id}/${course?._id}`}>
+    <Link to={`/learn/tutorial/${video._id}/${course!._id}`}>
       <img src={video.ThumbnailURL} alt={`Video Thumbnail ${index}`} className="w-full h-auto" />
       <p className="text-lg font-semibold mt-2">{publicmethods.properCase(video.Title)}</p>
     </Link>

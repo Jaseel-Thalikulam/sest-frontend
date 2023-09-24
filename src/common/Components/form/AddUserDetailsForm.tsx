@@ -16,8 +16,7 @@ import APIResponse from "../../../interface/IaddUserDetails/IaddUserDetails";
 import APICategoryResponse from "../../../interface/Icategory/Icategory";
 import ICategoryResponse from "../../../interface/Icategory/IcategoryResponse";
 import ICategorydata from "../../../interface/Icategory/IcategoryData";
-import axiosInstanceTutor from "../../../tutor/interceptor/axiosInstanceTutor";
-import axiosInstanceStudent from "../../../student/interceptor/axiosInstance.Student";
+import { axiosInstance } from "../../interceptor/axiosInstance";
 
 function AddUserDetailsForm() {
   const data = useSelector((state: RootStateType) => state.user);
@@ -49,7 +48,7 @@ function AddUserDetailsForm() {
   const tagIds = tags.map((tag) => tag._id);
 
   const handleAdd = async (categoryId: string) => {
-    const { data } = await axiosInstanceTutor.post<APICategoryResponse>(
+    const { data } = await axiosInstance.post<APICategoryResponse>(
       "/insertCategory",
       {
         categoryId,
@@ -112,7 +111,7 @@ function AddUserDetailsForm() {
   };
 
   const handleDelete = async (categoryId: string) => {
-    const { data } = await axiosInstanceTutor.post<APICategoryResponse>(
+    const { data } = await axiosInstance.post<APICategoryResponse>(
       "/removeCategory",
       {
         categoryId,
@@ -210,8 +209,8 @@ function AddUserDetailsForm() {
 
     let data;
     try {
-      if (role == "Learn") {
-        const response = await axiosInstanceStudent.post<APIResponse>(
+     
+        const response = await axiosInstance.post<APIResponse>(
           "/editprofile",
           {
             Number,
@@ -224,21 +223,7 @@ function AddUserDetailsForm() {
           }
         );
         data = response.data;
-      } else if (role == "Lead") {
-        const response = await axiosInstanceTutor.post<APIResponse>(
-          "/editprofile",
-          {
-            Number,
-            About,
-            githuburl,
-            linkedinurl,
-            pinteresturl,
-            DOB,
-            _id,
-          }
-        );
-        data = response.data;
-      }
+
 
       if (data) {
         const { message, success, userData } = data;
@@ -316,7 +301,7 @@ function AddUserDetailsForm() {
       const fetchCategories = async () => {
         try {
           const response: { data: ICategoryResponse } =
-            await axiosInstanceTutor.get("/getCategories");
+            await axiosInstance.get("/getCategories");
           const Category = response.data.categorydata;
 
           setCategories(Category);

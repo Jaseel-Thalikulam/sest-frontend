@@ -7,8 +7,6 @@ import UploadMediaModal from "../../components/Media/UploadMediaModal";
 import { Videocam, Image, Description,Book } from "@mui/icons-material";
 import UploadArticleForm from "../../components/Article/uploadArticleForm";
 import UploadArticleModal from "../../components/Article/uploadArticleModal";
-import UploadPollForm from "../../components/Poll/UploadPollForm";
-import UploadPollModal from "../../components/Poll/UploadPollModal";
 import ProfileMenu from "../../../student/components/HomePage-ProfileMenu/ProfileMenu";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { Jitsihelper } from "../../../common/Helper/JistiMeetHelper";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../redux/store";
-
 const LeadHomePage = () => {
   const [isArticleModalOpen, setArticleModal] = useState(false);
   const [isMediaModalOpen, setMediaModal] = useState(false);
@@ -29,13 +26,13 @@ const LeadHomePage = () => {
 
   
   const navigate = useNavigate()
-  async function handelArticleButtonClick() {
+   function handelArticleButtonClick() {
     setArticleModal(!isArticleModalOpen);
   }
-  async function handleMediaButtonClick() {
+   function handleMediaButtonClick() {
     setMediaModal(!isMediaModalOpen);
   }
-  async function handlePollButtonClick() {
+   function handlePollButtonClick() {
     setPollModal(!isPollModalOpen);
   }
 
@@ -43,13 +40,13 @@ const LeadHomePage = () => {
     
     const meetId: string = publicmethod.generateRandomString(10)
  
-    const token :string= await jitsi.getToken(meetId,data)
+    const token:string = await jitsi.getToken(data)
  
     navigate(`/lead/meet/${meetId}/${token}`)
  
   }
   
-  async function CourseButtonClick() {
+   function CourseButtonClick() {
     navigate('/lead/course')
   }
 
@@ -138,10 +135,7 @@ const LeadHomePage = () => {
         <UploadMediaForm CloseModal={handleMediaButtonClick} />
       </UploadMediaModal>
 
-      <UploadPollModal isOpen={isPollModalOpen} CloseModal={handlePollButtonClick} data="Upload Your Poll">
-        <UploadPollForm CloseModal={handlePollButtonClick} />
-      </UploadPollModal>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };
