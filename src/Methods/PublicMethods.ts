@@ -34,13 +34,13 @@ export default class PublicMethods {
   }
   
   
-  truncateDescription = (text: string, maxWords = 20) => {
-    const words = text.split(" ");
-    if (words.length <= maxWords) {
-      return text;
-    }
-    return words.slice(0, maxWords).join(" ") + " ...";
-  };
+  truncateText = (text: string, maxCharacters: number) => {
+  if (text.length <= maxCharacters) {
+    return text;
+  }
+  return text.slice(0, maxCharacters) + " ...";
+};
+
   
 
   generateRandomString(length:number) {

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.0" id="katman_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 600 450" style="enable-background:new 0 0 600 450;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#E31019;}
+	.st1{fill:#B11917;}
+	.st2{fill:url(#SVGID_1_);}
+</style>
+<g id="netflix-logo">
+	<path id="Fill-14" class="st0" d="M442.1,328.1l17,45c-5-0.7-10-1.6-15.1-2.4l-9.6-24.9l-9.8,22.8c-4.8-0.8-9.6-1.1-14.4-1.7
+		l17.3-39.4l-15.7-40.4h14.5l8.8,22.6l9.4-22.6h14.7L442.1,328.1z M400.3,287.2h-13.2v78.1c4.3,0.3,8.8,0.4,13.2,1V287.2z
+		 M375.8,364.3c-12-0.8-24-1.5-36.3-1.8v-75.4h13.4v62.7c7.7,0.2,15.4,0.8,22.8,1.2V364.3z M325.2,317.7v13.4h-18.3v30.5h-13.3
+		v-74.5h37.6v13.4h-24.3v17.1H325.2z M271,300.6v61.8c-4.5,0-9,0-13.4,0.2v-61.9h-13.9v-13.4H285v13.4H271z M229.2,331.8
+		c-5.9,0-12.9,0-17.9,0.3v20c7.9-0.5,15.8-1.2,23.7-1.4v12.9l-37.2,3v-79.3H235v13.4h-23.7v18.1c5.2,0,13.2-0.3,17.9-0.3V331.8z
+		 M154.8,324.3v46.9c-4.8,0.5-9.1,1.2-13.7,1.9v-85.9h12.8l17.5,48.8v-48.8h13.4v80.4c-4.7,0.8-9.6,1.1-14.7,1.8L154.8,324.3z"/>
+</g>
+<g>
+	<path class="st1" d="M253.2,76.9V247c10.2-1.4,23.5-2.4,33.7-2.9V76.9H253.2"/>
+	<path class="st1" d="M313.4,76.9v167.2c12.1,0.5,22.3,1.5,33.7,2.9V76.9H313.4"/>
+	
+		<radialGradient id="SVGID_1_" cx="2.594" cy="450.7664" r="0.1276" gradientTransform="matrix(209.76 0 -319.332 -1000 143700.0469 450928.375)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0.6" style="stop-color:#010202;stop-opacity:0.3"/>
+		<stop  offset="0.9" style="stop-color:#010202;stop-opacity:5.000000e-02"/>
+		<stop  offset="1" style="stop-color:#010202;stop-opacity:0"/>
+	</radialGradient>
+	<path class="st2" d="M253.2,76.9v34L286.9,213v-41.3l25.7,72.5c12.9,0.5,23.1,1.5,34.5,2.9v-34l-33.7-102.1v40.8l-26.5-74.9H253.2"
+		/>
+	<path class="st0" d="M253.2,76.9l59.4,167.2c12.9,0.5,23.1,1.5,34.5,2.9L286.9,76.9H253.2"/>
+</g>
+</svg>

@@ -4,49 +4,18 @@ import './Register.scss';
 import { useDispatch } from 'react-redux';
 import { handleOpenAndClose } from '../../../redux/modalSlice/modalSlice';
 import { UserDetails } from '../../../redux/userSlice/UserSlice';
-import { RootStateType } from '../../../redux/store';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { handleChangeState } from '../../../redux/modalSlice/RegisterFormModalSlice';
-import RegisterIllustartion from '../../../../public/illustrations/undraw_online_test_re_kyfx.svg';
+
 
 const RegisterIsLearnOrLead = () => {
-  const dispatch = useDispatch();
 
-  function RoleOfUser(role: string) {
-    dispatch(handleOpenAndClose());
-    dispatch(
-      UserDetails({
-        role: role,
-        URLs: {
-          github: '',
-          linkedin: '',
-          pinterest: '',
-        },
-        name: '',
-        username: '',
-        _id: '',
-        phoneNumber: null,
-        isBanned: false,
-        tags: null,
-        avatarUrl:null,
-      })
-    );
-    dispatch(handleChangeState());
-  }
+
 
   return (
     <Grid container spacing={6} justifyContent="center" alignItems="center">
-      <Grid item lg={4}>
-        {/* Image on the left */}
-        <img
-          src={RegisterIllustartion}
-          alt="Illustration"
-          className="max-w-full"
-          style={{ width: '100%', maxWidth: '300px' }}
-        />
-      </Grid>
+ 
 
-      <Grid item lg={6}>
+      <Grid item lg={12}>
         <Paper elevation={0} className="Paper  ">
           {/* Text and buttons on the right */}
           <Typography variant="h6" className="illustration-text">

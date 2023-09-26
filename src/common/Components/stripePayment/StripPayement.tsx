@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../redux/store';
 import TextField from '@mui/material/TextField'; // Import MUI TextField
 import PublicMethods from '../../../Methods/PublicMethods';
-import Paymentfailed from '../../../../public/illustrations/undraw_warning_re_eoyh.svg'
-import SuccessFullySubscribed from '../../../../public/illustrations/undraw_completing_re_i7ap.svg'
-import creditCardPayment from '../../../../public/illustrations/undraw_credit_card_payments_re_qboh.svg'
+import Paymentfailed from '../../../../public/svg/undraw_warning_re_eoyh.svg'
+import SuccessFullySubscribed from '../../../../public/svg/undraw_completing_re_i7ap.svg'
+import creditCardPayment from '../../../../public/svg/undraw_credit_card_payments_re_qboh.svg'
 import { ISubscriptionPayment } from '../../../interface/ISubscription/ISubscriptionPayment';
 import ICommonAPI from '../../../interface/IcommonAPI/IcommonAPI';
 

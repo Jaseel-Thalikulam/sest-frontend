@@ -79,7 +79,8 @@ const [PublisherName,setPublisherName]=useState('')
         setPublisher(true);
       } else {
         setPublisher(false);
-
+        if (course?.publisherId._id) {
+          
           const subscriptionresponse :{data:ISubscriptionDetail}=  await axiosInstance.get('/getSubscriptionDetails', {
             params: {
               TutorId: course!.publisherId._id,
@@ -90,6 +91,7 @@ const [PublisherName,setPublisherName]=useState('')
           
           
           setSubscribed(subscriptionresponse.data.success)
+        }
         
       }
     })()

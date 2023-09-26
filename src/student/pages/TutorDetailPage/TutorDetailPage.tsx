@@ -283,7 +283,7 @@ function TutorDetailPage() {
             {profileData && (
               <>
                 {profileData.role == "Lead" && !isSubscribed && (
-                  <div className="bg-blue-400 rounded-lg p-4 mb-4 flex justify-between items-center">
+                  <div className="bg-blue-400 rounded-lg p-4  flex justify-between items-center mb-2">
                     <Typography variant="body2" className="text-white mb-2">
                       Subscribe for Premium content's of{" "}
                       {publicmethod.properCase(profileData.name)}
@@ -376,7 +376,7 @@ function TutorDetailPage() {
                   <div>
 
                   
-                  <Typography variant="h6" className="mb-2">
+                  <Typography variant="h6" className="mb-5 mt-5">
                     Courses Released
                     </Typography>
                     
@@ -394,7 +394,7 @@ function TutorDetailPage() {
             className="w-full h-40 object-cover"
           />
           <div className="p-4">
-            <h3 className="text-lg font-semibold">{course.Title}</h3>
+            <h3 className="text-lg font-semibold">{publicmethod.truncateText(course.Title,30)}</h3>
             {/* Add other course information here */}
           </div>
         </Link>
@@ -434,7 +434,6 @@ function TutorDetailPage() {
       </div>
       <StripPaymentModal
         CloseModal={handlestripModal}
-        data="Complete Your Payment"
         isOpen={isStripOpen}
       >
         <Elements stripe={stripePromise}>

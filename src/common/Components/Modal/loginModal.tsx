@@ -30,7 +30,7 @@ interface ModalProps {
   buttonname: string;
 }
 
-export default function LoginModal({ children, data, buttonname }: ModalProps) {
+export default function   LoginModal({ children, data, buttonname }: ModalProps) {
   const Status = useSelector((state: RootStateType) => state.loginformmodal);
   const isOpen: boolean = Status.State;
   const dispatch = useDispatch();
@@ -54,7 +54,8 @@ export default function LoginModal({ children, data, buttonname }: ModalProps) {
             '@media (max-width: 600px)': {
               height: '90%', // Adjust height for smaller screens
             },
-            overflowY: 'auto', // Enable scrolling if content overflows
+            overflowY: 'auto',
+            boxShadow: '1', // Enable scrolling if content overflows
           },
         }}
       >

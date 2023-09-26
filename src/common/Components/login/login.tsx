@@ -2,11 +2,11 @@ import LoginModal from '../Modal/loginModal';
 import ForgetPassword from '../Forgetpassword/ForgetPassword';
 import LoginForm from './loginform';
 import { Box, Typography } from '@mui/material';
-import illustrate from '../../../../public/illustrations/undraw_reading_time_re_phf7.svg';
+import illustrate from '../../../../public/svg/undraw_reading_time_re_phf7 (1).svg';
 
 const login = () => {
   return (
-    <div>
+    <>
       <LoginModal buttonname="Login" data="Login & Connect">
         <Box
           sx={{
@@ -15,7 +15,7 @@ const login = () => {
             justifyContent: 'center',
             flexDirection: 'row', // Make sure items are in a row
           }}
-        >
+          >
           {/* Centered Illustration on the left */}
           <div className="hidden md:flex justify-center flex-1 pt-20">
             <img src={illustrate} alt="Illustration" className="max-w-full" />
@@ -31,7 +31,7 @@ const login = () => {
                 color: '#333', // Customize the color
                 marginTop: '1rem', // Add some spacing above the heading
               }}
-            >
+              >
               Welcome Back!
             </Typography>
             <LoginForm />
@@ -39,7 +39,8 @@ const login = () => {
         </Box>
       </LoginModal>
       <ForgetPassword />
-    </div>
+              </>
+    
   );
 };
 

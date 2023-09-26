@@ -304,7 +304,7 @@ const LoginForm = () => {
                     false
                   )
                 }
-                className="w-full md:max-w-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full"
+                className="w-full md:max-w-md bg-8A3FFC text-white font-semibold py-2 px-4 rounded-full"
               >
                 Login
               </button>

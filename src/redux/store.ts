@@ -2,7 +2,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import modalReducer from './modalSlice/modalSlice';
 import userReducer from './userSlice/UserSlice';
 import RegisterFormModalreducer from './modalSlice/RegisterFormModalSlice';
 import LoginFormModalreducer from './modalSlice/loginModalSlice';
@@ -100,7 +99,6 @@ const AddUserDetailsReducer_persistConfig = {
 
 
 const persistedUserReducer = persistReducer(user_persistConfig, userReducer);
-const persistedModalReducer = persistReducer(modal_persistConfig, modalReducer);
 const persistedRegisterFormModalreducer = persistReducer(regformmodal_persistConfig, RegisterFormModalreducer);
 const persistedLoginFormModalreducer = persistReducer(loginformmodal_persistConfig, LoginFormModalreducer);
 const persistedverifyOTPmodalreducer = persistReducer(verifyOTPmodal_persistConfig, OTPModalReducer);
@@ -112,7 +110,6 @@ const persistedAddUserDetailsReducer = persistReducer(AddUserDetailsReducer_pers
 
 export const store = configureStore({
     reducer:{
-        modal:persistedModalReducer,
         user: persistedUserReducer,
     registerformmodal: persistedRegisterFormModalreducer,
     loginformmodal: persistedLoginFormModalreducer,

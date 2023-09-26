@@ -10,7 +10,7 @@ const Header = () => {
   const dispatch = useDispatch();
   return (
     <>
-      <div className=" top-0 bg-white   border-gray-300 flex justify-between items-center mr-20 ml-20">
+      <div className=" top-0 bg-white   border-gray-300 flex justify-between items-center mr-20 ml-20 p-3">
         <div className="flex items-center">
           {/* Replace 'logo.svg' with your logo image */}
           <img src="logo.svg" alt="Logo" className="w-8 h-8" />

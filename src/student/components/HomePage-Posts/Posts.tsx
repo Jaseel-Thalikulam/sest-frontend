@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField"; // Import TextField
 import Stack from "@mui/material/Stack"; // Import Stack
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CommentIllustarte from "../../../../public/illustrations/undraw_opinion_re_jix4.svg";  
+import CommentIllustarte from "../../../../public/svg/undraw_opinion_re_jix4.svg";  
 import {  IPostAPI } from "../../../interface/IPost/IPostAPI";
 function Posts() {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +33,6 @@ function Posts() {
     // Simulate fetching posts from an API
     void(async function fetchPost() {
      
-  console.warn(_id,"ddddddd")
         const response: { data: IFetchFeedPost } =
           await axiosInstance.get("/fetchFeedPost", {
             params: {

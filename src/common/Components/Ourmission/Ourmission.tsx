@@ -3,7 +3,7 @@ import React from 'react';
 
 function OurMission() {
   return (
-    <div className="flex-1 p-5 mb-20 relative">
+    <div className="flex-1 p-5 mb-10  relative">
       <div className="flex flex-col-reverse md:flex-row">
         {/* Right Side */}
         <div className="flex-1 md:order-1 max-xl:hidden">
@@ -14,8 +14,8 @@ function OurMission() {
             className="overflow-visible w-full md:w-72 lg:w-96 xl:w-112" // Adjust the width as needed
           >
             <rect
-              width="200"
-              height="400"
+              width="30vh"
+              height="60vh"
               fill="#FED700"
               transform="translate(90, -110) rotate(-20 225 100)"
             />
@@ -23,7 +23,7 @@ function OurMission() {
           <img
             src="https://images.pexels.com/photos/4492182/pexels-photo-4492182.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt="Your Image"
-            className="mb-4 md:absolute top-2 border-8 border-white md:w-1/2"
+            className="mb-4 md:absolute top-2 border-8 border-white md:w-1/2  h-[45vh] "
             style={{ zIndex: 1 }}
           />
         </div>
@@ -33,6 +33,7 @@ function OurMission() {
           <Typography
             variant="h3"
             component="h1"
+            className='text-color-12222E'
             sx={{
               mb: 2,
               fontSize: '2rem',

@@ -26,7 +26,7 @@ import ConfirmDeleteModal from "../../Components/Modal/confirmpostdeletModal/Con
 import EditMediaModal from "../../Components/Modal/editMediaModal/editMediaModal";
 import EditMediaForm from "../../Components/form/Editmedia/EditMediaForm";
 import { Post } from "../../../interface/IPost/IFetchFeedPost";
-import CommentIllustarte from "../../../../public/illustrations/undraw_opinion_re_jix4.svg";
+import CommentIllustarte from "../../../../public/svg/undraw_opinion_re_jix4.svg";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 import { IPostAPI } from "../../../interface/IPost/IPostAPI";
 function ShowAllPosts() {

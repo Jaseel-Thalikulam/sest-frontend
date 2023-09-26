@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
-import { handleOpenAndClose } from '../../../redux/modalSlice/modalSlice';
+
 import { RootStateType } from '../../../redux/store';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({

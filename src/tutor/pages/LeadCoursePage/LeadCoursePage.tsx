@@ -59,11 +59,13 @@ function LeadCoursePage() {
                 <div className="flex justify-between items-center">
                   <div className="flex h-full">
                     <AddCourseModal
+                      key={_id}
                       CloseModal={handleNewCourseButton}
                       data="Add Course"
                       isOpen={addCoursestate}
                     >
                       <AddCourseForm
+                        key={_id}
                         CloseModal={handleNewCourseButton}
                         handleaddvideomodal={handleaddvideomodal}
                         handlesetCourseId={handlesetCourseId}
@@ -75,8 +77,8 @@ function LeadCoursePage() {
                       CloseModal={handleaddvideomodal}
                       data="Add Video"
                       isOpen={newVideoModal}
-                    >
-                      <Uploadvideoform courseId={CourseId} />
+                    key={CourseId}>
+                      <Uploadvideoform courseId={CourseId} key={CourseId}/>
                     </UploadvideoModal>
                   </div>
 
@@ -92,7 +94,7 @@ function LeadCoursePage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-12 mt-4">
                   {courses.map((course: ICourse) => (
-                    <Link to={`${course._id}`}>
+                    <Link to={`${course._id}`} key={course._id}>
                     <div
                       key={course._id}
                       className="relative bg-white-100  h-[350px] p-4 rounded-lg shadow-lg overflow-hidden group hover:scale-105 transition-transform duration-300 cursor-pointer "
@@ -111,10 +113,10 @@ function LeadCoursePage() {
                         />
                       </div>
                       <h2 className="text-xl font-semibold mb-2 mt-2">
-                        {publicmethod.properCase(course.Title)}
+                        {publicmethod.properCase(publicmethod.truncateText(course.Title,30))}
                       </h2>
                       <p className="text-gray-800">
-                        {publicmethod.truncateDescription(course.Descripton)}
+                        {publicmethod.truncateText(course.Descripton,100)}
                       </p>
                     </div>
                           </Link>
