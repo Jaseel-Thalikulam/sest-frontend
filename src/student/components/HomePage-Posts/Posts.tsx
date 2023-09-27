@@ -12,6 +12,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CommentIllustarte from "../../../../public/svg/undraw_opinion_re_jix4.svg";  
 import {  IPostAPI } from "../../../interface/IPost/IPostAPI";
+import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
 function Posts() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -168,6 +169,7 @@ function Posts() {
       }
 
       return (
+        
         <div
           key={post._id}
           className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-4 max-w-md md:max-w-2xl"
@@ -362,74 +364,7 @@ function Posts() {
           </div>
         </div>
       );
-    }
-
-    // else if (post.type === "Poll") {
-    //   return (
-    //     <div
-    //       key={post._id}
-    //       className="bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-4 max-w-md md:max-w-2xl"
-    //     >
-    //       <div className="flex items-start px-6 py-4 w-full">
-    //         <img
-    //           className="w-12 h-12 rounded-full object-cover mr-4 shadow"
-    //           src={post.userId.avatarUrl}
-    //           alt="Author's avatar"
-    //         />
-    //         <div className="flex-1">
-    //           <div className="flex items-center justify-between">
-    //             <h2 className="text-lg font-semibold text-gray-900">
-    //               {publicmethods.properCase(post.userId.name)}
-    //             </h2>
-    //             <small className="text-sm text-gray-500">
-    //               {publicmethods.formateTimeStamp(post.timeStamp)}
-    //             </small>
-    //           </div>
-
-    //           <div className="mt-2">
-    //             <h1 className="text-xl font-semibold text-gray-900 mt-2">
-    //               {post.pollQuestion}
-    //             </h1>
-    //             {/* Check if pollOptions and pollVotes are defined before mapping */}
-    //             {post.pollOptions && post.pollVotes ? (
-    //               post.pollOptions.map((option, index) => (
-    //                 <div key={index} className="flex items-center mt-3">
-    //                   <span className="w-1/5">{option}</span>
-
-    //                   <div className="relative flex-1">
-    //                     <div
-    //                       style={{
-    //                         width: `${
-    //                           (post.pollVotes
-    //                             ? post.pollVotes[index]
-    //                             : 0 / post.totalVotes) * 100
-    //                         }%`,
-    //                       }}
-    //                       className="h-4 bg-blue-500 rounded-full"
-    //                     >
-    //                       <span className="absolute inset-0 flex items-center justify-center text-white">
-    //                         {`${Math.round(
-    //                           (post.pollVotes
-    //                             ? post.pollVotes[index]
-    //                             : 0 / post.totalVotes) * 100
-    //                         )}%`}
-    //                       </span>
-    //                     </div>
-    //                   </div>
-    //                 </div>
-    //               ))
-    //             ) : (
-    //               <p className="text-gray-500 mt-3">
-    //                 No poll options available.
-    //               </p>
-    //             )}
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   );
-    // }
-    else if (post.type === "Media") {
+    }else if (post.type === "Media") {
       let userHasLiked;
       if (post.likes) {
         userHasLiked = post.likes.some((like) => like.userId === _id);
@@ -590,6 +525,8 @@ function Posts() {
   };
 
   return (
+    <ErrorBoundary>
+
     <div className="p-4 rounded-lg">
       {isLoading ? (
         <div className="flex items-start px-4 py-6 animate-pulse">
@@ -604,6 +541,7 @@ function Posts() {
         posts.map((post) => renderPost(post))
       )}
     </div>
+        </ErrorBoundary>
   );
 }
 

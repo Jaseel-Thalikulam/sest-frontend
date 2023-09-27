@@ -6,6 +6,7 @@ import { axiosInstance } from "../../../common/interceptor/axiosInstance";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
+import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
 type CloseModalFunction = () => void;
 
 interface Props {
@@ -90,6 +91,8 @@ function UploadMediaForm({ CloseModal }:Props) {
   };
 
   return (
+    <ErrorBoundary>
+
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto p-8">
       <form onSubmit={(event)=> void handleSubmit(event)}>
         <div className="mb-4">
@@ -158,6 +161,7 @@ function UploadMediaForm({ CloseModal }:Props) {
         </Button>
       </form>
     </div>
+            </ErrorBoundary>
   );
 }
 

@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast,ToastContainer } from 'react-toastify';
 import { handleOpenAndCloseNewPasswordVerifyOtp } from '../../../redux/modalSlice/newpasswordModalSlice';
 import INewPasswordAndOTP from '../../../interface/INewPasswordAndOTP/INewPasswordAndOTP';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
@@ -130,6 +131,8 @@ const NewPasswordVerifyOTP = () => {
 
 
   return (
+    <ErrorBoundary>
+
     <Grid>
       <Paper elevation={0} style={paperStyle}>
         <Grid>
@@ -202,13 +205,14 @@ const NewPasswordVerifyOTP = () => {
             variant='contained'
             color='primary'
             onClick={void resendOTP}
-          >
+            >
             Resend OTP
           </Button>
         )}
  <ToastContainer />
       </Paper>
     </Grid>
+            </ErrorBoundary>
   );
 };
 

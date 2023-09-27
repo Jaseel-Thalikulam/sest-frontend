@@ -1,5 +1,5 @@
  interface IUserSlice {
-     URLs: URLs;
+     URLs?: URLs;
     role?: string;
     name: string;
    email?: string;
@@ -9,9 +9,9 @@
     phoneNumber: string|null;
    about?: string|null;
    isBanned: boolean;
-   tags: Tag[]|null;
+   tags?: Tag[]|null;
    avatarUrl: string
-   createdAt:Date
+   createdAt:Date|null
 }
 
 export interface URLs {

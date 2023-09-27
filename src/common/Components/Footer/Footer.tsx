@@ -2,12 +2,15 @@ import { useMediaQuery } from '@mui/material';
 import facebook from '../../.././../public/svg/734399_facebook_media_online_social_icon.svg';
 import linkedin from '../../.././../public/svg/734383_in_linked_media_online_social_icon.svg';
 import twitter from '../../.././../public/svg/734377_media_online_social_twitter_icon.svg';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 function Footer() {
   const isScreenLargerThan400px = useMediaQuery("(min-width: 401px)");
   const isScreenSmallerThan950px = useMediaQuery("(max-width: 949px)");
 
   return (
+    <ErrorBoundary>
+
     <div className={`bg-1C1D1F h-80 text-white p-4 `}>
       <div className={`${isScreenLargerThan400px ? 'ml-48 mr-48 flex justify-between items-center pb-2' : 'flex flex-col text-center'}`}>
         <div>
@@ -46,6 +49,7 @@ function Footer() {
         <p className={`text-center text-sm mt-4`}>© 2023 Questlix</p>
       </div>
     </div>
+                </ErrorBoundary>
   );
 }
 

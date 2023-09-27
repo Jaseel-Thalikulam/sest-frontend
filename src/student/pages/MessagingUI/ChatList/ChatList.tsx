@@ -15,6 +15,7 @@ import IFetchChatList, {
 import PublicMethods from "../../../../Methods/PublicMethods";
 import { ChatListProps } from "../../../../interface/chatListProp/chatListProp";
 import { format } from 'date-fns';
+import ErrorBoundary from "../../../../common/Components/errorBoundary/ErrorBoundary";
 
 
 function ChatList({ onSelectChat }: ChatListProps) {
@@ -46,11 +47,13 @@ function ChatList({ onSelectChat }: ChatListProps) {
 
   return (
     <>
+      <ErrorBoundary>
+
       <input
         type="text"
         placeholder="Search"
         className="border border-gray-300 rounded-md w-full p-2 mb-4 outline-none"
-      />
+        />
       {/* Display messages */}
       <div
         className="message-list-container"
@@ -100,6 +103,7 @@ function ChatList({ onSelectChat }: ChatListProps) {
           ))}
         </List>
       </div>
+                </ErrorBoundary>
     </>
   );
 }

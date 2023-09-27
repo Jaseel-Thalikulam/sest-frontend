@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
+import ErrorBoundary from '../../errorBoundary/ErrorBoundary';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiBackdrop-root': {
@@ -63,7 +64,8 @@ export default function ConfirmDeleteModal({
   CloseModal,
 }: ModalProps) {
   return (
-    <div>
+    <ErrorBoundary>
+
       <BootstrapDialog
         onClose={() => CloseModal()}
         aria-labelledby="customized-dialog-title"
@@ -75,6 +77,6 @@ export default function ConfirmDeleteModal({
         
       {children}
       </BootstrapDialog>
-    </div>
+        </ErrorBoundary>
   );
 }

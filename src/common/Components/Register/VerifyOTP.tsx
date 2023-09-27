@@ -10,6 +10,7 @@ import { handleOpenAndCloseVerifyOtp } from '../../../redux/modalSlice/VerifyOtp
 import { useDispatch } from 'react-redux';
 import ILoginResponse from '../../../interface/login/Ilogin';
 import { toast, ToastContainer } from 'react-toastify'
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 const VerifyOTP = () => {
   const dispatch = useDispatch()
@@ -87,6 +88,8 @@ console.log(OTP)
   }
 
   return (
+    <ErrorBoundary>
+
     <Grid>
       <Paper elevation={0} style={paperStyle}>
         <Grid>
@@ -123,7 +126,7 @@ console.log(OTP)
               color: '#fff',
               backgroundColor: '#090B42',
             }}
-          />
+            />
           <Button
             type='button'
             style={btnStyle}
@@ -140,12 +143,12 @@ console.log(OTP)
           )}
           {countdown === 0 && (
             <Button
-              type='button'
+            type='button'
               style={btnStyle}
               variant='contained'
               color='primary'
               onClick={()=>void resendOTP()}
-            >
+              >
               Resend OTP
             </Button>
           )}
@@ -153,6 +156,7 @@ console.log(OTP)
       <ToastContainer />
       </Paper>
     </Grid>
+              </ErrorBoundary>
   );
 };
 

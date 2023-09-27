@@ -1,8 +1,11 @@
 import { Typography } from '@mui/material';
 import React from 'react';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 function OurMission() {
   return (
+    <ErrorBoundary>
+
     <div className="flex-1 p-5 mb-10  relative">
       <div className="flex flex-col-reverse md:flex-row">
         {/* Right Side */}
@@ -25,7 +28,7 @@ function OurMission() {
             alt="Your Image"
             className="mb-4 md:absolute top-2 border-8 border-white md:w-1/2  h-[45vh] "
             style={{ zIndex: 1 }}
-          />
+            />
         </div>
 
         {/* Left Side */}
@@ -54,6 +57,7 @@ function OurMission() {
         </div>
       </div>
     </div>
+            </ErrorBoundary>
   );
 }
 

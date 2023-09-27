@@ -4,12 +4,15 @@ import Login from "../login/login";
 import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlice";
 
 import { useDispatch } from "react-redux";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 const Header = () => {
   const theme = useTheme();
   
   const dispatch = useDispatch();
   return (
     <>
+      <ErrorBoundary>
+
       <div className=" top-0 bg-white   border-gray-300 flex justify-between items-center mr-20 ml-20 p-3">
         <div className="flex items-center">
           {/* Replace 'logo.svg' with your logo image */}
@@ -29,6 +32,7 @@ const Header = () => {
 
         </div>
       </div>
+            </ErrorBoundary>
       <Login />
     </>
   );

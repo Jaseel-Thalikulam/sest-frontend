@@ -6,6 +6,7 @@
   import IUserSlice from '../../../interface/Iredux/IuserSlice';
   import IFetchTutorsResponse from '../../../interface/TutorDetailPage/fetchTutors.interface';
   import PublicMethods from '../../../Methods/PublicMethods';
+import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
   function TutorList() {
     const [tutors, setTutors] = useState<IUserSlice[]>([]);
     const [loading, setLoading] = useState(true); // Add loading state
@@ -41,6 +42,8 @@
     }, []);
     const loadingArray = new Array(3).fill(null);
     return (
+      <ErrorBoundary>
+
       <div className="bg-white p-4 rounded-lg shadow-md">
         <div className="text-center mb-2"> {/* Centered heading */}
           <h2 className="text-xl font-semibold">Trending Tutors</h2>
@@ -57,7 +60,7 @@
               <div className="absolute bottom-5 right-0 h-4 w-4 rounded-full bg-slate-300"></div>
             </div>
           ))
-        ) : (
+          ) : (
           <ul>
             {tutors.map((tutor: IUserSlice) => (
               <li key={tutor._id} className="mb-2 hover hover:scale-105 transition-transform duration-300 cursor-pointer ">
@@ -76,6 +79,7 @@
           </ul>
         )}
       </div>
+          </ErrorBoundary>
     );
   }
 

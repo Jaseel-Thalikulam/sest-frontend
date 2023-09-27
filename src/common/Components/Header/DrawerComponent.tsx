@@ -3,11 +3,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, IconButton } from '@mui/material'
 const PAGES = ["Contact Us", "About Us"]
 import Login from '../login/login'
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 const DrawerComponent = () => {
     const [openDrawer, setOpenDrawer] = useState(false)
    
   return (
-      <>
+    <>
+      <ErrorBoundary>
+
           <Drawer open={openDrawer}
           onClose={()=>setOpenDrawer(false)} PaperProps={{
             sx: { width: "60%" },
@@ -15,7 +18,7 @@ const DrawerComponent = () => {
               <List>
                     
                       {
-                          PAGES.map((page,index) => 
+                        PAGES.map((page,index) => 
                         (
                             <ListItemButton key={index}>
                             
@@ -27,9 +30,9 @@ const DrawerComponent = () => {
                        
                   </ListItemButton>
 
-                        )
-                      )
-          }
+)
+)
+}
           
 
           <ListItemButton >
@@ -47,6 +50,7 @@ const DrawerComponent = () => {
               <IconButton sx={{color:"white",marginLeft:"auto"}} onClick={()=>setOpenDrawer(!openDrawer)}>
                   <MenuIcon/>
               </IconButton>
+</ErrorBoundary>
       </>
   )
 }

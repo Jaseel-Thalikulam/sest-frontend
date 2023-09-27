@@ -8,6 +8,7 @@ import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
 import { useEffect, useState } from "react";
 import { WebSocketProvider, socket } from "../../../contexts/WebSocket";
+import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
 function MessagingUI() {
   const data = useSelector((state: RootStateType) => state.user);
   const publicmethod = new PublicMethods();
@@ -47,6 +48,8 @@ function MessagingUI() {
   };
 
   return (
+    <ErrorBoundary>
+
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow bg-white">
         <div className="container mx-auto py-8">
@@ -117,6 +120,7 @@ function MessagingUI() {
         </div>
       </div>
     </div>
+                        </ErrorBoundary>
   );
 }
 

@@ -5,11 +5,14 @@ import ZOHO from "../../../../public/svg/ZOHO-New.svg";
 import AirBnb from "../../../../public/svg/Airbnb-logo.svg";
 import Unilever from "../../../../public/svg/Unilever-New.svg";
 import NetFlix from "../../../../public/svg/NETFLIX.svg";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 function OurAluminiWorksAt() {
   const isSmallScreen = useMediaQuery("(max-width: 400px)");
   return (
     <>
+      <ErrorBoundary>
+
       <div className="bg-white h-auto pt-10 mb-32">
         <div
           className={`lg:ml-48 lg:mr-48 ml-4 md:ml-48 mr-4 md:mr-48 h-32 ${
@@ -68,7 +71,7 @@ function OurAluminiWorksAt() {
                 className={`w-1/3 h-full ${
                   isSmallScreen ? "mb-4" : "mb-0 pr-4"
                 }`}
-              >
+                >
                 <img
                   src={AirBnb}
                   alt="AirBnb"
@@ -109,6 +112,7 @@ function OurAluminiWorksAt() {
         </div>
           </div>
       
+                  </ErrorBoundary>
     </>
   );
 }

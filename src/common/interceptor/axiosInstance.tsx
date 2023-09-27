@@ -1,14 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react'; // Import React and useState
-import Snackbar from '@mui/material/Snackbar'; // Import Material-UI Snackbar
-import MuiAlert from '@mui/material/Alert'; // Import Material-UI Alert
+import MuiAlert from '../../mui/muiAlert';
+
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 const axiosInstance = axios.create(); // Create a generic Axios instance with no base URL
 
-// Define a function for rendering the Snackbar message
-const Alert = React.forwardRef((props, ref) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} ref={ref} />;
-});
 
 // Your component
 function AxiosInstanceComponent() {
@@ -72,16 +68,8 @@ function AxiosInstanceComponent() {
 
   return (
     <div>
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={4000} 
-        onClose={handleCloseSnackbar}
-      >
-        <Alert onClose={handleCloseSnackbar} severity="error">
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <MuiAlert handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarOpen={snackbarOpen} severity='warning'/>
+     
     </div>
   );
 }

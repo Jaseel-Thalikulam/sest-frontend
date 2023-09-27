@@ -1,14 +1,13 @@
+import ErrorBoundary from '../errorBoundary/ErrorBoundary'
 import './Loading.scss'
+
 const Loading = () => {
   return (
-<div className="typing-indicator">
-    <div className="typing-circle"></div>
-    <div className="typing-circle"></div>
-    <div className="typing-circle"></div>
-    <div className="typing-shadow"></div>
-    <div className="typing-shadow"></div>
-    <div className="typing-shadow"></div>
-</div>
+    <ErrorBoundary>
+      <div className="flex justify-center items-center h-screen"> 
+        <span className="loader"></span>
+      </div>
+    </ErrorBoundary>
   )
 }
 

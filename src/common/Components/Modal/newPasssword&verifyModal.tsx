@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
 import {handleOpenAndCloseNewPasswordVerifyOtp} from'../../../redux/modalSlice/newpasswordModalSlice'
 import { RootStateType } from '../../../redux/store';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 
   
@@ -68,13 +69,14 @@ export default function NewPasswordOTPModal({ children, data}: ModalProps) {
  
   const dispatch = useDispatch();
   return (
-      <div>
     
+      <ErrorBoundary>
+        
       <BootstrapDialog
         onClose={()=>dispatch(handleOpenAndCloseNewPasswordVerifyOtp())}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
-      >
+        >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>dispatch(handleOpenAndCloseNewPasswordVerifyOtp())}>
           {data}
         </BootstrapDialogTitle>
@@ -83,6 +85,7 @@ export default function NewPasswordOTPModal({ children, data}: ModalProps) {
         </DialogContent>
       
       </BootstrapDialog>
-    </div>
+        </ErrorBoundary>
+   
   );
 }

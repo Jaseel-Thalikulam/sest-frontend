@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 
 
@@ -51,21 +52,13 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, ...other } = props;
 
-  return (
-    <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
-      {children}
-    </DialogTitle>
-  );
-}
 
 export default function StripPaymentModal({ children,isOpen,CloseModal}: ModalProps) {
  
   return (
-      <div>
-    
+  <ErrorBoundary>
+      
       <BootstrapDialog
         onClose={()=>CloseModal(0)}
         aria-labelledby="customized-dialog-title"
@@ -77,7 +70,8 @@ export default function StripPaymentModal({ children,isOpen,CloseModal}: ModalPr
         </DialogContent>
       
       </BootstrapDialog>
-    </div>
+        </ErrorBoundary>
+
   );
 
 }

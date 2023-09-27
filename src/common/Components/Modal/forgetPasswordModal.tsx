@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux'
 import { handleForgetPasswordChangeState } from '../../../redux/modalSlice/forgetpasswordSlice'
 import { RootStateType } from '../../../redux/store';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 
 
@@ -66,14 +67,15 @@ export default function ForgetPasswordModal({ children, data }: ModalProps) {
 
     const dispatch = useDispatch();
     return (
-        <div>
-            {/* <Tab label={buttonname} onClick={() => dispatch(handleOpenAndClose())} /> */}
-
+        
+         
+            <ErrorBoundary>
+                
             <BootstrapDialog
                 onClose={() => dispatch(handleForgetPasswordChangeState())}
                 aria-labelledby="customized-dialog-title"
                 open={isOpen}
-            >
+                >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={() => dispatch(handleForgetPasswordChangeState())}>
                     {data}
                 </BootstrapDialogTitle>
@@ -82,6 +84,7 @@ export default function ForgetPasswordModal({ children, data }: ModalProps) {
                 </DialogContent>
 
             </BootstrapDialog>
-        </div>
+                </ErrorBoundary>
+    
     );
 }

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
 import {handleOpenAndCloseVerifyOtp} from'../../../redux/modalSlice/VerifyOtpModalSlice'
 import { RootStateType } from '../../../redux/store';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 
   
@@ -68,8 +69,9 @@ export default function OTPModal({ children, data}: ModalProps) {
  
   const dispatch = useDispatch();
   return (
-      <div>
-      <BootstrapDialog
+<ErrorBoundary>
+      
+    <BootstrapDialog
         onClose={()=>dispatch(handleOpenAndCloseVerifyOtp())}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
@@ -82,6 +84,6 @@ export default function OTPModal({ children, data}: ModalProps) {
         </DialogContent>
       
       </BootstrapDialog>
-    </div>
+        </ErrorBoundary>
   );
 }

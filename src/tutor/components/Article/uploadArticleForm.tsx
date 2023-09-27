@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
+import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
 
 type CloseModalFunction = () => void;
 
@@ -125,6 +126,8 @@ function UploadArticleForm({ CloseModal }:Props,) {
   };
 
   return (
+    <ErrorBoundary>
+
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto">
       <div className="mb-8">
         <label className="block font-medium mb-2">Image</label>
@@ -164,7 +167,7 @@ function UploadArticleForm({ CloseModal }:Props,) {
           error={!!errors.title}
           helperText={errors.title}
           className="mb-6"
-        />
+          />
         <TextareaAutosize
           id="content"
           name="content"
@@ -186,6 +189,7 @@ function UploadArticleForm({ CloseModal }:Props,) {
         </Button>
       </form>
     </div>
+          </ErrorBoundary>
   );
 }
 

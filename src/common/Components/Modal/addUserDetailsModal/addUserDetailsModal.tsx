@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { AddUserDetailsChangeState } from '../../../../redux/modalSlice/AddUserDetailsSlice';
 import IModalStatus from '../../../../interface/Imodal/ImodalStatus';
 import { RootStateType } from '../../../../redux/store';
+import ErrorBoundary from '../../errorBoundary/ErrorBoundary';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiBackdrop-root': {
@@ -69,7 +70,8 @@ export default function ModalAddUserdetils({ children, data }: ModalProps) {
 
   const dispatch = useDispatch();
   return (
-    <div>                
+<ErrorBoundary>
+      
 
       <BootstrapDialog
         onClose={() => dispatch(AddUserDetailsChangeState())}
@@ -84,7 +86,7 @@ export default function ModalAddUserdetils({ children, data }: ModalProps) {
         </DialogContent>
 
       </BootstrapDialog>
+          </ErrorBoundary>    
 
-    </div>
   );
 }

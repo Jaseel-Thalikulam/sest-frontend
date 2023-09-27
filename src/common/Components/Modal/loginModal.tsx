@@ -5,6 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleLoginChangeState } from '../../../redux/modalSlice/loginModalSlice';
 import { RootStateType } from '../../../redux/store';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiBackdrop-root': {
@@ -36,7 +37,8 @@ export default function   LoginModal({ children, data, buttonname }: ModalProps)
   const dispatch = useDispatch();
 
   return (
-    <div>
+<ErrorBoundary>
+      
       <BootstrapDialog
         onClose={() => dispatch(handleLoginChangeState())}
         aria-labelledby="customized-dialog-title"
@@ -58,9 +60,10 @@ export default function   LoginModal({ children, data, buttonname }: ModalProps)
             boxShadow: '1', // Enable scrolling if content overflows
           },
         }}
-      >
+        >
         <DialogContent dividers>{children}</DialogContent>
       </BootstrapDialog>
-    </div>
+    
+        </ErrorBoundary>
   );
 }

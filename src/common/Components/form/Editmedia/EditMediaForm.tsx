@@ -7,6 +7,7 @@ import { axiosInstance } from "../../../interceptor/axiosInstance";
 import { toast } from "react-toastify";
 import { Post } from "../../../../interface/IPost/IFetchFeedPost";
 import { IPostAPI } from "../../../../interface/IPost/IPostAPI";
+import ErrorBoundary from "../../errorBoundary/ErrorBoundary";
 
 type CloseModalFunction = () => void;
 
@@ -121,6 +122,8 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
   };
 
   return (
+    <ErrorBoundary>
+
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto p-8">
       <form onSubmit={(event)=>void handleSubmit(event)}>
         <div className="mb-4">
@@ -131,18 +134,18 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
                   color="inherit"
                   className="absolute top-0 left-0 z-10 w-6"
                   onClick={handleRemoveMedia}
-                >
+                  >
                   <Delete />
                 </IconButton>
                 <div className="aspect-ratio-container">
                   {typeof mediaFiles === "string" ? (
                     <img
-                      src={mediaFiles}
+                    src={mediaFiles}
                       alt="Image Preview"
                       className="object-cover w-full h-full rounded-md"
                     />
-                  ) : (
-                    <img
+                    ) : (
+                      <img
                       src={URL.createObjectURL(mediaFiles)}
                       alt="Image Preview"
                       className="object-cover w-full h-full rounded-md"
@@ -158,7 +161,7 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
           <label
             htmlFor="media"
             className="border border-gray-300 rounded px-3 py-2 w-full flex items-center justify-center cursor-pointer"
-          >
+            >
             <CloudUpload /> Upload Image
             <input
               type="file"
@@ -170,7 +173,7 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
           </label>
           {mediaFilesError && (
             <p className="text-red-500 text-sm mt-1">{mediaFilesError}</p>
-          )}
+            )}
         </div>
         <div className="mb-4">
           <label htmlFor="caption" className="block font-medium mb-2">
@@ -197,6 +200,7 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
         </Button>
       </form>
     </div>
+          </ErrorBoundary>
   );
 }
 

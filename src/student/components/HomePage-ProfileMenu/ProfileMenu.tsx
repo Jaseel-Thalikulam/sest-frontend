@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import defaultAvatar from '../../../../public/defaultAvatar/defaultavatar.png';
 import { RootStateType } from '../../../redux/store';
 import PublicMethods from '../../../Methods/PublicMethods';
+import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
 
 function ProfileMenu() {
   const publicmethods = new PublicMethods();
@@ -45,6 +46,8 @@ function ProfileMenu() {
 
 
   return (
+    <ErrorBoundary>
+
     <div className="bg-white p-4 rounded-lg shadow-md">
       <div className="text-center">
         {data.avatarUrl !== null ? (
@@ -72,6 +75,7 @@ function ProfileMenu() {
         {/* Add other menu items here */}
       </div>
     </div>
+    </ErrorBoundary>
   );
 }
 

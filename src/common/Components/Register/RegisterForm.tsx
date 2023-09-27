@@ -18,6 +18,7 @@ import jwt_decode from "jwt-decode"
 import { UserDetails } from '../../../redux/userSlice/UserSlice';
 import { useNavigate } from "react-router-dom"
 import IGoogleRegister from '../../../interface/register/IGoogleRegister'
+import ErrorBoundary from '../errorBoundary/ErrorBoundary'
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 const RegisterForm = () => {
@@ -193,6 +194,8 @@ const RegisterForm = () => {
 
 
   return (
+    <ErrorBoundary>
+
     <Grid>
 
       <Paper elevation={0} style={paperStyle}>
@@ -205,9 +208,9 @@ const RegisterForm = () => {
            void DataSubmit(name, email, sub, true)
             }}
             onError={() => {
-             toast.error("Authentication Failed")
+              toast.error("Authentication Failed")
             }}
-          />
+            />
 
         </GoogleOAuthProvider>
 
@@ -247,6 +250,7 @@ const RegisterForm = () => {
         <ToastContainer />
       </Paper>
     </Grid>
+                </ErrorBoundary>
   )
 }
 

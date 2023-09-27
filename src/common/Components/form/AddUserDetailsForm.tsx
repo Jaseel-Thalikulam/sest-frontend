@@ -17,6 +17,7 @@ import APICategoryResponse from "../../../interface/Icategory/Icategory";
 import ICategoryResponse from "../../../interface/Icategory/IcategoryResponse";
 import ICategorydata from "../../../interface/Icategory/IcategoryData";
 import { axiosInstance } from "../../interceptor/axiosInstance";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 function AddUserDetailsForm() {
   const data = useSelector((state: RootStateType) => state.user);
@@ -315,6 +316,8 @@ function AddUserDetailsForm() {
     });
 
   return (
+    <ErrorBoundary>
+
     <div className="col-12">
       <div className="card mb-4">
         <div className="card-body">
@@ -342,7 +345,7 @@ function AddUserDetailsForm() {
                     aria-describedby="basic-icon-default-fullname2"
                     value={Name}
                     readOnly
-                  />
+                    />
                 </div>
               </div>
             </div>
@@ -350,7 +353,7 @@ function AddUserDetailsForm() {
               <Form.Label
                 className="col-sm-2 col-form-label"
                 htmlFor="basic-icon-default-company"
-              >
+                >
                 Role
               </Form.Label>
               <div className="col-sm-10">
@@ -439,7 +442,7 @@ function AddUserDetailsForm() {
                   <span
                     id="basic-icon-default-message2"
                     className="input-group-text"
-                  >
+                    >
                     <i className="bx bx-comment"></i>
                   </span>
                   <Form.Control
@@ -478,7 +481,7 @@ function AddUserDetailsForm() {
                     aria-describedby="basic-addon14"
                     value={dob}
                     onChange={(e) => setDOB(e.target.value)}
-                  />
+                    />
                 </div>
               </div>
             </div>
@@ -487,7 +490,7 @@ function AddUserDetailsForm() {
               <Form.Label
                 className="col-sm-2 form-label"
                 htmlFor="basic-icon-default-message"
-              >
+                >
                 GitHub
               </Form.Label>
               <div className="col-sm-10">
@@ -514,7 +517,7 @@ function AddUserDetailsForm() {
               <Form.Label
                 className="col-sm-2 form-label"
                 htmlFor="basic-icon-default-message"
-              >
+                >
                 Linkedin
               </Form.Label>
               <div className="col-sm-10">
@@ -522,7 +525,7 @@ function AddUserDetailsForm() {
                   <span
                     id="basic-icon-default-message2"
                     className="input-group-text"
-                  >
+                    >
                     <i className="bx bx-comment"></i>
                   </span>
                   <Form.Control
@@ -631,6 +634,7 @@ function AddUserDetailsForm() {
         rtl={false}
       />
     </div>
+        </ErrorBoundary>
   );
 }
 

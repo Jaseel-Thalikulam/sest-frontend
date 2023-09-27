@@ -2,6 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import { DialogContent } from "@mui/material";
+import ErrorBoundary from "../../common/Components/errorBoundary/ErrorBoundary";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -45,7 +46,8 @@ export default function ChatUIModal({
   CloseModal,
 }: ModalProps) {
   return (
-    <div>
+    <ErrorBoundary>
+
       <BootstrapDialog
         onClose={() => CloseModal()}
         aria-labelledby="customized-dialog-title"
@@ -56,6 +58,7 @@ export default function ChatUIModal({
           {children}</div>
         </DialogContent>
       </BootstrapDialog>
-    </div>
+   
+        </ErrorBoundary>
   );
 }

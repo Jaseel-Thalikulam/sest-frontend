@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
+import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
 
 
 
@@ -65,8 +66,9 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 export default function UploadvideoModal({ children, data,isOpen,CloseModal}: ModalProps) {
  
   return (
-      <div>
-    
+      
+      <ErrorBoundary>
+        
       <BootstrapDialog
         onClose={()=>CloseModal()}
         aria-labelledby="customized-dialog-title"
@@ -80,7 +82,8 @@ export default function UploadvideoModal({ children, data,isOpen,CloseModal}: Mo
         </DialogContent>
       
       </BootstrapDialog>
-    </div>
+        </ErrorBoundary>
+    
   );
 
 }

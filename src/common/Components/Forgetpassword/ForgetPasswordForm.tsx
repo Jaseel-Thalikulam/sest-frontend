@@ -12,6 +12,7 @@ import { UserDetails } from '../../../redux/userSlice/UserSlice';
 import { handleForgetPasswordChangeState } from '../../../redux/modalSlice/forgetpasswordSlice'
 import { handleOpenAndCloseNewPasswordVerifyOtp } from '../../../redux/modalSlice/newpasswordModalSlice'
 import ILoginResponse from '../../../interface/login/Ilogin'
+import ErrorBoundary from '../errorBoundary/ErrorBoundary'
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 
@@ -125,6 +126,8 @@ const ForgetPasswordForm = () => {
   }
 
   return (
+    <ErrorBoundary>
+
     <Grid>
 
       <Paper elevation={0} style={paperStyle}>
@@ -149,6 +152,7 @@ const ForgetPasswordForm = () => {
         <ToastContainer />
       </Paper>
     </Grid>
+          </ErrorBoundary>
   )
 }
 

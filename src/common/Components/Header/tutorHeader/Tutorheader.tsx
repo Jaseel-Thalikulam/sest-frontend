@@ -12,6 +12,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import ErrorBoundary from '../../errorBoundary/ErrorBoundary';
 
 
 
@@ -118,6 +119,8 @@ export default function TutorHeader() {
   );
 
   return (
+    <ErrorBoundary>
+
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
@@ -127,7 +130,7 @@ export default function TutorHeader() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-          >
+            >
             <MenuIcon />
           </IconButton>
           <Typography
@@ -175,7 +178,7 @@ export default function TutorHeader() {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
-            >
+              >
               <MoreIcon />
             </IconButton>
           </Box>
@@ -184,5 +187,6 @@ export default function TutorHeader() {
       {renderMobileMenu}
       {renderMenu}
     </Box>
+              </ErrorBoundary>
   );
 }

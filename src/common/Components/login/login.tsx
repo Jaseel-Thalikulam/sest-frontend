@@ -3,11 +3,14 @@ import ForgetPassword from '../Forgetpassword/ForgetPassword';
 import LoginForm from './loginform';
 import { Box, Typography } from '@mui/material';
 import illustrate from '../../../../public/svg/undraw_reading_time_re_phf7 (1).svg';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 const login = () => {
   return (
     <>
+
       <LoginModal buttonname="Login" data="Login & Connect">
+        <ErrorBoundary>
         <Box
           sx={{
             display: 'flex',
@@ -37,6 +40,7 @@ const login = () => {
             <LoginForm />
           </div>
         </Box>
+              </ErrorBoundary>
       </LoginModal>
       <ForgetPassword />
               </>

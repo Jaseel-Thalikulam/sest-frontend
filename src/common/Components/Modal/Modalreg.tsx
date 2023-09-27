@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import {useDispatch}from 'react-redux'
 import {handleChangeState} from'../../../redux/modalSlice/RegisterFormModalSlice'
 import { RootStateType } from '../../../redux/store';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 
   
@@ -67,8 +68,8 @@ export default function Modalreg({ children, data}: ModalProps) {
  
   const dispatch = useDispatch();
   return (
-      <div>
-    
+<ErrorBoundary>
+      
           
       <BootstrapDialog
         onClose={()=>dispatch(handleChangeState())}
@@ -83,6 +84,6 @@ export default function Modalreg({ children, data}: ModalProps) {
         </DialogContent>
       
       </BootstrapDialog>
-    </div>
+      </ErrorBoundary>    
   );
 }

@@ -16,6 +16,7 @@ import { handleForgetPasswordChangeState } from "../../../redux/modalSlice/forge
 import ILoginResponse from "../../../interface/login/Ilogin";
 import IGoogleLogin from "../../../interface/login/IgoogleLogin";
 import { useEffect, useRef, useState } from "react";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 //.env
 const CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 const BASE_URL: string = import.meta.env.VITE_BACKEND_BASE_URL as string;
@@ -102,7 +103,6 @@ const LoginForm = () => {
 
         const { success, message, userData, token } = response.data;
 
-        console.log(userData);
 
         if (!success) {
           toast.error(message);
@@ -180,9 +180,7 @@ const LoginForm = () => {
             navigate("/Sadmin");
           }
         }
-      } else {
-        toast.error("Invalid email or password");
-      }
+      } 
     } catch (error) {
       console.error("Error during DataSubmit:", error);
     }
@@ -213,6 +211,8 @@ const LoginForm = () => {
     };
   }, []);
   return (
+    <ErrorBoundary>
+
     <Grid>
       <Paper elevation={0} style={paperStyle}>
         <GoogleOAuthProvider clientId={CLIENT_ID}>
@@ -282,7 +282,7 @@ const LoginForm = () => {
   value={props.values.password}
   onChange={props.handleChange}
   onBlur={props.handleBlur}
-  onClick={() => setPasswordInputClicked(true)} // Add this line
+  onClick={() => setPasswordInputClicked(true)}
 />
                 <label htmlFor="password" className="input-label">
                   Password
@@ -320,6 +320,7 @@ const LoginForm = () => {
         <ToastContainer />
       </Paper>
     </Grid>
+                    </ErrorBoundary>
   );
 };
 

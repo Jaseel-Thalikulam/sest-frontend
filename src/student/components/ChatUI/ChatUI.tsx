@@ -9,6 +9,7 @@ import IMessage from "../../../interface/IMessage/IMessage";
 import { WebSocketContext } from "../../../contexts/WebSocket";
 import { format } from "date-fns";
 import { IFetchMessagesAPI } from "../../../interface/IMessage/IfetchmessagesAPI";
+import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
 
 function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
   const currentUser = useSelector((state: RootStateType) => state.user);
@@ -94,6 +95,8 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
 
   return (
     <>
+      <ErrorBoundary>
+
       <div className="chatContainer">
         <div className="chatHeader">
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -135,7 +138,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                 >
                   {/* {message.senderId[0] !== currentUser._id  && (
                   <Avatar
-                    alt="Recipient"
+                  alt="Recipient"
                     src={recipientAvatarUrl}
                     style={{
                       width: "24px",
@@ -153,18 +156,18 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                       color:  message.senderId == currentUser._id
                       ? "#fff"
                       : "#000",
-
+                      
                       backgroundColor:
                         message.senderId == currentUser._id
                           ? "#6C63FF"
                           : "#EDEDED ",
                       padding: "10px",
                       borderRadius:
-                        message.senderId == currentUser._id
+                      message.senderId == currentUser._id
                           ? "15px 0px 15px 15px"
                           : "0px 15px 15px 15px", // Border radius for message containers
                     }}
-                  >
+                    >
                     {message.content}
 
                     <div
@@ -177,13 +180,13 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                     >
                       {/* { message.senderId[0] === currentUser._id && (
                       <span
-                        style={{
-                          fontSize: "12px",
-                          marginRight: "6px",
-                          color: "#999",
-                        }}
+                      style={{
+                        fontSize: "12px",
+                        marginRight: "6px",
+                        color: "#999",
+                      }}
                       >
-                        {message.status === "sent" && "Sent"}
+                      {message.status === "sent" && "Sent"}
                         {message.status === "delivered" && (
                           <CheckIcon fontSize="inherit" style={{ color: "orange" }} />
                         )}
@@ -243,13 +246,13 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
             onClick={()=>void handleSendMessage()}
             aria-label="send"
             color="primary"
-          >
+            >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
               className="w-5 h-5"
-            >
+              >
               <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
             </svg>
           </IconButton>
@@ -261,7 +264,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
               stroke-width="1.5"
               stroke="currentColor"
               className="w-6 h-6"
-            >
+              >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -273,6 +276,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
        
         </div>
       </div>
+                </ErrorBoundary>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import { Avatar } from '@mui/material'
 import React, { useEffect } from 'react'
+import ErrorBoundary from '../../../../common/Components/errorBoundary/ErrorBoundary'
 
 function ReceiverDetail(props: { avatar: string, name: string, about: string|null|undefined }) {
   
@@ -8,7 +9,9 @@ function ReceiverDetail(props: { avatar: string, name: string, about: string|nul
     console.log(about,name)
   })
   return (
-      <>
+    <>
+      <ErrorBoundary>
+
           <div className="flex flex-col items-center mt-4 mb-6">
                     <Avatar
                       style={{
@@ -16,7 +19,7 @@ function ReceiverDetail(props: { avatar: string, name: string, about: string|nul
                         height: "100px",
                         fontSize: "40px",
                       }}
-        >
+                      >
           <img src={avatar}/>
           
                       
@@ -31,6 +34,7 @@ function ReceiverDetail(props: { avatar: string, name: string, about: string|nul
         </p>
                     </div>
                   </div>
+          </ErrorBoundary>
       </>
   )
 }

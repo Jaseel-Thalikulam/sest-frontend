@@ -12,6 +12,7 @@ import {
 import Next from "@mui/icons-material/NavigateNextRounded";
 import Previous from "@mui/icons-material/NavigateBeforeRounded";
 import PublicMethods from "../../../Methods/PublicMethods";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 const BASE_URL: string = import.meta.env.VITE_BACKEND_BASE_URL as string;
 
 function ShowCaseCourses() {
@@ -58,6 +59,8 @@ function ShowCaseCourses() {
 
   return (
     <>
+      <ErrorBoundary>
+
       <div className="bg-fafa pt-10 pb-20">
       <div className={`lg:ml-32 lg:mr-32 md:ml-10  md:mr-10 ${isSmallScreen ? 'mt-2' : 'mt-10 mb-10'}`}>
           <Typography
@@ -77,10 +80,10 @@ function ShowCaseCourses() {
           </Typography>
           <div
             className={`flex  items-center mt-10 flex-wrap flex-row  gap-10 justify-center`}
-          >
+            >
             {coursesToShow.map((courseItem, index) => (
               <div
-                key={index}
+              key={index}
                 className={`h-80 w-56 rounded-t-md shadow-sm hover:shadow-md hover:scale-105 transition-transform duration-700 bg-white relative ${
                   isSmallScreen ? "mb-4" : "" // Adjust margin for small screens
                 }`}
@@ -102,7 +105,7 @@ function ShowCaseCourses() {
                       transform: "translateY(-50%) translateX(-50%)",
                       padding: "10px",
                     }}
-                  >
+                    >
                     <Previous />
                   </IconButton>
                 )}
@@ -180,6 +183,7 @@ function ShowCaseCourses() {
           </div>
         </div>
       </div>
+                    </ErrorBoundary>
     </>
   );
 }

@@ -19,7 +19,6 @@ import { RootStateType } from "../../../redux/store";
 const LeadHomePage = () => {
   const [isArticleModalOpen, setArticleModal] = useState(false);
   const [isMediaModalOpen, setMediaModal] = useState(false);
-  const [isPollModalOpen, setPollModal] = useState(false);
   const publicmethod = new PublicMethods()
   const jitsi = new Jitsihelper()
   const data = useSelector((state: RootStateType) => state.user);
@@ -32,9 +31,7 @@ const LeadHomePage = () => {
    function handleMediaButtonClick() {
     setMediaModal(!isMediaModalOpen);
   }
-   function handlePollButtonClick() {
-    setPollModal(!isPollModalOpen);
-  }
+
 
   async function MeetButtonClick(){
     
@@ -63,7 +60,7 @@ const LeadHomePage = () => {
                 {/* Add Upload Post Section */}
                 <div className="mb-4">
                   <div className="bg-white p-4 rounded-lg shadow-md">
-                    {/* Meeting, Image/Video, Poll, and Article Options */}
+                    {/* Meeting, Image/Video, and Article Options */}
                     <div className="flex space-x-4 justify-center">
                       {/* Centered Button - Meeting */}
                      
@@ -90,14 +87,8 @@ const LeadHomePage = () => {
                       >
                         Media
                       </Button>
-                      {/* Centered Button - Poll */}
-                      {/* <Button
-                        variant="text"
-                        startIcon={<Poll className="text-purple-500" />}
-                        onClick={()=> void handlePollButtonClick()}
-                      >
-                        Poll
-                      </Button> */}
+                
+                  
                       {/* Centered Button - Article */}
                       <Button
                         variant="text"

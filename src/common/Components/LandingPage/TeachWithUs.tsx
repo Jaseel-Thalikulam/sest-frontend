@@ -1,12 +1,20 @@
 import { useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 const BASE_URL: string = import.meta.env.VITE_FRONTEND_BASE_URL as string;
 function TeachWithUs() {
   const isScreenLargerThan400px = useMediaQuery("(min-width: 401px)");
   const isScreenSmallerThan950px = useMediaQuery("(max-width: 949px)");
-
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: Add smooth scrolling animation
+    });
+  };
   return (
     <>
+      <ErrorBoundary>
+
       <div
         className={`bg-1C1D1F h-28 text-white p-4 ${
           isScreenSmallerThan950px
@@ -27,13 +35,14 @@ function TeachWithUs() {
             <h1 className="text-xl">Teach with us</h1>
             <h6 className="text-sm m-2">Empower the Future Generation</h6>
           </div>
-          <Link to={`${BASE_URL}/welcome/educator`}>
+          <Link to={`${BASE_URL}/welcome/educator`} onClick={()=>void scrollToTop()}>
             <div className="border-2 boreder-white m-5 p-3 rounded cursor-pointer">
               <button>Get started</button>
             </div>
           </Link>
         </div>
       </div>
+          </ErrorBoundary>
     </>
   );
 }

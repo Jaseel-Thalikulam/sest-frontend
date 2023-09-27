@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { IVideo } from '../../../interface/IVideo/IVideo';
 import { ChangeEvent } from 'react';
 import { IUploadVideo } from '../../../interface/IVideo/IUploadVideo';
+import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
 
 type FileUploadState = {
   videoFile: File | null;
@@ -122,6 +123,8 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
   };
 
   return (
+    <ErrorBoundary>
+
     <div className="form-container">
       <section className="mt-10">
         <TextField
@@ -133,7 +136,7 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
           margin="normal"
           error={!!errors.title}
           helperText={errors.title}
-        />
+          />
         <div className="my-10">
           <div className={dragAreaClasses}>
             <div {...getVideoRootProps()} accept="video/*">
@@ -203,6 +206,7 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
         </Button>
       </div>
     </div>
+        </ErrorBoundary>
   );
 }
 

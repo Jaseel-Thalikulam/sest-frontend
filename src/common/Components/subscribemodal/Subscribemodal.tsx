@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 
 
@@ -65,8 +66,9 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 export default function Subscribemodal({ children, data,isOpen,CloseModal}: ModalProps) {
  
   return (
-      <div>
-    
+
+    <ErrorBoundary>
+
       <BootstrapDialog
         onClose={()=>CloseModal(0)}
         aria-labelledby="customized-dialog-title"
@@ -80,7 +82,8 @@ export default function Subscribemodal({ children, data,isOpen,CloseModal}: Moda
         </DialogContent>
       
       </BootstrapDialog>
-    </div>
+ 
+        </ErrorBoundary>
   );
 
 }

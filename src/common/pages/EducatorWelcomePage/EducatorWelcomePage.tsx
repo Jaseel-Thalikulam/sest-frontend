@@ -1,9 +1,14 @@
 import React from 'react'
-
+import EducatorWelcomeBanner from '../../Components/Banner/EducatorWelcomeBanner'
+import ErrorBoundary from '../../Components/errorBoundary/ErrorBoundary'
 function EducatorWelcomePage() {
   return (
-      <>
-        <h1>Welcome</h1>  
+    <>
+      <ErrorBoundary>
+
+      <EducatorWelcomeBanner />
+      </ErrorBoundary>
+      
       </>
   )
 }

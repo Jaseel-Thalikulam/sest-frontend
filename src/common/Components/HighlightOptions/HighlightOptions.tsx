@@ -1,6 +1,10 @@
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
+
 function HighlightOptions() {
     return (
       <>
+        <ErrorBoundary>
+
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-5 mb-40 relative">
           <div className="flex-1 flex flex-col items-center md:items-start shadow-sm hover:shadow-md hover:scale-105 transition-transform duration-1000 p-5">
             <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#8a3ffc" viewBox="0 0 256 256">
@@ -31,6 +35,7 @@ function HighlightOptions() {
             <h6 className="text-888888 text-sm md:text-base">Guiding your journey with care, encouragement, and unwavering assistance always available.</h6>
           </div>
         </div>
+              </ErrorBoundary>
       </>
     );
   }

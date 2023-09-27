@@ -1,6 +1,7 @@
 import  { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { IVideo } from '../../../interface/IVideo/IVideo';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 interface IProp{
     video:IVideo|null
 }
@@ -11,6 +12,8 @@ function VideoPlayer({ video }:IProp) {
         setVideo(video)
     },[video])
   return (
+    <ErrorBoundary>
+
     <div style={{ width: '65%', height: '70vh', position: 'relative', marginRight: '20px' }}>
       {currentvideo && (
         <>
@@ -26,6 +29,7 @@ function VideoPlayer({ video }:IProp) {
         </>
       )}
     </div>
+    </ErrorBoundary>
   );
 }
 

@@ -17,6 +17,7 @@ const INITIAL_STATE: IUserSlice = {
   tags: [],
   isBanned:true,
   avatarUrl: '',
+  createdAt:null
   
 }
 
@@ -54,13 +55,13 @@ const UserSlice = createSlice({
             }
             if (URLs !== undefined) {
               if (URLs.github !== undefined) {
-                state.URLs.github = URLs.github;
+                state.URLs!.github = URLs.github;
               }
               if (URLs.linkedin !== undefined) {
-                state.URLs.linkedin = URLs.linkedin;
+                state.URLs!.linkedin = URLs.linkedin;
               }
               if (URLs.pinterest !== undefined) {
-                state.URLs.pinterest = URLs.pinterest;
+                state.URLs!.pinterest = URLs.pinterest;
               }
         }
         if (tags !== undefined) {

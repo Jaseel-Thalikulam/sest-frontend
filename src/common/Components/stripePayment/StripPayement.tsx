@@ -10,6 +10,7 @@ import SuccessFullySubscribed from '../../../../public/svg/undraw_completing_re_
 import creditCardPayment from '../../../../public/svg/undraw_credit_card_payments_re_qboh.svg'
 import { ISubscriptionPayment } from '../../../interface/ISubscription/ISubscriptionPayment';
 import ICommonAPI from '../../../interface/IcommonAPI/IcommonAPI';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 interface IProp {
   amount: number;
@@ -105,6 +106,8 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
 
   return (
     <>
+      <ErrorBoundary>
+
       {status !== 'success' && status !== 'rejected' && (
         <div className="h-auto flex items-center m-20">
           <div className="w-1/2">
@@ -149,6 +152,7 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
           Pay {publicMethod.formatRupees(amount)}
         </button>
       )}
+          </ErrorBoundary>
     </>
   );
 }

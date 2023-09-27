@@ -10,6 +10,7 @@ import { ICourseAPI } from '../../../interface/ICourse/ICourseAPI';
 import ICategoryResponse from '../../../interface/Icategory/IcategoryResponse';
 import ICategorydata from '../../../interface/Icategory/IcategoryData';
 import DoneIcon from "@mui/icons-material/Done";
+import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
 
 interface ModalProps {
   CloseModal: () => void;
@@ -129,6 +130,8 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
 
   return (
     <>
+      <ErrorBoundary>
+
       <div className="bg-white p-4 flex flex-col h-full relative">
         <TextField
           fullWidth
@@ -149,17 +152,17 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
           margin="normal"
           error={descriptionError}
           helperText={descriptionError ? 'Description must contain at least 50 words' : ''}
-        />
+          />
         <div
           onClick={handleUploadClick}
           onDrop={(event) => void handleDrop(event)}
           onDragOver={handleDragOver}
           className="border-dashed border-2 border-gray-400 mt-4 mb-2 p-4 flex-grow cursor-pointer"
-        >
+          >
           {coverImage ? (
             <CardMedia
-              component="img"
-              alt="Cover Image Preview"
+            component="img"
+            alt="Cover Image Preview"
               height="80" // Decreased height for smaller preview
               src={URL.createObjectURL(coverImage)}
             />
@@ -168,7 +171,7 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
               <AddPhotoAlternate fontSize="large" />
               {invalidImage ? (
                 <p className="text-red-500">Only landscape images are allowed.</p>
-              ) : (
+                ) : (
                 <p>Click to Upload or Drag and Drop an image here</p>
               )}
             </div>
@@ -190,7 +193,7 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
               value={selectedCategory}
               label="Category"
               onChange={(e) => setSelectedCategory(e.target.value as string)}
-            >
+              >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
@@ -211,11 +214,12 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
             className="float-right"
             disabled={!title || !description || invalidImage}
             onClick={() => void handleSubmit()}
-          >
+            >
             Create
           </Button>
         </div>
       </div>
+            </ErrorBoundary>
     </>
   );
 }

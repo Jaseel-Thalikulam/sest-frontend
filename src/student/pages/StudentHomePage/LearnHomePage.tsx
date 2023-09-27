@@ -15,6 +15,7 @@ import PublicMethods from '../../../Methods/PublicMethods';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../redux/store';
 import { AxiosInstanceComponent } from '../../../common/interceptor/axiosInstance';
+import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
 const LearnHomePage = () => {
   const data = useSelector((state: RootStateType) => state.user);
 const navigate = useNavigate()
@@ -37,6 +38,8 @@ const navigate = useNavigate()
 
   return (
     <>
+      <ErrorBoundary>
+
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow bg-white">
         <div className="container mx-auto px-4 py-8">
@@ -68,7 +71,7 @@ const navigate = useNavigate()
                       <Button
                         style={{ zIndex: 2 }}
                         variant="text"
-                      startIcon={<Description className="text-orange-500" />}
+                        startIcon={<Description className="text-orange-500" />}
                       onClick={() => void handelArticleButtonClick()}
                       >
                         Article
@@ -86,11 +89,12 @@ const navigate = useNavigate()
         </div>
       </div>
     </div>
+    </ErrorBoundary>
     <UploadArticleModal
         isOpen={isArticleModalOpen}
         CloseModal={()=>void handelArticleButtonClick()}
         data="Author Your Content"
-      >
+        >
         <UploadArticleForm CloseModal={()=>void handelArticleButtonClick()} />
       </UploadArticleModal>
       <ToastContainer/>
