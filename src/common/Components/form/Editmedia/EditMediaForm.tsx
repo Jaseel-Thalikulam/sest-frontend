@@ -13,7 +13,7 @@ type CloseModalFunction = () => void;
 
 interface Props {
   CloseModal: CloseModalFunction;
-  selectedPost: Post;
+  selectedPost: Post|null;
   setPost: Dispatch<SetStateAction<Post[]>> // You need to define this function to update the post
   posts:Post[]
 }

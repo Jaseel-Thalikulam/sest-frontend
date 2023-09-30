@@ -83,7 +83,7 @@ const [PublisherName,setPublisherName]=useState('')
           
           const subscriptionresponse :{data:ISubscriptionDetail}=  await axiosInstance.get('/getSubscriptionDetails', {
             params: {
-              TutorId: course!.publisherId._id,
+              TutorId: course.publisherId._id,
               StudentId:_id
             }
           })

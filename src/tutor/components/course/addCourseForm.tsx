@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextField, CardMedia, Stack, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Button, TextField, CardMedia, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { AddPhotoAlternate } from '@mui/icons-material';
 import { axiosInstance } from '../../../common/interceptor/axiosInstance';
 import { useSelector } from 'react-redux';
@@ -9,7 +9,6 @@ import { ICourse } from '../../../interface/ICourse/Icourse';
 import { ICourseAPI } from '../../../interface/ICourse/ICourseAPI';
 import ICategoryResponse from '../../../interface/Icategory/IcategoryResponse';
 import ICategorydata from '../../../interface/Icategory/IcategoryData';
-import DoneIcon from "@mui/icons-material/Done";
 import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
 
 interface ModalProps {
@@ -192,7 +191,7 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
               id="category-select"
               value={selectedCategory}
               label="Category"
-              onChange={(e) => setSelectedCategory(e.target.value as string)}
+              onChange={(e) => setSelectedCategory(e.target.value)}
               >
               <MenuItem value="">
                 <em>None</em>

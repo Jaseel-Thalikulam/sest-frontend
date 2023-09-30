@@ -68,10 +68,7 @@ const user_persistConfig = {
     key: 'user',
     storage,
   };
-const modal_persistConfig = {
-    key: 'modal',
-    storage,
-  };
+
 const regformmodal_persistConfig = {
     key: 'regmodal',
     storage,

@@ -67,10 +67,11 @@ function AxiosInstanceComponent() {
   };
 
   return (
-    <div>
+   <>
       <MuiAlert handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarOpen={snackbarOpen} severity='warning'/>
      
-    </div>
+   </>
+
   );
 }
 

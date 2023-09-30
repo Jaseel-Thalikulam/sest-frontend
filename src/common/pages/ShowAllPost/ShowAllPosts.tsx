@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import EditIcon from "@mui/icons-material/Edit";
@@ -42,9 +42,7 @@ function ShowAllPosts() {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [editMediamodalstate, setEditMediaModal] = useState<boolean>(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(
-    null
-  );
+  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null );
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
 
@@ -210,6 +208,10 @@ function ShowAllPosts() {
     }));
   };
 
+  const handleSelectedComment = (commentId: string) => {
+    setSelectedCommentId(commentId)
+  }
+
   const handleToggleOptions = (postId: string) => {
     setSelectedPostId(postId);
     setOptionsVisible(!optionsVisible);
@@ -268,15 +270,7 @@ function ShowAllPosts() {
                   <span>Edit</span>
                 </button>
               )}
-              {/* {post.type === "Poll" && (
-                <button
-                
-                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-500"
-                >
-                  <EditIcon fontSize="small" />
-                  <span>Edit 2</span>
-                </button>
-              )} */}
+   
               {post.type === "Media" && (
                 <>
                   <button
@@ -479,7 +473,7 @@ function ShowAllPosts() {
                           {comment.userId._id == _id && (
                             <div className="absolute top-4 right-0 m-2">
                               <button
-                                onClick={() => handleToggleOptions(comment._id)}
+                                onClick={() => handleSelectedComment(comment._id)}
                                 className={`text-gray-600 p-2 rounded-full hover:text-gray-700`}
                               >
                                 ☰

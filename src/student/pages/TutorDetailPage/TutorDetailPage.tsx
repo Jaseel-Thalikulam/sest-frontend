@@ -106,7 +106,7 @@ function TutorDetailPage() {
  
       })();
     }
-  }, [profileDataId]);
+  }, [profileDataId,_id]);
 
   useEffect(() => {
     const fetchTutor = async () => {
@@ -151,7 +151,7 @@ function TutorDetailPage() {
     fetchTutor().catch((error) => {
       console.error("Error in fetchTutor:", error);
     });
-  }, [userId]);
+  }, [userId,_id]);
 
 
 

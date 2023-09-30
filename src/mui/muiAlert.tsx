@@ -13,8 +13,8 @@ function MuiAlert({snackbarOpen,handleCloseSnackbar,snackbarMessage,severity}:IM
       <>
            <Snackbar
         
-        open={snackbarOpen}
         autoHideDuration={4000} 
+        open={snackbarOpen}
         onClose={handleCloseSnackbar}
       >
         <Alert  onClose={handleCloseSnackbar} severity={severity}>

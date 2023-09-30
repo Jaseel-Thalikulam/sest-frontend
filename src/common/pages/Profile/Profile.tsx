@@ -4,7 +4,6 @@ import "./scss/Profile.scss";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Chip } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Tab from "@mui/material/Tab";
 import IconButton from "@mui/material/IconButton";
@@ -21,7 +20,6 @@ const BASE_URL: string = import.meta.env.VITE_BACKEND_BASE_URL as string;
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const data = useSelector((state: RootStateType) => state.user);
 
   const [value, setValue] = React.useState("1");
