@@ -51,6 +51,7 @@ const ForgetPasswordForm = () => {
   };
   const onSubmit = (values: FormValueType, formikHelpers: FormikHelpers<FormValueType>) => {
     const { resetForm } = formikHelpers;
+    console.log(values)
     resetForm();
   };
 
@@ -71,7 +72,6 @@ const ForgetPasswordForm = () => {
       
     email = email.toLowerCase();
 
-    console.log(email)
     if (emailValid) {
       const response:{data:ILoginResponse} = await axios.post(`${BASE_URL}/forgetpassword`, {
         email,
@@ -84,34 +84,46 @@ const ForgetPasswordForm = () => {
         toast.error(message)
       } else {
         if (userData.URLs) {
-          const URLs = userData.URLs
+
           dispatch(
             UserDetails({
-            role: userData.role,
-            name: userData.name,
-            email: userData.email,
-            _id: userData._id,
-            URLs: {
-              github: URLs.github,
-              linkedin: URLs.linkedin,
-              pinterest: URLs.pinterest,
-            }
-          })
-          )
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              _id: userData._id,
+              URLs: {
+                github: userData.URLs.github || '',
+                linkedin: userData.URLs.linkedin || '',
+                pinterest: userData.URLs.pinterest || '',
+              },
+              username: userData.username || '', // Add the missing properties
+              phoneNumber: userData.phoneNumber || '', // Add the missing properties
+              isBanned: userData.isBanned || false, // Add the missing properties
+              avatarUrl: userData.avatarUrl || '', // Add the missing properties
+              createdAt: userData.createdAt || '', // Add the missing properties
+            })
+          );
+          
         } else {
           dispatch(
             UserDetails({
-            role: userData.role,
-            name: userData.name,
-            email: userData.email,
-            _id: userData._id,
-            URLs: {
-              github: '',
-              linkedin: '',
-              pinterest: '',
-            }
-          })
-          )
+              role: userData.role,
+              name: userData.name,
+              email: userData.email,
+              _id: userData._id,
+              URLs: {
+                github: '',
+                linkedin: '',
+                pinterest:  '',
+              },
+              username: userData.username || '', // Add the missing properties
+              phoneNumber: userData.phoneNumber || '', // Add the missing properties
+              isBanned: userData.isBanned || false, // Add the missing properties
+              avatarUrl: userData.avatarUrl || '', // Add the missing properties
+              createdAt: userData.createdAt || '', // Add the missing properties
+            })
+          );
+          
           
         }
         dispatch(handleForgetPasswordChangeState())

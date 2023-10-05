@@ -65,19 +65,16 @@ const NewPasswordVerifyOTP = () => {
     }
     const otpRegex = /^\d{6}$/;
     if (otpRegex.test(OTP)) {
-      console.log("otp validated");
       
       otpValid = true;
     }
 
     if (passwordValid && otpValid) {
-      console.log("valid")
       const response:{data:INewPasswordAndOTP} = await axios.post(`${BASE_URL}/newPasswordverifyotp`, {
         OTP, email, password
       });
 
-      const { success, message, token, userData } = response.data
-      console.log(success, message, "from verifyotp");
+      const { success, token, userData } = response.data
 
       if (success) {
         dispatch(handleOpenAndCloseNewPasswordVerifyOtp())
@@ -125,7 +122,10 @@ const NewPasswordVerifyOTP = () => {
 
   }
 
-  
+  function consoler() {
+    
+    console.log("submitted")
+  }
 
   
 
@@ -139,7 +139,7 @@ const NewPasswordVerifyOTP = () => {
           <Typography variant='caption'>Please Enter New Password & Confirm your identity with the emailed OTP.</Typography>
         </Grid>
 
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={() => {}} >
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={() => consoler()} >
           {(props) => (
             <Form noValidate >
 

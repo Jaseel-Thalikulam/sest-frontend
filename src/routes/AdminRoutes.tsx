@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import  { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AdminPrivateRoute from '../authRoutes/AdminPrivateRoute'
 import Loading from '../common/Components/loadingComponent/Loading'

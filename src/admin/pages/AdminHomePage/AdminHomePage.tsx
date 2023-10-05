@@ -7,7 +7,6 @@ const AdminHomePage = () => {
   const navigate = useNavigate()
 
     const data = useSelector((state: RootStateType) => state.user)
-    console.log("userData from lead page", data)
   
     const LogOutHandler = () => {
       {

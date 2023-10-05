@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ICourse } from "../../../interface/ICourse/Icourse";
 import { IgetTutorCourses } from "../../../interface/ICourse/IgetTutorCourses";
 import {
   Typography,
   Button,
   useMediaQuery,
-  Divider,
   IconButton,
 } from "@mui/material";
 import Next from "@mui/icons-material/NavigateNextRounded";
@@ -36,7 +35,7 @@ function ShowCaseCourses() {
       }
     }
 
-    getShowCaseCourse();
+    void getShowCaseCourse();
   }, []);
 
   const nextCourse = () => {

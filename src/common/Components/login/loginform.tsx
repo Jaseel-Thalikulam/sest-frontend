@@ -15,7 +15,7 @@ import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlic
 import { handleForgetPasswordChangeState } from "../../../redux/modalSlice/forgetpasswordSlice";
 import ILoginResponse from "../../../interface/login/Ilogin";
 import IGoogleLogin from "../../../interface/login/IgoogleLogin";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 //.env
 const CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
@@ -23,7 +23,6 @@ const BASE_URL: string = import.meta.env.VITE_BACKEND_BASE_URL as string;
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [passwordInputClicked, setPasswordInputClicked] = useState(false);
 
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const paperStyle = {
@@ -58,6 +57,7 @@ const LoginForm = () => {
     values: FormValueType,
     formikHelpers: FormikHelpers<FormValueType>
   ) => {
+    console.log(values)
     const { resetForm } = formikHelpers;
     resetForm();
   };
@@ -125,17 +125,19 @@ const LoginForm = () => {
                 isBanned: userData.isBanned,
                 URLs: {
                   github:
-                    URLs.github !== undefined ? userData.URLs.github : null,
+                    URLs!.github !== undefined ? userData.URLs!.github : null,
                   linkedin:
-                    URLs.linkedin !== undefined ? userData.URLs.linkedin : null,
+                    URLs!.linkedin !== undefined ? userData.URLs!.linkedin : null,
                   pinterest:
-                    URLs.pinterest !== undefined
-                      ? userData.URLs.pinterest
+                    URLs!.pinterest !== undefined
+                      ? userData.URLs!.pinterest
                       : null,
                 },
                 tags: userData.tags !== undefined ? userData.tags : null,
                 avatarUrl:
-                  userData.avatarUrl !== undefined ? userData.avatarUrl : null,
+                  userData.avatarUrl !== undefined ? userData.avatarUrl : '',
+                  createdAt:userData.createdAt !== undefined ? userData.createdAt : '',
+                
               })
             );
           } else {
@@ -159,8 +161,8 @@ const LoginForm = () => {
                   pinterest: "",
                 },
                 tags: userData.tags !== undefined ? userData.tags : null,
-                avatarUrl:
-                  userData.avatarUrl !== undefined ? userData.avatarUrl : null,
+                avatarUrl: userData.avatarUrl !== undefined ? userData.avatarUrl : '',
+                createdAt:userData.createdAt !== undefined ? userData.createdAt : '',
               })
             );
           }
@@ -282,7 +284,7 @@ const LoginForm = () => {
   value={props.values.password}
   onChange={props.handleChange}
   onBlur={props.handleBlur}
-  onClick={() => setPasswordInputClicked(true)}
+
 />
                 <label htmlFor="password" className="input-label">
                   Password

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import EducatorWelcomeBanner from '../../Components/Banner/EducatorWelcomeBanner'
 import ErrorBoundary from '../../Components/errorBoundary/ErrorBoundary'
 function EducatorWelcomePage() {

@@ -20,7 +20,7 @@ interface Props {
 
 function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
   const [mediaFiles, setMediaFiles] = useState<string | File>(""); // Initialize with string for the existing image URL
-  const [caption, setCaption] = useState(selectedPost.mediaCaption); // Initialize with the existing caption
+  const [caption, setCaption] = useState(selectedPost!.mediaCaption); // Initialize with the existing caption
   const [mediaFilesError, setMediaFilesError] = useState("");
   const [captionError, setCaptionError] = useState("");
   const data = useSelector((state: RootStateType) => state.user);
@@ -29,10 +29,10 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
 
   useEffect(() => {
     
-    if (selectedPost.mediaThumbnailURL) {
-      setMediaFiles(selectedPost.mediaThumbnailURL);
+    if (selectedPost!.mediaThumbnailURL) {
+      setMediaFiles(selectedPost!.mediaThumbnailURL);
     }
-  }, [selectedPost.mediaThumbnailURL]);
+  }, [selectedPost!.mediaThumbnailURL]);
 
   const handleMediaUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files || [];
@@ -76,14 +76,14 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
       formData.append("timeStamp", new Date().toISOString());
       formData.append("type", "Media");
       formData.append("caption", caption);
-      formData.append("postId", selectedPost._id);
+      formData.append("postId", selectedPost!._id);
     } else {
         formData.append("mediaThumbnail", mediaFiles);
         formData.append("userId", _id);
         formData.append("timeStamp", new Date().toISOString());
         formData.append("type", "Media");
         formData.append("caption", caption);
-        formData.append("postId", selectedPost._id);
+        formData.append("postId", selectedPost!._id);
     }
 
      

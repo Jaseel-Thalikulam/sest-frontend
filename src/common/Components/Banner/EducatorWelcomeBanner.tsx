@@ -17,6 +17,19 @@ function EducatorWelcomeBanner() {
       dispatch(
         UserDetails({
           role: role,
+          URLs: {
+            github: "",
+            linkedin: "",
+            pinterest: "",
+          },
+          name: "",
+          username: "",
+          _id: "",
+          phoneNumber: null,
+          isBanned: false,
+          tags: null,
+          avatarUrl: "",
+          createdAt:""
         }
       ));
       dispatch(handleChangeState());
@@ -126,7 +139,7 @@ function EducatorWelcomeBanner() {
                 fontWeight: "bold",
               }}
             >
-             Join our team of instructors and shape the next generation
+             Join our team of instructors and shape the next generation
             </Typography>
 
             {/* <Typography

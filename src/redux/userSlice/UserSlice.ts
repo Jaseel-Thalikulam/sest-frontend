@@ -17,7 +17,7 @@ const INITIAL_STATE: IUserSlice = {
   tags: [],
   isBanned:true,
   avatarUrl: '',
-  createdAt:null
+  createdAt:''
   
 }
 

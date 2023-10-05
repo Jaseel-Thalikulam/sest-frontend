@@ -81,6 +81,7 @@ function AddUserDetailsForm() {
             },
             tags: tutordata.tags,
             avatarUrl: tutordata.avatarUrl,
+            createdAt:tutordata.createdAt
           })
         );
       } else {
@@ -102,6 +103,7 @@ function AddUserDetailsForm() {
             },
             tags: tutordata.tags,
             avatarUrl: tutordata.avatarUrl,
+            createdAt:tutordata.createdAt
           })
         );
       }
@@ -142,6 +144,7 @@ function AddUserDetailsForm() {
             },
             tags: tutordata.tags,
             avatarUrl: tutordata.avatarUrl,
+            createdAt:tutordata.createdAt
           })
         );
       } else {
@@ -163,6 +166,7 @@ function AddUserDetailsForm() {
             },
             tags: tutordata.tags,
             avatarUrl: tutordata.avatarUrl,
+            createdAt:tutordata.createdAt
           })
         );
       }
@@ -173,18 +177,7 @@ function AddUserDetailsForm() {
   };
 
   async function handleSubmit(): Promise<void> {
-    if (DOB !== "" && null) {
-      const currentDate = new Date();
-      const userDOB = new Date(dob);
-      const ageDifferenceInMilliseconds =
-        currentDate.getTime() - userDOB.getTime();
-      const minimumAgeInMilliseconds = 18 * 365 * 24 * 60 * 60 * 1000;
 
-      if (ageDifferenceInMilliseconds < minimumAgeInMilliseconds) {
-        toast.error("You must be at least 18 years old.");
-        return;
-      }
-    }
 
     // Validate URLs
     const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
@@ -262,6 +255,7 @@ function AddUserDetailsForm() {
                 },
                 tags: userData.tags,
                 avatarUrl: userData.avatarUrl,
+                createdAt:userData.createdAt
               })
             );
           } else {
@@ -283,6 +277,7 @@ function AddUserDetailsForm() {
                 },
                 tags: userData.tags,
                 avatarUrl: userData.avatarUrl,
+                createdAt:userData.createdAt
               })
             );
           }

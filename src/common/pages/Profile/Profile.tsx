@@ -36,6 +36,7 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+     console.log(event)
     setValue(newValue);
   };
 
@@ -133,6 +134,7 @@ const ProfilePage: React.FC = () => {
               },
               tags: userData.tags,
               avatarUrl: userData.avatarUrl,
+              createdAt: userData.createdAt, 
             })
           );
         } else {
@@ -154,7 +156,7 @@ const ProfilePage: React.FC = () => {
               },
               tags: userData.tags,
               avatarUrl: userData.avatarUrl,
-            
+              createdAt: userData.createdAt, 
             })
           );
         }

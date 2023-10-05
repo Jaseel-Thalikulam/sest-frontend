@@ -9,7 +9,6 @@ import PublicMethods from "../../../Methods/PublicMethods";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../../redux/store";
 import {axiosInstance} from "../../interceptor/axiosInstance";
-import IFetchUserPost from "../../../interface/IfetchUserPost/IfetchUserPost";
 import DialogContent from "@mui/material/DialogContent";
 import {
   DialogContentText,
@@ -25,13 +24,14 @@ import "react-toastify/dist/ReactToastify.css";
 import ConfirmDeleteModal from "../../Components/Modal/confirmpostdeletModal/ConfirmDeleteModal";
 import EditMediaModal from "../../Components/Modal/editMediaModal/editMediaModal";
 import EditMediaForm from "../../Components/form/Editmedia/EditMediaForm";
-import { Post } from "../../../interface/IPost/IFetchFeedPost";
+import IFetchFeedPost, { Post } from "../../../interface/IPost/IFetchFeedPost";
 import CommentIllustarte from "../../../../public/svg/undraw_opinion_re_jix4.svg";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 import { IPostAPI } from "../../../interface/IPost/IPostAPI";
 function ShowAllPosts() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
+
   const [commentText, setCommentText] = useState("");
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [commentInputVisibility, setCommentInputVisibility] = useState<{
@@ -56,14 +56,14 @@ function ShowAllPosts() {
   useEffect(() => {
     void(async function fetchPost() {
    
-        const response: { data: IFetchUserPost } =
+        const response: { data: IFetchFeedPost } =
           await axiosInstance.get("/userPost", {
             params: {
               userId: _id,
             },
           });
 
-        setPosts(response.data.UserPost);
+        setPosts(response.data.FeedPost);
         setIsLoading(false);
       
     })();
@@ -115,16 +115,9 @@ function ShowAllPosts() {
 
       const updatedPosts = [...posts]; // Create a copy of the posts array
       const postIndex = posts.findIndex((post) => post._id === postId);
-      const commentIndex = updatedPosts.findIndex(
-        (post) =>
-          post &&
-          post.comments &&
-          post.comments.some((comment) => comment._id === commentId)
-      );
+     
       const comments = response.data.Postdata.comments;
-
-      console.log(comments[commentIndex].likes);
-
+      
       // Find the post that contains the comment with the given commentId
 
       updatedPosts[postIndex] = {
@@ -137,7 +130,6 @@ function ShowAllPosts() {
 
   }
   async function handleLike(postId: string) {
-    console.log(postId);
     const timeStamp = new Date().toISOString();
 
      await axiosInstance.post("/post/like", {
@@ -174,32 +166,7 @@ function ShowAllPosts() {
   
   };
 
-  //    async function handleEditPost(postId: string, type: string) {
-  //         if (localStorage.getItem('jwt-lead')) {
-
-  //             if (postId && type == 'Article') {
-  //                 console.log(postId, type)
-  //                 const response = await axiosInstanceTutor.post('/post/editarticle', {
-  //                     postId,
-  //                     type,
-  //                     userId:_id
-  //                 })
-
-  //             }
-  //         } else if (localStorage.getItem('jwt-learn')) {
-  //             if (postId && type == 'Article') {
-  //                 console.log(postId, type)
-  //                 const response = await axiosInstanceStudent.post('/post/editarticle', {
-  //                     postId,
-  //                     type,
-  //                     userId:_id
-  //                 })
-
-  //             }
-  //         }
-  //     setOptionsVisible(false);
-
-  //     }
+  
 
   const handleCommentIconClick = (postId: string) => {
     setCommentInputVisibility((prevVisibility) => ({

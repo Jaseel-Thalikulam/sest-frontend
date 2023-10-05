@@ -1,4 +1,4 @@
-import IUserSlice from "../Iredux/IuserSlice";
+ import IUserSlice from "../Iredux/IuserSlice";
 
 export default interface IFetchFeedPost{
  

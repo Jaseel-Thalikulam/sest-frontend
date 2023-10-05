@@ -9,7 +9,7 @@ const login = () => {
   return (
     <>
 
-      <LoginModal buttonname="Login" data="Login & Connect">
+      <LoginModal >
         <ErrorBoundary>
         <Box
           sx={{

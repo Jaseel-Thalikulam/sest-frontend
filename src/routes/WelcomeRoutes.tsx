@@ -1,5 +1,5 @@
 import WelcomeLayout from "../common/layouts/WelcomeLayout";
-import React, {lazy, Suspense} from 'react';
+import  {lazy, Suspense} from 'react';
 import { Route, Routes } from "react-router-dom";
 const LoadingLandingPage = lazy(() => import('../common/pages/LandingPage/LandingPage'));
 import UserPublicRoute from "../authRoutes/UserPublicRoute";

@@ -1,10 +1,10 @@
+import { SetStateAction } from "react";
 import IUserSlice from "../Iredux/IuserSlice";
-
 export default interface IFetchUserPost{
  
     success: boolean;
     message: string;
-    UserPost:Post[]
+    UserPost:SetStateAction<Post[]>
 
 }
 

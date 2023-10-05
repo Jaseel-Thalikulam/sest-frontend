@@ -11,7 +11,7 @@
    isBanned: boolean;
    tags?: Tag[]|null;
    avatarUrl: string
-   createdAt:Date|null
+   createdAt:Date|string
 }
 
 export interface URLs {

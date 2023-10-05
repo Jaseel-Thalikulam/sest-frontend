@@ -33,7 +33,6 @@ const VerifyOTP = () => {
 
   const [OTP, setOtp] = useState('');
   const [countdown, setCountdown] = useState(30);
-console.log(OTP)
   const navigate = useNavigate();
   
   async function sendOTP(): Promise<undefined | void> {
@@ -41,7 +40,6 @@ console.log(OTP)
     const response: { data: ILoginResponse } = await axios.post(`${BASE_URL}/verifyotp`, {
       OTP, userId
     });
-    console.log(response)
     
     const { success, message, token, userData } = response.data
 

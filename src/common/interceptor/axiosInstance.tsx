@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'; // Import React and useState
+import { useState } from 'react'; // Import React and useState
 import MuiAlert from '../../mui/muiAlert';
 
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
@@ -33,7 +33,6 @@ function AxiosInstanceComponent() {
 
       const accessToken = tokenString;
 
-      console.log(accessToken,"int prcommon")
 
       if (accessToken) {
         if (config.headers) config.headers.token = accessToken;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 import ChatList from "../../../student/pages/MessagingUI/ChatList/ChatList";
 import ReceiverDetail from "../../../student/pages/MessagingUI/ReceiverDetail/ReceiverDetail";

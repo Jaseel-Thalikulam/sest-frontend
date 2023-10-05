@@ -1,5 +1,5 @@
-import IMessage from "./IMessage";
 
+import IMessage from "./Imessage";
 
 export interface IFetchMessagesAPI {
     message: string;

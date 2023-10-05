@@ -81,7 +81,6 @@ function StripPayment({ amount, TutorId, handlesetSubscribed }: IProp) {
         payment_method: paymentMethod!.id,
       });
 
-      console.log(confirmCardPayment);
 
       if (confirmCardPayment?.paymentIntent?.status === 'succeeded') {
 

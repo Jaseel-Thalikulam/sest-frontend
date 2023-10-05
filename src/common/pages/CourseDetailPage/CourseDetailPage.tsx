@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {axiosInstance} from '../../interceptor/axiosInstance';
 import'./CourseDetailpage.scss'
 import { Link, useParams } from 'react-router-dom';

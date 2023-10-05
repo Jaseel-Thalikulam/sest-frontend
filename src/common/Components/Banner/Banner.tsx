@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Box, Typography } from "@mui/material";
 import bannerImage from "../../../../public/images/slider-image-1 (1).jpg";
 import { UserDetails } from "../../../redux/userSlice/UserSlice";
@@ -29,6 +29,7 @@ const Banner = () => {
         isBanned: false,
         tags: null,
         avatarUrl: "",
+        createdAt:""
       })
     );
     dispatch(handleChangeState());

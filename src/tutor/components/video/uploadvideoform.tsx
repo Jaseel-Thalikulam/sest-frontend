@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import  { useCallback, useState } from 'react';
 import { CloudUpload } from '@mui/icons-material';
 import { useDropzone } from 'react-dropzone';
 import classnames from 'classnames';
@@ -12,22 +12,22 @@ import { IUploadVideo } from '../../../interface/IVideo/IUploadVideo';
 import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
 
 type FileUploadState = {
-  videoFile: File | null;
-  thumbnailFile: File | null;
-  percentCompleted:number
+  videoFile: File | null|undefined;
+  thumbnailFile: File | null | undefined;
+percentCompleted: number;
 };
 
 type Prop = {
   courseId: string;
   handlecloseModal: () => void;
-  videos:IVideo[]
+  videos?:IVideo[]
 };
 
 function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
 
-  const [fileUpload, setFileUpload] = useState<FileUploadState | null>(null);
+  const [fileUpload, setFileUpload] = useState<FileUploadState | null|undefined>(null);
   const [title, setTitle] = useState('');
   const [errors, setErrors] = useState<{ title: string; videoFile: string; thumbnailFile: string }>({
     title: '',
@@ -38,15 +38,21 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
-
   const onVideoDrop = useCallback((files: File[]) => {
     if (files.length === 1 && files[0].type.startsWith('video/')) {
-      setFileUpload({ ...fileUpload, videoFile: files[0] });
+      setFileUpload({
+        ...fileUpload,
+        videoFile: files[0],
+        thumbnailFile: fileUpload?.thumbnailFile || null,
+        percentCompleted: fileUpload?.percentCompleted || 0,
+      });
       setErrors({ ...errors, videoFile: '' });
     } else {
       setErrors({ ...errors, videoFile: 'Invalid video file type. Please upload a video file.' });
     }
   }, [fileUpload, errors]);
+  
+  
 
   const onThumbnailDrop = useCallback((files: File[]) => {
     if (files.length === 1 && files[0].type.startsWith('image/')) {
@@ -54,7 +60,12 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
       image.src = URL.createObjectURL(files[0]);
       image.onload = () => {
         if (image.width > image.height) {
-          setFileUpload({ ...fileUpload, thumbnailFile: files[0] });
+          setFileUpload({
+            ...fileUpload,
+            thumbnailFile: files[0],
+            videoFile: fileUpload?.videoFile || null,
+            percentCompleted: fileUpload?.percentCompleted || 0,
+          });
           setErrors({ ...errors, thumbnailFile: '' });
         } else {
           setErrors({ ...errors, thumbnailFile: 'Thumbnail must be in landscape orientation.' });
@@ -64,7 +75,7 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
       setErrors({ ...errors, thumbnailFile: 'Invalid thumbnail image type. Please upload an image file.' });
     }
   }, [fileUpload, errors]);
-
+  
   const { getRootProps: getVideoRootProps, getInputProps: getVideoInputProps, isDragActive: isVideoDragActive } =
     useDropzone({ onDrop: onVideoDrop });
 
@@ -111,9 +122,12 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
       
       if (response.data.success) {
         void handlecloseModal()
+if(videos)
+{
 
-        videos.push(response.data.videoData)
-        // videos
+  // videos
+  videos.push(response.data.videoData)
+        }
       } else {
         void handlecloseModal()
 
@@ -139,7 +153,7 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
           />
         <div className="my-10">
           <div className={dragAreaClasses}>
-            <div {...getVideoRootProps()} accept="video/*">
+            <div {...getVideoRootProps()} >
               <input {...getVideoInputProps()} />
               {isVideoDragActive ? (
                 <div className="flex flex-col">
@@ -172,7 +186,7 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
       </section>
       <section className="mt-10">
         <div className={dragAreaClasses}>
-          <div {...getThumbnailRootProps()} accept="image/*">
+          <div {...getThumbnailRootProps()} >
             <input {...getThumbnailInputProps()} />
             {isThumbnailDragActive ? (
               <div className="flex flex-col">

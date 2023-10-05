@@ -5,7 +5,7 @@ import IChatUI from "../../../interface/IchatUI/IchatUI";
 import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import { RootStateType } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import IMessage from "../../../interface/IMessage/IMessage";
+import IMessage from "../../../interface/IMessage/Imessage";
 import { WebSocketContext } from "../../../contexts/WebSocket";
 import { format } from "date-fns";
 import { IFetchMessagesAPI } from "../../../interface/IMessage/IfetchmessagesAPI";

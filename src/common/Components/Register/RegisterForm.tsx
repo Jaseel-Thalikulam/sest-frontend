@@ -59,6 +59,7 @@ const RegisterForm = () => {
   };
   const onSubmit = (values: FormValueType, formikHelpers: FormikHelpers<FormValueType>) => {
     const { resetForm } = formikHelpers;
+    console.log(values)
     resetForm();
   };
   
@@ -113,7 +114,6 @@ const RegisterForm = () => {
       }
       const { success, message, userData, token } = response.data
       
-      console.log(success, message)
       if (!success) {
         toast.error(message)
       } else {
@@ -137,7 +137,8 @@ const RegisterForm = () => {
                 pinterest:'',
               },
               tags: userData.tags!== undefined ? userData.tags : null,
-              avatarUrl:userData.avatarUrl!== undefined ? userData.avatarUrl : null
+              avatarUrl: userData.avatarUrl !== undefined ? userData.avatarUrl : '',
+              createdAt:userData.createdAt !== undefined ? userData.createdAt : ''
             })
             )
           dispatch(handleOpenAndCloseVerifyOtp())
@@ -160,7 +161,8 @@ const RegisterForm = () => {
                 pinterest:'',
               },
               tags: userData.tags!== undefined ? userData.tags : null,
-              avatarUrl:userData.avatarUrl!== undefined ? userData.avatarUrl : null
+              avatarUrl: userData.avatarUrl !== undefined ? userData.avatarUrl : '',
+              createdAt :userData.createdAt !== undefined ? userData.createdAt : ''
             })
             
             )
@@ -171,7 +173,6 @@ const RegisterForm = () => {
               navigate('/lead')
               
             } else if (role == 'Learn') {
-            console.log(role)
             
             localStorage.setItem("jwt-learn", token)
             navigate('/learn')

@@ -19,7 +19,8 @@ function Connections() {
   const data = useSelector((state: RootStateType) => state.user);
     const { _id } = data;
     const publicmethods = new PublicMethods()
-  const handleTabChange = (event, newValue:number) => {
+  const handleTabChange = (event: React.SyntheticEvent<Element, Event>, newValue: number) => {
+    console.log(event)
     setSelectedTab(newValue);
   };
 

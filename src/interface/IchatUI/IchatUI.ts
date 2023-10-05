@@ -3,7 +3,7 @@
 export default interface IChatUI {
       
     recipientName: string;
-  recipientAvatarUrl: string | null;
+  recipientAvatarUrl: string ;
   chatId:string
 
     

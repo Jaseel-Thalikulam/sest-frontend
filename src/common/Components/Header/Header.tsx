@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material";
 import "./Header.scss";
 import Login from "../login/login";
 import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlice";
@@ -6,7 +5,7 @@ import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlic
 import { useDispatch } from "react-redux";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 const Header = () => {
-  const theme = useTheme();
+
   
   const dispatch = useDispatch();
   return (

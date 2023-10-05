@@ -78,7 +78,7 @@ function LeadCoursePage() {
                       data="Add Video"
                       isOpen={newVideoModal}
                     key={CourseId}>
-                      <Uploadvideoform courseId={CourseId} key={CourseId}/>
+                      <Uploadvideoform courseId={CourseId} key={CourseId} handlecloseModal={handleaddvideomodal}/>
                     </UploadvideoModal>
                   </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import { RootStateType } from "../../../redux/store";
 import { useSelector } from "react-redux";

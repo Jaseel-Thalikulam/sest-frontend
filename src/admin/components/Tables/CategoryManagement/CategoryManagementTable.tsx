@@ -14,7 +14,6 @@ const CategoryManagemnetTable = () => {
   const [modalstate, setModal] = useState<boolean>(false);
   const [editmodalstate, setEditModal] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<ICategorydata | null>(null);
 
   function handleModalOpenClose() {
     setModal(!modalstate);
@@ -44,9 +43,9 @@ const CategoryManagemnetTable = () => {
 
    function handleEditButtonClick(categorydata: ICategorydata) {
     if ('_id' in categorydata) {
-      const id = categorydata._id;
-      const selectedCategory = categories.find((category) => category._id === id);
-      setSelectedCategory(selectedCategory);
+      // const id = categorydata._id;
+      // const selectedCategory = categories.find((category) => category._id === id);
+  
       handleditModalOpenClose();
     }
   }
@@ -111,7 +110,7 @@ const CategoryManagemnetTable = () => {
       headerName: 'Edit',
       width: 200,
       renderCell: (params: GridCellParams<ICategorydata>) => {
-        const data: ICategorydata = params.row;
+        
         return (
           <div>
             <Button

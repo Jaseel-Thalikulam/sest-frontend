@@ -1,5 +1,5 @@
 import { Avatar } from '@mui/material'
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import ErrorBoundary from '../../../../common/Components/errorBoundary/ErrorBoundary'
 
 function ReceiverDetail(props: { avatar: string, name: string, about: string|null|undefined }) {

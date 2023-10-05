@@ -27,11 +27,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 interface ModalProps {
   children: React.ReactNode;
-  data: string;
-  buttonname: string;
+
 }
 
-export default function   LoginModal({ children, data, buttonname }: ModalProps) {
+export default function   LoginModal({ children}: ModalProps) {
   const Status = useSelector((state: RootStateType) => state.loginformmodal);
   const isOpen: boolean = Status.State;
   const dispatch = useDispatch();
