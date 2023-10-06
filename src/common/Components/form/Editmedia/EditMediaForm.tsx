@@ -32,7 +32,7 @@ function EditMediaForm({ CloseModal, selectedPost, setPost,posts }: Props) {
     if (selectedPost!.mediaThumbnailURL) {
       setMediaFiles(selectedPost!.mediaThumbnailURL);
     }
-  }, [selectedPost!.mediaThumbnailURL]);
+  }, [selectedPost]);
 
   const handleMediaUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files || [];

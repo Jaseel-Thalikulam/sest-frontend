@@ -125,11 +125,11 @@ const LoginForm = () => {
                 isBanned: userData.isBanned,
                 URLs: {
                   github:
-                    URLs!.github !== undefined ? userData.URLs!.github : null,
+                    URLs.github !== undefined ? userData.URLs!.github : null,
                   linkedin:
-                    URLs!.linkedin !== undefined ? userData.URLs!.linkedin : null,
+                    URLs.linkedin !== undefined ? userData.URLs!.linkedin : null,
                   pinterest:
-                    URLs!.pinterest !== undefined
+                    URLs.pinterest !== undefined
                       ? userData.URLs!.pinterest
                       : null,
                 },
