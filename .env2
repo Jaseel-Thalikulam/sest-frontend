@@ -1,0 +1,7 @@
+VITE_BACKEND_BASE_URL = http://questlix.online
+VITE_FRONTEND_BASE_URL = https://www.questlix.site
+VITE_BACKEND_SUPERADMIN_BASE_URL = http://questlix.onlineSuperadmin
+VITE_GOOGLE_CLIENT_ID = 6774237252-c4fmdn8p7eitvfmpjrc60im1pg651bk7.apps.googleusercontent.com 
+VITE_JITSI_APPID = vpaas-magic-cookie-29f94cf646ec486395d9022ded73a911
+VITE_JITSI_APIKEY = vpaas-magic-cookie-29f94cf646ec486395d9022ded73a911/f72308
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_51NmhoiSAEJ9fqHD1OyyVBsmxmJGea3ZC00XKBjIcwTz7P9ypUAaifiMTxaVouJHzm6RyHMQD9ZO4DugSYyhRlyHF00sTazqMGj

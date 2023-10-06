@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { IFetchMessagesAPI } from "../../../interface/IMessage/IfetchmessagesAPI";
 import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
 
+
 function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
   const currentUser = useSelector((state: RootStateType) => state.user);
   const currentUserId = currentUser._id;
@@ -26,12 +27,13 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
     });
 
     socket.on(chatId, (data:IMessage) => {
-      const { content, senderId, timeStamp }: IMessage = data;
+      const { content, sender, timeStamp }: IMessage = data;
 
+      console.log(data)
       // Create a new message object
       const newMessage: IMessage = {
         content: content,
-        senderId: senderId,
+        sender: sender,
         status: "read",
         timeStamp: timeStamp,
       };
@@ -64,7 +66,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
     socket.emit("message", {
       ChatId: chatId,
       Content: newMessage,
-      senderIdId: currentUserId,
+      SenderId: currentUserId,
       timeStamp: new Date().toISOString(),
     });
   };
@@ -87,7 +89,9 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
           }
         );
 
-        
+      
+      console.log(response.data.data)
+      
         setMessages(response.data.data);
       
     })();
@@ -113,14 +117,15 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
         </div>
         <div className="chatMessagesWrapper" ref={messagesContainerRef}>
           <div className="chatMessages">
-            {messages.map((message: IMessage, index: number) => (
+              {messages.map((message: IMessage, index: number) => (
+     
               <div
                 key={index}
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems:
-                    message.senderId == currentUser._id
+                  message.sender[0]  == currentUser._id
                       ? "flex-end"
                       : "flex-start",
                   marginBottom: "10px",
@@ -131,7 +136,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                     display: "flex",
                     maxWidth: "70%",
                     alignSelf:
-                      message.senderId == currentUser._id
+                    message.sender[0]== currentUser._id
                         ? "flex-end"
                         : "flex-start",
                   }}
@@ -153,22 +158,24 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      color:  message.senderId == currentUser._id
+                      color:  message.sender[0] == currentUser._id
                       ? "#fff"
                       : "#000",
                       
                       backgroundColor:
-                        message.senderId == currentUser._id
+                      message.sender[0] == currentUser._id
                           ? "#6C63FF"
                           : "#EDEDED ",
                       padding: "10px",
                       borderRadius:
-                      message.senderId == currentUser._id
+                      message.sender[0] == currentUser._id
                           ? "15px 0px 15px 15px"
                           : "0px 15px 15px 15px", // Border radius for message containers
                     }}
                     >
-                    {message.content}
+                    { message.content
+                    
+                    }
 
                     <div
                       style={{
@@ -198,7 +205,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
                       <span
                         style={{
                           fontSize: "10px",
-                          color:  message.senderId == currentUser._id
+                          color: message.sender[0] == currentUser._id
                           ? "#fff"
                           : "#000",
                           marginLeft: "6px",
