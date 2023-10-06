@@ -10,6 +10,7 @@ import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiBackdrop-root': {
     backgroundColor: 'transparent',
+    backdropFilter: 'blur(5px)',
   },
   '& .MuiPaper-root': {
     backgroundColor: '#fff',

@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 const LoadingLandingPage = lazy(() => import('../common/pages/LandingPage/LandingPage'));
 import UserPublicRoute from "../authRoutes/UserPublicRoute";
 import Loading from "../common/Components/loadingComponent/Loading";
+import CourseDetailPage from "../common/pages/CourseDetailPage/CourseDetailPage";
 const LoadingEducatorWelcomePage =lazy(()=>import('../common/pages/EducatorWelcomePage/EducatorWelcomePage'))
 function WelcomeRoutes() {
   return (
@@ -16,8 +17,12 @@ function WelcomeRoutes() {
           </Suspense></UserPublicRoute>} />
         <Route  path='/welcome/educator' element={<UserPublicRoute><Suspense fallback={<Loading/>}>
             <LoadingEducatorWelcomePage />
-            </Suspense></UserPublicRoute>} />
-              </Routes>
+          </Suspense></UserPublicRoute>} />
+          <Route path='/course/:CourseId' element={<UserPublicRoute>
+          <CourseDetailPage />
+        </UserPublicRoute>}/>
+        </Routes>
+        
           </WelcomeLayout>
     </>
   );

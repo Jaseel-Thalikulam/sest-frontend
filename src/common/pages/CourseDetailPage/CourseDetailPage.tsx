@@ -4,7 +4,7 @@ import'./CourseDetailpage.scss'
 import { Link, useParams } from 'react-router-dom';
 import { ICourse } from '../../../interface/ICourse/Icourse';
 import PublicMethods from '../../../Methods/PublicMethods';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootStateType } from '../../../redux/store';
 import UploadvideoModal from '../../../tutor/components/video/uploadvideoModal';
 import Uploadvideoform from '../../../tutor/components/video/uploadvideoform';
@@ -17,9 +17,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import StripPaymentModal from '../../Components/stripePayment/StripPaymentModal';
 import { ICourseAPI } from '../../../interface/ICourse/ICourseAPI';
 import { ISubscriptionDetail } from '../../../interface/ISubscription/ISubscriptionDetail';
+import { handleLoginChangeState } from '../../../redux/modalSlice/loginModalSlice';
 const PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string;
 const stripePromise = loadStripe(PUBLISHABLE_KEY);
 function CourseDetailPage() {
+  const dispatch = useDispatch();
   const { CourseId } = useParams();
   const [course, setCourse] = useState<ICourse | null>(null);
   const publicmethods = new PublicMethods();
@@ -52,6 +54,8 @@ const [PublisherName,setPublisherName]=useState('')
   function handleSubscriptionModal() {
     setPleaseSubscribemodal(!isPleaseSubscribemodalopen);
   }
+
+
 
   useEffect(() => {
   void(async function getCourseDetail() {
@@ -125,7 +129,7 @@ const [PublisherName,setPublisherName]=useState('')
   };
 
   return (
-    <div className="ml-10 mr-10">
+    <div className="ml-10 mr-10 mb-10">
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/2 p-6 flex justify-start items-center relative">
           <div>
@@ -139,18 +143,25 @@ const [PublisherName,setPublisherName]=useState('')
               </p>
             )}
             {/* Conditional rendering of the button */}
-            {!isPublisher && !isSubscribed ? (
-  <button className="absolute bottom-4 right-4 px-4 py-2 bg-violet-500 text-white rounded hover:bg-violet-600 font-bold" onClick={handleSubscriptionModal}>
-    Subscribe Now
-  </button>
-) : isPublisher ? (
-  <button
-    className="absolute bottom-4 right-4 px-4 py-2 bg-violet-500 text-white rounded hover-bg-violet-600 font-bold"
-    onClick={() => handleAddVideoButton()}
-  >
-    Add Video
-  </button>
-) : null}
+            {
+  (!localStorage.getItem('jwt-lead') && !localStorage.getItem('jwt-learn')) ? (
+    <button className="absolute bottom-4 right-4 px-4 py-2 bg-violet-500 text-white rounded hover:bg-violet-600 font-bold" onClick={() => dispatch(handleLoginChangeState())}>
+      Acquire Knowledge
+    </button>
+  ) : !isPublisher && !isSubscribed ? (
+    <button className="absolute bottom-4 right-4 px-4 py-2 bg-violet-500 text-white rounded hover:bg-violet-600 font-bold" onClick={()=> void handleSubscriptionModal()}>
+      Subscribe Now
+    </button>
+  ) : isPublisher ? (
+    <button
+      className="absolute bottom-4 right-4 px-4 py-2 bg-violet-500 text-white rounded hover-bg-violet-600 font-bold"
+      onClick={() => handleAddVideoButton()}
+    >
+      Add Video
+    </button>
+  ) : null
+}
+
 
 
           </div>
@@ -201,7 +212,7 @@ const [PublisherName,setPublisherName]=useState('')
       <div className="mt-8">
         {/* Tutorials */}
         <div className="w-full">
-          <h2 className="text-3xl font-semibold mb-4">Tutorials</h2>
+          <h2 className="text-3xl font-semibold mb-4">Modules</h2>
           {/* List videos with titles and styling */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
   {videos.map((video, index) => (
@@ -209,15 +220,27 @@ const [PublisherName,setPublisherName]=useState('')
       key={index}
       className="border p-2 border-gray-200 rounded-md hover:scale-105 transition-transform duration-300 cursor-pointer"
     >
-     {!isPublisher && !isSubscribed && (
-        <div onClick={handleSubscriptionModal}>
+     {!localStorage.getItem('jwt-lead') && !localStorage.getItem('jwt-learn') && (
+        <div onClick={() => dispatch(handleLoginChangeState())}>
 
           
     <img src={video.ThumbnailURL} alt={`Video Thumbnail ${index}`} className="w-full h-auto" />
     <p className="text-lg font-semibold mt-2">{publicmethods.properCase(video.Title)}</p>
         </div>
   
-)}
+      )}
+      
+      {
+  !isPublisher &&
+  !isSubscribed &&
+  (localStorage.getItem('jwt-lead') || localStorage.getItem('jwt-learn')) ? (
+    <div onClick={handleSubscriptionModal}>
+      <img src={video.ThumbnailURL} alt={`Video Thumbnail ${index}`} className="w-full h-auto" />
+      <p className="text-lg font-semibold mt-2">{publicmethods.properCase(video.Title)}</p>
+    </div>
+  ) : null
+}
+
 
 {isPublisher || isSubscribed ? (
   localStorage.getItem('jwt-lead') ? (

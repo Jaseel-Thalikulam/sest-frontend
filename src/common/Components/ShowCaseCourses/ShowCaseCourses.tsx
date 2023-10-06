@@ -12,6 +12,7 @@ import Next from "@mui/icons-material/NavigateNextRounded";
 import Previous from "@mui/icons-material/NavigateBeforeRounded";
 import PublicMethods from "../../../Methods/PublicMethods";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
+import { Link } from "react-router-dom";
 const BASE_URL: string = import.meta.env.VITE_BACKEND_BASE_URL as string;
 
 function ShowCaseCourses() {
@@ -144,6 +145,7 @@ function ShowCaseCourses() {
                   </h1>
                   
                 </div>
+                <Link to={`/course/${courseItem._id}`}>
                 <Button
                   variant="text"
                   sx={{
@@ -159,9 +161,10 @@ function ShowCaseCourses() {
                     },
                     textTransform: "none",
                   }}
-                >
+                  >
                   Go to Course Page
                 </Button>
+                  </Link>
                 {index === coursesToShow.length - 1 && (
                   <IconButton
                     onClick={nextCourse}
