@@ -57,7 +57,7 @@ const LoginForm = () => {
     values: FormValueType,
     formikHelpers: FormikHelpers<FormValueType>
   ) => {
-    
+    console.log(values)
     const { resetForm } = formikHelpers;
     resetForm();
   };
