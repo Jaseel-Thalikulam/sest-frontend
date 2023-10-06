@@ -32,10 +32,11 @@ const login = () => {
               sx={{
                 fontWeight: 'bold',
                 color: '#333', // Customize the color
-                marginTop: '1rem', // Add some spacing above the heading
+                marginTop: '1rem',
+                marginBottom:'1rem'// Add some spacing above the heading
               }}
               >
-              Welcome Back!
+              Knowledge Quest
             </Typography>
             <LoginForm />
           </div>

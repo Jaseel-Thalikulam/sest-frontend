@@ -15,8 +15,10 @@ import WelcomeRoutes from './routes/WelcomeRoutes';
 function App() {
   return (
     <>
+      
       <ThemeProvider theme={Muitheme}>
         <BrowserRouter>
+          
           <Routes>
           
             <Route path='/*' element={<WelcomeRoutes />} />
@@ -24,9 +26,12 @@ function App() {
             <Route path='/lead/*' element={<TutorRoutes />} />
             <Route path='/admin/*' element={<Adminroutes />} />
             <Route path='/Sadmin/*' element={<SuperAdminRoutes />} />
+
           </Routes>
+          
         </BrowserRouter>
       </ThemeProvider>
+
     </>
   )
 }

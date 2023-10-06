@@ -52,9 +52,9 @@ export default function   LoginModal({ children}: ModalProps) {
         }}
         PaperProps={{
           sx: {
-            height: '80%', // Set initial height as a percentage
+            height: '55%', // Set initial height as a percentage
             '@media (max-width: 600px)': {
-              height: '90%', // Adjust height for smaller screens
+              height: '55%', // Adjust height for smaller screens
             },
             overflowY: 'auto',
             boxShadow: '1', // Enable scrolling if content overflows

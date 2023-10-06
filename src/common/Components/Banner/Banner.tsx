@@ -113,20 +113,31 @@ const Banner = () => {
               textAlign: ["center", "left"],
             }}
           >
-            <Typography
-              variant="h3"
-              component="h1"
-              sx={{
-                mb: 2,
-                fontSize: ["5vw", "5rem"], // Use 'vw' for responsive font size
-                fontWeight: "bold",
-                lineHeight: "none",
-                color: "#12222E",
-                maxWidth: "90%",
-              }}
-            >
-              Ready to stand out from the crowd?
-            </Typography>
+      <Typography
+  variant="h3"
+  component="h1"
+  sx={{
+    mb: 2,
+    fontSize: ["5vw", "5rem"], // Use 'vw' for responsive font size
+    fontWeight: "bold",
+    lineHeight: "none",
+    color: "#12222E",
+    maxWidth: "90%",
+    "@media (max-width: 600px)": {
+      fontSize: "3rem",
+    },
+    "@media (min-width: 600px) and (max-width: 900px)": {
+      fontSize: "4rem",
+    },
+    "@media (min-width: 900px)": {
+      fontSize: "5rem",
+    },
+  }}
+>
+  Ready to stand out from the crowd?
+</Typography>
+
+
 
             <Typography
               variant="subtitle1"

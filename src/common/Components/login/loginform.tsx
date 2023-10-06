@@ -57,7 +57,7 @@ const LoginForm = () => {
     values: FormValueType,
     formikHelpers: FormikHelpers<FormValueType>
   ) => {
-    console.log(values)
+    
     const { resetForm } = formikHelpers;
     resetForm();
   };
@@ -268,11 +268,13 @@ const LoginForm = () => {
                 <label htmlFor="email" className="input-label">
                   Email
                 </label>
-                {props.errors.email && props.touched.email && (
-                  <div className="text-red-600 text-sm mt-1">
+                <div className="text-red-600 text-sm mt-1 h-2">
+                    {props.errors.email && props.touched.email && (
+                      <>
                     {props.errors.email}
-                  </div>
-                )}
+                      </>
+                    )}
+                    </div>
               </div>
               <div className="mb-4 input-group">
               <input
@@ -289,11 +291,13 @@ const LoginForm = () => {
                 <label htmlFor="password" className="input-label">
                   Password
                 </label>
-                {props.errors.password && props.touched.password && (
-                  <div className="text-red-600 text-sm mt-1">
+                <div className="text-red-600 text-sm mt-1 h-2">
+                    {props.errors.password && props.touched.password && (
+                      <>
                     {props.errors.password}
-                  </div>
-                )}
+                      </>
+                    )}
+                    </div>
               </div>
               <button
                 
@@ -306,7 +310,7 @@ const LoginForm = () => {
                     false
                   )
                 }
-                className="w-full md:max-w-md bg-8A3FFC text-white font-semibold py-2 px-4 rounded-full"
+                className="w-full md:max-w-md bg-8A3FFC text-white font-semibold py-2 px-4 rounded-full mt-5"
               >
                 Login
               </button>
