@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { format } from "date-fns";
 
 
-function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
+function ChatUI({ chatId, recipientAvatarUrl }: IChatUI) {
   const currentUser = useSelector((state: RootStateType) => state.user);
   const currentUserId = currentUser._id;
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -158,7 +158,7 @@ function ChatUI({ chatId, recipientName, recipientAvatarUrl }: IChatUI) {
 
       
     })();
-  }, [chatId]);
+  }, [chatId,socket]);
 
   return (
     <>

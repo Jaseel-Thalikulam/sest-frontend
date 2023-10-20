@@ -29,7 +29,7 @@ function ReceiverDetail(props: { avatar: string,StudentId:string, name: string, 
        subscriptionresponse.data.success?setPlan(subscriptionresponse.data.plan):setPlan("None")
       }
       })(); 
-},[StudentId])
+},[StudentId,_id])
   return (
     <>
       <ErrorBoundary>

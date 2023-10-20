@@ -95,7 +95,7 @@ function MessagingUI() {
                         <ChatUI
                           chatId={selectedChatId}
                           recipientAvatarUrl={selectedChatAvatarUrl}
-                          recipientName={selectedChatName}
+                 
                         />
                       </WebSocketProvider>
                     </div>

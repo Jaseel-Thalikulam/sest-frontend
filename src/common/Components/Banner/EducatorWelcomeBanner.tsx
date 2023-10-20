@@ -17,6 +17,7 @@ function EducatorWelcomeBanner() {
       dispatch(
         UserDetails({
           role: role,
+          email:"",
           URLs: {
             github: "",
             linkedin: "",

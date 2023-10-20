@@ -17,6 +17,7 @@ const Banner = () => {
     dispatch(
       UserDetails({
         role: role,
+        email:"",
         URLs: {
           github: "",
           linkedin: "",
