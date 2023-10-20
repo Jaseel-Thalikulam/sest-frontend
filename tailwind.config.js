@@ -13,13 +13,15 @@ export default {
         '12222E': '#12222E',
         '555':'#555',
         '888888':'#888888',
+        '8A3FFC':'#8A3FFC',
         
       },
       backgroundColor: {
         'fafa':'#FAFAFC',
         '1C1D1F':'#1C1D1F',
         '8A3FFC':'#8A3FFC',
-        '12222E':'#12222E',
+        '12222E': '#12222E',
+        'EDEDED':'#EDEDED'
       }
 
     },

@@ -17,7 +17,9 @@ function MessagingUI() {
   const [selectedChatId, setSelectedChatId] = useState("");
   const [selectedChatAvatarUrl, setSelectedChatAvatarUrl] = useState("");
   const [selectedChatName, setSelectedChatName] = useState("");
-  const [selectedChatabout, setselectedChatabout] = useState<
+  const [selectedReceiverId, setSelectedReceiverId] = useState("");
+  const [selectedJoinedOn, setJoinedOn] = useState<Date|string>("");
+  const [selectedChatemail, setselectedChatemail] = useState<
     string | null | undefined
   >("");
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -39,12 +41,16 @@ function MessagingUI() {
     chatId: string,
     avatarUrl: string,
     name: string,
-    about: string | null | undefined
+    email: string,
+    receiverId: string,
+    joinedOn: string|Date,
   ) => {
     setSelectedChatId(chatId);
     setSelectedChatAvatarUrl(avatarUrl);
     setSelectedChatName(publicmethod.properCase(name));
-    setselectedChatabout(about);
+    setselectedChatemail(email);
+    setSelectedReceiverId(receiverId);
+    setJoinedOn(joinedOn)
   };
 
   return (
@@ -103,13 +109,15 @@ function MessagingUI() {
                 )}
 
                 {shouldShowReceiverDetail && (
-                  <div className="w-1/4 p-2">
+                  <div className="w-1/4 p-2 border-l m-2">
                     {/* Content for receiver's details */}
                     {selectedChatId !== "" && (
-                      <ReceiverDetail
-                        about={selectedChatabout}
+                        <ReceiverDetail
+                        StudentId= {selectedReceiverId}
+                        email={selectedChatemail}
                         avatar={selectedChatAvatarUrl}
-                        name={selectedChatName}
+                          name={selectedChatName}
+                          joinedOn={selectedJoinedOn}
                       />
                     )}
                   </div>

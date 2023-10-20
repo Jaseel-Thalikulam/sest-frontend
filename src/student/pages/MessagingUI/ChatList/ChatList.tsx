@@ -23,6 +23,7 @@ function ChatList({ onSelectChat }: ChatListProps) {
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
   const [ChatsList, setChatsList] = useState<IChat[]>([]);
+  const [selectedChatId,setSelectedChatId] = useState('')
   useEffect(() => {
     
    void(async function fetchChatList() {
@@ -45,10 +46,27 @@ function ChatList({ onSelectChat }: ChatListProps) {
    
   }, [_id]);
 
+
+  function handleChatClick(ChatId: string, avatarUrl: string, name: string, email: string, userId: string, createdAt: string | Date) {
+    
+    onSelectChat(
+      ChatId,
+      avatarUrl,
+      name,
+      email,
+      userId,
+      createdAt
+    )
+
+    setSelectedChatId(ChatId)
+
+  }
+
   return (
     <>
       <ErrorBoundary>
-
+        <div className="mr-3">
+          
       <input
         type="text"
         placeholder="Search"
@@ -65,19 +83,23 @@ function ChatList({ onSelectChat }: ChatListProps) {
         <List>
           {ChatsList.map((Chat) => (
             <ListItem
-              className="cursor-pointer"
+            className={`cursor-pointer rounded-md mb-3 ${selectedChatId === Chat._id
+              ? 'bg-8A3FFC text-white shadow-md transition-color duration-700'
+              : 'hover:bg-gray-100'}`} 
+            
               key={Chat._id}
               onClick={() =>
-                onSelectChat(
+                handleChatClick(
                   Chat._id,
                   Chat.users[0].avatarUrl,
                   Chat.users[0].name,
-                  Chat.users[0].about
+                  Chat.users[0].email,
+                  Chat.users[0]._id,
+                  Chat.users[0].createdAt
                 )
               }
             >
               <ListItemAvatar>
-                
                 <Avatar>
                   <img src={Chat.users[0].avatarUrl} alt="avatar" />
                 </Avatar>
@@ -88,9 +110,9 @@ function ChatList({ onSelectChat }: ChatListProps) {
                 primaryTypographyProps={{ variant: "subtitle2" }}
                 secondaryTypographyProps={{ variant: "body2" }}
                 secondary={
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <div  className={`${selectedChatId === Chat._id ?'text-white':''}`} style={{ display: "flex", justifyContent: "space-between" }}>
                     {Chat.latestMessage ? Chat.latestMessage.content : null}
-                    <span>
+                    <span className={`${selectedChatId === Chat._id ?'text-white':''}`}>
                       {Chat.latestMessage ? format(new Date(Chat.latestMessage.timeStamp),"h:mm a") : null}
                      
                     </span>
@@ -103,6 +125,7 @@ function ChatList({ onSelectChat }: ChatListProps) {
           ))}
         </List>
       </div>
+                  </div>
                 </ErrorBoundary>
     </>
   );

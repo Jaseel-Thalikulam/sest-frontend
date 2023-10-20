@@ -142,7 +142,7 @@ function TutorDetailPage() {
       setCourses(tutorCourses.data.Corusedata);
 
 
-   ``
+   
       } catch (error) {
         console.error("Error fetching tutor data:", error);
       }

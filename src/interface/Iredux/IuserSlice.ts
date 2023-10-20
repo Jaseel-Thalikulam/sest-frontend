@@ -2,7 +2,7 @@
      URLs?: URLs;
     role?: string;
     name: string;
-   email?: string;
+   email: string;
    username: string;
     DOB?: null | Date;
     _id: string;

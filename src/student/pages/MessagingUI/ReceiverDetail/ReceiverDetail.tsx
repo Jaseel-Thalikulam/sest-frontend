@@ -1,13 +1,35 @@
 import { Avatar } from '@mui/material'
-import  { useEffect } from 'react'
 import ErrorBoundary from '../../../../common/Components/errorBoundary/ErrorBoundary'
-
-function ReceiverDetail(props: { avatar: string, name: string, about: string|null|undefined }) {
+import { useEffect,useState } from 'react'
+import { ISubscriptionDetail } from '../../../../interface/ISubscription/ISubscriptionDetail'
+import { axiosInstance } from '../../../../common/interceptor/axiosInstance'
+import { useSelector } from 'react-redux'
+import { RootStateType } from '../../../../redux/store'
+import PublicMethods from '../../../../Methods/PublicMethods'
+function ReceiverDetail(props: { avatar: string,StudentId:string, name: string, email: string|null|undefined,joinedOn:string|Date }) {
   
-  const { avatar, name, about } = props
+  const publicmethod = new PublicMethods()
+  const { avatar, name, email,StudentId,joinedOn } = props
+  const [plan, setPlan] = useState("None")
+  const data = useSelector((state: RootStateType) => state.user);
+  const { _id } = data;
+
   useEffect(() => {
-    console.log(about,name)
-  })
+    (async function getSubscriptionDetails() {
+
+      if (localStorage.getItem('jwt-lead')) {
+        
+        const subscriptionresponse: { data: ISubscriptionDetail } = await axiosInstance.get('/getSubscriptionDetails', {
+          params: {
+            TutorId: _id,
+            StudentId: StudentId
+          }
+        })
+
+       subscriptionresponse.data.success?setPlan(subscriptionresponse.data.plan):setPlan("None")
+      }
+      })(); 
+},[StudentId])
   return (
     <>
       <ErrorBoundary>
@@ -15,8 +37,8 @@ function ReceiverDetail(props: { avatar: string, name: string, about: string|nul
           <div className="flex flex-col items-center mt-4 mb-6">
                     <Avatar
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: "200px",
+                        height: "200px",
                         fontSize: "40px",
                       }}
                       >
@@ -24,16 +46,25 @@ function ReceiverDetail(props: { avatar: string, name: string, about: string|nul
           
                       
                     </Avatar>
-                    <div className="mt-2 text-lg font-semibold">
-                      {name}
-                    </div>
-        <div className="text-gray-500">
-          <p className="text-center">
-            
-                      {about}
-        </p>
-                    </div>
                   </div>
+        <h1 className='text-center text-lg font-medium uppercase'>{name}</h1>
+          
+
+          <div className='ml-10 mt-5'>
+            
+            <h5 className=' text-gray-400 font-thin text-md'>EMAIL</h5>
+
+          <p className='mb-2'>{email} </p>
+
+            <h5 className=' text-gray-400 font-thin text-md'>PLAN</h5>
+
+          <p className='mb-2'>{plan} </p>
+
+            <h5 className=' text-gray-400 font-thin text-md'>JOINED</h5>
+
+          <p className='mb-2'>{publicmethod.formateTimeStamp(joinedOn)} </p>
+            
+                    </div>
           </ErrorBoundary>
       </>
   )

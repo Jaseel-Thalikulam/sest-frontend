@@ -6,7 +6,8 @@ import Layout from "../common/layouts/Layout";
 
 
 
-const LeadMessageUI = lazy( () => import("../tutor/pages/LeadMessageUI/LeadMessageUI"));
+// const LeadMessageUI = lazy(() => import("../tutor/pages/LeadMessageUI/LeadMessageUI"));
+const MessagingUI = lazy(() => import('../student/pages/MessagingUI/MessagingUI'));
 const TutorDetailPage = lazy( () => import("../student/pages/TutorDetailPage/TutorDetailPage"));
 const ShowAllPosts = lazy( () => import("../common/pages/ShowAllPost/ShowAllPosts"));
 const Connections = lazy( () => import("../common/pages/Connections/Connections"));
@@ -48,7 +49,7 @@ function TutorRoutes() {
 
             <Suspense fallback={<Loading />}>
                                 
-              <LeadMessageUI />
+              <MessagingUI />
               
             </Suspense>
 

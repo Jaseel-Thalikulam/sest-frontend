@@ -9,6 +9,7 @@ import { RootStateType } from "../../../redux/store";
 import PublicMethods from "../../../Methods/PublicMethods";
 import { ISearchAPI, ISearchData } from "../../../interface/IsearchAPi/ISearchAPI";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
+import Logo from "../../../../public/images/mini-logo.jpg"
 function  NavBar() {
   const navigate = useNavigate();
   const [searchInput, setSearchQuery] = useState("");
@@ -62,7 +63,7 @@ function  NavBar() {
           <div className="container mx-auto">
             <div className="flex items-center justify-between p-4">
               <div className="logo-container">
-                <img src="path_to_logo_image" alt="Logo" className="logo" />
+                <img src={Logo} alt="Logo" className="h-8" />
               </div>
 
               {/* Search bar */}
@@ -102,13 +103,13 @@ function  NavBar() {
                     {showOptions && (
                       <div className="z-20 w-80  top-full ">
                         <ul
-                          className="absolute left-2 w-48 p-2 rounded-lg shadow-lg bg-white options-container"
+                          className="absolute left-2 w-56 h-44 p-2 rounded-lg shadow-lg bg-white options-container space-y-4"
                           style={{ zIndex: 0 }}
                         >
                           {/* Options content */}
                           <li className="m-1 text-gray-100">
                             <button
-                              className="flex items-start flex-col text-gray-700 hover:text-violet-600"
+                              className="flex items-start flex-col text-gray-700 hover:text-8A3FFC"
                               onClick={() => handleOptionClick("Tutor")}
                             >
                               <div className="flex items-center space-x-2">
@@ -129,7 +130,7 @@ function  NavBar() {
 
                                 <span>Tutor</span>
                               </div>
-                              <span className="text-xs">
+                              <span className="text-xs font-sans pl-8">
                                 Unlock Your Learning Potential
                               </span>
                             </button>
@@ -137,7 +138,7 @@ function  NavBar() {
 
                           <li className="m-1">
                             <button
-                              className="flex items-start flex-col text-gray-700 hover:text-violet-600"
+                              className="flex items-start flex-col text-gray-700 hover:text-8A3FFC"
                               onClick={() => handleOptionClick("Student")}
                             >
                               <div className="flex items-center space-x-2">
@@ -158,14 +159,14 @@ function  NavBar() {
 
                                 <span>Student</span>
                               </div>
-                              <span className="text-xs">
+                              <span className="text-xs font-sans pl-8">
                                 Explore, Learn, Succeed
                               </span>
                             </button>
                           </li>
                           <li className="m-1">
                             <button
-                              className="flex items-start flex-col text-gray-700 hover:text-violet-500"
+                              className="flex items-start flex-col text-gray-700 hover:text-8A3FFC"
                               onClick={() => handleOptionClick("Playlist")}
                             >
                               <div className="flex items-center space-x-2">
@@ -184,9 +185,9 @@ function  NavBar() {
                                   />
                                 </svg>
 
-                                <span>Playlist</span>
+                                <span>Course</span>
                               </div>
-                              <span className="text-xs">
+                              <span className="text-xs font-sans pl-8">
                                 Your Learning Journey, Sorted
                               </span>
                             </button>
