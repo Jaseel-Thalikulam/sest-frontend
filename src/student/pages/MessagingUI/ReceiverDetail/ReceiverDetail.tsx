@@ -15,7 +15,7 @@ function ReceiverDetail(props: { avatar: string,StudentId:string, name: string, 
   const { _id } = data;
 
   useEffect(() => {
-    (async function getSubscriptionDetails() {
+   void (async function getSubscriptionDetails() {
 
       if (localStorage.getItem('jwt-lead')) {
         

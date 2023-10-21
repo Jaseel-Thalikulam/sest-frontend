@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import "./TutorDetailPage.scss";
 import { Link, useParams } from "react-router-dom";
-import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
 import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import IUserSlice from "../../../interface/Iredux/IuserSlice";
 import IFetchTutorResponse from "../../../interface/TutorDetailPage/fetchTutor.Interface";
@@ -21,6 +19,9 @@ import StripPayment from "../../../common/Components/stripePayment/StripPayement
 import { ICourse } from "../../../interface/ICourse/Icourse";
 import { ISubscriptionDetail } from "../../../interface/ISubscription/ISubscriptionDetail";
 import { IgetTutorCourses } from "../../../interface/ICourse/IgetTutorCourses";
+import { IChatAccess } from "../../../interface/IchatUI/IChatAccess";
+import ChatUIModal from "../../modal/ChatUI";
+import ChatUI from "../../components/ChatUI/ChatUI";
 const PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string;
 const stripePromise = loadStripe(PUBLISHABLE_KEY);
 function TutorDetailPage() {
@@ -32,6 +33,8 @@ function TutorDetailPage() {
   const [isStripOpen, setStripeModal] = useState(false);
   const [isFollowing, setfollowindicator] = useState(false);
   const [profileDataId, setprofileDataId] = useState("");
+  const [chatId,setChatId]=useState("")
+  const [receiveravatarURL,setReceiveravatarURL]=useState("")
   const [courses, setCourses] = useState<ICourse[]>([]);
   const [amount, setSelectedAmount] = useState(0);
   const data = useSelector((state: RootStateType) => state.user);
@@ -74,12 +77,22 @@ function TutorDetailPage() {
 
   async function handleChatUI() {
 
-      await axiosInstance.post("/chat/access", {
+
+
+     const response :{data:IChatAccess}= await axiosInstance.post("/chat/access", {
         senderId: _id,
         receiverId: profileData?._id,
       });
 
+    const {Chat,success}=response.data
+    
+    console.log(response)
+    if (success) {
+      
+      setChatId(Chat._id)
+      setReceiveravatarURL(Chat.users[0].avatarUrl)
       setChatUI(!chatUI);
+    } 
     
   }
 
@@ -194,8 +207,8 @@ function TutorDetailPage() {
                         void handleFollowButton(_id, profileData._id)
                       }
                       variant="contained"
-                      style={{ backgroundColor: "#6C63FF" }}
-                      className="  text-white font-semibold py-2 px-4 rounded-full mr-2"
+                     
+                      className="  text-white font-semibold py-2 px-4 rounded-full mr-2 bg-8A3FFC"
                     >
                       Following
                     </Button>
@@ -205,8 +218,8 @@ function TutorDetailPage() {
                         void handleFollowButton(_id, profileData._id)
                       }
                       variant="contained"
-                      style={{ backgroundColor: "#6C63FF" }}
-                      className=" text-white font-semibold py-2 px-4 rounded-full mr-2"
+                     
+                      className=" text-white font-semibold py-2 px-4 rounded-full mr-2 bg-8A3FFC"
                     >
                       Follow
                     </Button>
@@ -215,7 +228,7 @@ function TutorDetailPage() {
                   <Button
                     variant="outlined"
                     className=" border-gray-500 text-gray-500 font-semibold py-2 px-4 rounded-full hover:bg-gray-200"
-                    onClick={void handleChatUI}
+                    onClick={()=>void handleChatUI()}
                   >
                     Contact Me
                   </Button>
@@ -239,29 +252,11 @@ function TutorDetailPage() {
                   <Typography variant="h6" className="mb-2">
                     About
                   </Typography>
-                  <div className="border-b border-gray-300 pb-4 mb-4">
+                  <div className="pb-4 mb-4">
                     <Typography variant="body1">{profileData.about}</Typography>
                   </div>
 
-                  {profileData.role === "Lead" && (
-                    <div>
-                      <Typography variant="h6" className="mb-2">
-                        Tags
-                      </Typography>
-                      {profileData.tags && (
-                        <Box className="mb-4">
-                          {profileData.tags.map((tag, index) => (
-                            <Chip
-                              key={index}
-                              label={tag.Name}
-                              variant="outlined"
-                              className="mr-2 mb-2"
-                            />
-                          ))}
-                        </Box>
-                      )}
-                    </div>
-                  )}
+            
                 </div>
               </div>
             </div>
@@ -283,14 +278,14 @@ function TutorDetailPage() {
             {profileData && (
               <>
                 {profileData.role == "Lead" && !isSubscribed && (
-                  <div className="bg-blue-400 rounded-lg p-4  flex justify-between items-center mb-2">
+                  <div className="bg-8A3FFC rounded-lg p-4  flex justify-between items-center mb-2">
                     <Typography variant="body2" className="text-white mb-2">
                       Subscribe for Premium content's of{" "}
                       {publicmethod.properCase(profileData.name)}
                     </Typography>
                     <button
                       color="primary"
-                      className="border border-2 border-white text-white font-bold rounded-full px-4 py-2 hover:bg-white hover:text-black transition duration-300"
+                      className=" border-2 border-white text-white font-bold rounded-full px-4 py-2 hover:bg-white hover:text-black transition duration-300"
                       onClick={() => {
                         handleSubscription();
                       }}
@@ -303,14 +298,14 @@ function TutorDetailPage() {
                   {isSubscriptionOpen && profileData.role == "Lead" && !isSubscribed &&  (
                     <div
                       onClick={() => handlestripModal(2000)}
-                      className="subscription-content animate-fade border-green-500 text-green-500 flex-1 rounded-md p-6  "
+                      className="subscription-content animate-fade border-green-500 text-green-500 flex-1 rounded-md p-4  "
                       style={{
                         background: "rgb(0, 185, 123)",
                         position: "relative",
                         color: "#fff",
                       }}
                     >
-                      <div className="glass-shimmer">
+                      <div className="glass-shimmer p-2">
                         <Typography variant="h6" className="mb-2">
                           Base Subscription Plan
                         </Typography>
@@ -327,14 +322,14 @@ function TutorDetailPage() {
                   {isSubscriptionOpen && profileData.role == "Lead" && !isSubscribed && (
                     <div
                       onClick={() => handlestripModal(8000)}
-                      className="subscription-content animate-fade border-purple-500 text-purple-500 flex-1 rounded-md p-6"
+                      className="subscription-content  animate-fade border-purple-500 text-purple-500 flex-1 rounded-md p-4"
                       style={{
                         background: "rgb(159, 122, 234)",
                         position: "relative",
                         color: "#fff",
                       }}
                     >
-                      <div className="glass-shimmer">
+                      <div className="glass-shimmer p-2">
                         <Typography variant="h6" className="mb-2">
                           Standard Subscription Plan
                         </Typography>
@@ -351,14 +346,14 @@ function TutorDetailPage() {
                   {isSubscriptionOpen && profileData.role == "Lead"&& !isSubscribed  && (
                     <div
                       onClick={() => handlestripModal(15000)}
-                      className="subscription-content animate-fade border-green-500 text-green-500 flex-1 rounded-md p-6 bg-green-500 text-white"
+                      className="subscription-content animate-fade border-green-500 flex-1 rounded-md p-4 bg-green-500 text-white"
                       style={{
                         background: "rgb(114, 159, 207)",
                         position: "relative",
                         color: "#fff",
                       }}
                     >
-                      <div className="glass-shimmer">
+                      <div className="glass-shimmer p-2">
                         <Typography variant="h6" className="mb-2">
                           Premium Subscription Plan
                         </Typography>
@@ -440,16 +435,11 @@ function TutorDetailPage() {
           <StripPayment amount={amount} TutorId={profileDataId} handlesetSubscribed={handlesetSubscribed}/>
         </Elements>
       </StripPaymentModal>
-      {/* {chatUI && (
-        <ChatUIModal CloseModal={handleChatUI} isOpen={chatUI}>
-          <ChatUI
-            recipientName={
-              profileData ? publicmethod.properCase(profileData.name) : ""
-            }
-            recipientAvatarUrl={profileData ? profileData.avatarUrl : ""}
-          />
+      {chatUI && (
+        <ChatUIModal avatarUrl={profileData!.avatarUrl} name={publicmethod.properCase(profileData!.name)} CloseModal={handleChatUI} isOpen={chatUI}>
+          <ChatUI chatId={chatId} recipientAvatarUrl={receiveravatarURL} />
         </ChatUIModal>
-      )} */}
+      )}
     </div>
   );
 }

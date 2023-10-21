@@ -1,9 +1,9 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
-import { DialogContent } from "@mui/material";
+import { Avatar, DialogContent, Grow } from "@mui/material";
 import ErrorBoundary from "../../common/Components/errorBoundary/ErrorBoundary";
-
+import './ChatUI.scss'
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
     backgroundColor: "rgba(0, 0, 0, 0)", // Semi-transparent backdrop
@@ -20,7 +20,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
   "& .MuiDialogContent-root":{
     padding: theme.spacing(2),
-    width: "95%",
+    width: "100%",
     overflow: "hidden",
   },
   "& .MuiDialogActions-root": {
@@ -30,9 +30,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 interface ModalProps {
   children: React.ReactNode;
+  avatarUrl: string
+  name:string
   isOpen: boolean;
   CloseModal: () => void;
 }
+
+
 
 export interface DialogTitleProps {
   id: string;
@@ -43,8 +47,17 @@ export interface DialogTitleProps {
 export default function ChatUIModal({
   children,
   isOpen,
+  avatarUrl,
+  name,
   CloseModal,
-}: ModalProps) {
+}: ModalProps
+
+)
+
+
+
+
+{
   return (
     <ErrorBoundary>
 
@@ -52,10 +65,39 @@ export default function ChatUIModal({
         onClose={() => CloseModal()}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
+        TransitionComponent={Grow} // Specify the transition component
+        TransitionProps={{
+          timeout: {
+            enter: 500, 
+            exit: 300, 
+          },
+          style: { transformOrigin: "bottom top" }, // Customize the transform origin
+        }}
       >
-        <DialogContent>
-        <div style={{ height: '73vh', overflow: 'hidden' }}>
-          {children}</div>
+      
+        <DialogContent >
+          <div style={{ height: '73vh', overflow: 'hidden' }}>
+            
+         
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              alt="Recipient"
+              src={avatarUrl}
+              style={{ width: "32px", height: "32px", marginRight: "10px" }}
+            />
+            <div>
+                <h3 style={{ margin: 0, fontSize: "1.2rem" }}>{name}</h3>
+                
+            </div>
+            </div>
+            
+
+          <div className="messagewrapper" style={{ height: '70vh', overflowX: 'hidden', overflowY: 'scroll' }}>
+   {children}
+</div>
+
+          
+          </div>
         </DialogContent>
       </BootstrapDialog>
    
