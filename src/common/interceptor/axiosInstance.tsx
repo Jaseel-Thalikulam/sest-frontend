@@ -40,7 +40,7 @@ function AxiosInstanceComponent() {
       return config;
     },
     (error) => {
-      console.log(error, 'from the interceptor');
+  
       return Promise.reject(error);
     }
   );

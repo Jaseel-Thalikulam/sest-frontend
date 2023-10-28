@@ -55,6 +55,7 @@ const LeadHomePage = () => {
             <div className="flex flex-col md:flex-row">
               <div className="w-full md:w-1/4 mb-4 md:mb-0">
                 <ProfileMenu />
+       
               </div>
               <div className="p-4 rounded-lg w-full md:w-1/2 mb-4 md:mb-0 overflow-y-auto max-h-screen hide-scrollbar">
                 {/* Add Upload Post Section */}

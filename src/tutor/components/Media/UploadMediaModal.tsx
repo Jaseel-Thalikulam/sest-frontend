@@ -42,7 +42,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     children: React.ReactNode;
     data: string;
     isOpen: boolean;
-    CloseModal: () => void;
+    CloseModal: (isUploaded:boolean) => void;
   }
   
 
@@ -70,11 +70,11 @@ export default function UploadMediaModal({ children, data,isOpen,CloseModal}: Mo
 
     
       <BootstrapDialog
-        onClose={()=>CloseModal()}
+        onClose={()=>CloseModal(false)}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={() => CloseModal()}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={() => CloseModal(false)}>
           {data}
         </BootstrapDialogTitle>
         <DialogContent >

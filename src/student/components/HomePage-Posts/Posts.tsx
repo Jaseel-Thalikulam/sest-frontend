@@ -4,7 +4,7 @@ import { RootStateType } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import IFetchFeedPost, { Post } from "../../../interface/IPost/IFetchFeedPost";
 import PublicMethods from "../../../Methods/PublicMethods";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send"; // Import the SendIcon
 import TextField from "@mui/material/TextField"; // Import TextField
 import Stack from "@mui/material/Stack"; // Import Stack
@@ -13,6 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CommentIllustarte from "../../../../public/svg/undraw_opinion_re_jix4.svg";  
 import {  IPostAPI } from "../../../interface/IPost/IPostAPI";
 import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
+
 function Posts() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -211,11 +212,13 @@ function Posts() {
               <p className="text-gray-700 mt-2 ml-2">{post.articleContent}</p>
 
               <div className="mt-4 flex items-center">
+                <Tooltip title='Like'>
+
                 <IconButton
                   aria-label="send"
                   color={userHasLiked ? "error" : "default"}
                   onClick={() => void handleLike(post._id)}
-                >
+                  >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill={userHasLiked ? "currentColor" : "none"}
@@ -223,7 +226,7 @@ function Posts() {
                     strokeWidth="1.5"
                     stroke="currentColor"
                     className="w-6 h-6"
-                  >
+                    >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -231,23 +234,27 @@ function Posts() {
                     />
                   </svg>
                 </IconButton>
+                      </Tooltip>
 
                 {/* Like count */}
                 <span className="text-xs text-gray-500 ml-1">
                   {post.likes?.length}
                 </span>
 
+                <Tooltip title="Comment">
+
                 <IconButton
                   aria-label="send"
                   color="primary"
                   onClick={() => handleCommentIconClick(post._id)}
-                >
+                  >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
   <path fillRule="evenodd" d="M3.43 2.524A41.29 41.29 0 0110 2c2.236 0 4.43.18 6.57.524 1.437.231 2.43 1.49 2.43 2.902v5.148c0 1.413-.993 2.67-2.43 2.902a41.202 41.202 0 01-5.183.501.78.78 0 00-.528.224l-3.579 3.58A.75.75 0 016 17.25v-3.443a41.033 41.033 0 01-2.57-.33C1.993 13.244 1 11.986 1 10.573V5.426c0-1.413.993-2.67 2.43-2.902z" clipRule="evenodd" />
 </svg>
 
 
                 </IconButton>
+                  </Tooltip>
                 <span className="text-xs text-gray-500 ml-1">
                   {post.comments?.length}
                 </span>
@@ -307,6 +314,7 @@ function Posts() {
                               <p className="text-gray-700">{comment.content}</p>
                             </div>
                           </div>
+                          
                           <button
                             className="text-blue-500 hover:text-blue-700 mt-2"
                             onClick={() => void
@@ -405,11 +413,14 @@ function Posts() {
               </div>
 
               <div className="mt-4 flex items-center">
+
+                <Tooltip title="Like">
+
                 <IconButton
                   aria-label="send"
                   color={userHasLiked ? "error" : "default"}
                   onClick={() => void handleLike(post._id)}
-                >
+                  >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill={userHasLiked ? "currentColor" : "none"}
@@ -417,26 +428,30 @@ function Posts() {
                     strokeWidth="1.5"
                     stroke="currentColor"
                     className="w-6 h-6"
-                  >
+                    >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                    />
+                      />
                   </svg>
                 </IconButton>
+                  </Tooltip>
                 <span className="text-xs text-gray-500 ml-1">
                   {post.likes?.length}
                 </span>
+                <Tooltip title="Comment">
+
                 <IconButton
                   aria-label="send"
                   color="primary"
                   onClick={() => handleCommentIconClick(post._id)}
-                >
+                  >
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
   <path fillRule="evenodd" d="M3.43 2.524A41.29 41.29 0 0110 2c2.236 0 4.43.18 6.57.524 1.437.231 2.43 1.49 2.43 2.902v5.148c0 1.413-.993 2.67-2.43 2.902a41.202 41.202 0 01-5.183.501.78.78 0 00-.528.224l-3.579 3.58A.75.75 0 016 17.25v-3.443a41.033 41.033 0 01-2.57-.33C1.993 13.244 1 11.986 1 10.573V5.426c0-1.413.993-2.67 2.43-2.902z" clipRule="evenodd" />
 </svg>
                 </IconButton>
+                  </Tooltip>
                 <span className="text-xs text-gray-500 ml-1">
                   {post.comments?.length}
                 </span>
@@ -527,8 +542,14 @@ function Posts() {
   return (
     <ErrorBoundary>
 
-    <div className="p-4 rounded-lg">
-      {isLoading ? (
+<div className="p-4 rounded-lg">
+  {isLoading ? (
+    // You should use a for loop instead of 'while' to render multiple elements
+    [1, 2].map((x) => (
+      <div
+        className="bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-4 max-w-md md:max-w-2xl"
+        key={x}
+      >
         <div className="flex items-start px-4 py-6 animate-pulse">
           <div className="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
           <div className="flex-1">
@@ -537,10 +558,15 @@ function Posts() {
             <div className="w-full h-60 bg-gray-300 rounded-lg overflow-hidden mt-5"></div>
           </div>
         </div>
-      ) : (
-        posts.map((post) => renderPost(post))
-      )}
-    </div>
+      </div>
+    ))
+  ) : (
+    posts.map((post) => renderPost(post))
+  )}
+</div>
+
+      
+
         </ErrorBoundary>
   );
 }

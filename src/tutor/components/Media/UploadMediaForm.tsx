@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
-type CloseModalFunction = () => void;
+import Uploading from "../../../common/Components/uploadingComponent/Uploading";
+type CloseModalFunction = (isUploaded:boolean) => void;
 
 interface Props {
   CloseModal: CloseModalFunction;
@@ -18,6 +19,7 @@ function UploadMediaForm({ CloseModal }:Props) {
   const [mediaFilesError, setMediaFilesError] = useState("");
   const [captionError, setCaptionError] = useState("");
   const data = useSelector((state: RootStateType) => state.user);
+  const [uploading,setUploading]=useState(false)
 
   const { _id } = data;
 
@@ -57,7 +59,9 @@ function UploadMediaForm({ CloseModal }:Props) {
 
   
       const formData = new FormData();
-      if (mediaFiles[0]) {
+    if (mediaFiles[0]) {
+      setUploading(true)
+        
         const file = mediaFiles[0]
         formData.append("mediaThumbnail", file);
         formData.append("userId", _id);
@@ -78,21 +82,21 @@ function UploadMediaForm({ CloseModal }:Props) {
         );
         
         if (response.data.success) {
-          CloseModal()
+          CloseModal(true)
           toast.success(response.data.message)
         } else {
-          CloseModal()
+          CloseModal(false)
           toast.error(response.data.message)
           
         }
-        
+        setUploading(false)
         }
     
   };
 
   return (
     <ErrorBoundary>
-
+<Uploading isUploading={uploading}/>
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto p-8">
       <form onSubmit={(event)=> void handleSubmit(event)}>
         <div className="mb-4">
@@ -145,7 +149,7 @@ function UploadMediaForm({ CloseModal }:Props) {
             id="caption"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
-            className="border border-gray-300 px-4 py-2 rounded-md w-full"
+            className="border border-gray-300 px-4 py-2 rounded-md w-full outline-none"
           />
           {captionError && (
             <p className="text-red-500 text-sm mt-1">{captionError}</p>

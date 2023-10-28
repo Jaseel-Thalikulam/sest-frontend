@@ -15,11 +15,13 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserDetails } from "../../../redux/userSlice/UserSlice";
 import APIResponse from "../../../interface/IaddUserDetails/IaddUserDetails";
+import PublicMethods from "../../../Methods/PublicMethods";
 import defaultAvatar from "../../../../public/defaultAvatar/defaultavatar.png";
 const BASE_URL: string = import.meta.env.VITE_BACKEND_BASE_URL as string;
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch();
+  const methods = new PublicMethods()
   const data = useSelector((state: RootStateType) => state.user);
 
   const [value, setValue] = React.useState("1");
@@ -44,27 +46,8 @@ const ProfilePage: React.FC = () => {
     dispatch(AddUserDetailsChangeState());
   };
 
-  function toProperCase(str: string) {
-    return str.replace(
-      /\w\S*/g,
-      (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    );
-  }
-  function formatDate(dateString: string | null): string {
-    if (!dateString) return ""; // Handle the case when dateString is null or empty
 
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      throw new Error("Invalid date format"); // Throw an error if the dateString is not a valid date
-    }
 
-    const options: Intl.DateTimeFormatOptions = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    };
-    return date.toLocaleDateString("en-GB", options);
-  }
 
   const {
     name,
@@ -73,16 +56,15 @@ const ProfilePage: React.FC = () => {
     phoneNumber,
     role,
     about,
-    DOB,
     URLs,
     tags,
     _id,
     avatarUrl,
   } = data;
 
-  const Email = toProperCase(email);
-  const Name = toProperCase(name);
-  const DateOfBirth = formatDate(DOB);
+  const Email = methods.properCase(email);
+  const Name = methods.properCase (name);
+
 
   
 
@@ -123,7 +105,6 @@ const ProfilePage: React.FC = () => {
               email: userData.email,
               username: userData.username,
               phoneNumber: userData.phoneNumber,
-              DOB: userData.DOB,
               _id: userData._id,
               about: userData.about,
               isBanned: userData.isBanned,
@@ -145,7 +126,7 @@ const ProfilePage: React.FC = () => {
               email: userData.email,
               username: userData.username,
               phoneNumber: userData.phoneNumber,
-              DOB: userData.DOB,
+   
               _id: userData._id,
               about: userData.about,
               isBanned: userData.isBanned,
@@ -196,7 +177,7 @@ const ProfilePage: React.FC = () => {
       </head>
 
       <body className="profile-page">
-        <div className="page-head h-40  bg-gray-100" data-parallax="true"></div>
+        <div className="page-head h-40  bg-white" data-parallax="true"></div>
 
         <div className="main main-raised">
           <div
@@ -313,22 +294,12 @@ const ProfilePage: React.FC = () => {
                         centered
                       >
                         <Tab label="Personal Details" value="1" />
-                        <Tab label="Courses" value="2" />
+                      
                       </TabList>
                     </Box>
                     <TabPanel value="1">
                       <div className="contact_info_and_basic_info">
-                        {DateOfBirth ? (
-                          <div className="basic_info">
-                            <h3 className="heading">Basic Information</h3>
-                            <ul>
-                              <li className="birthday">
-                                <h5 className="label">Birthday:</h5>
-                                <span className="info">{DateOfBirth}</span>
-                              </li>
-                            </ul>
-                          </div>
-                        ) : null}
+                    
                         <div className="contact_Info">
                           <h3 className="heading">Contact Information</h3>
                           <ul>

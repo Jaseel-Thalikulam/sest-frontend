@@ -29,7 +29,7 @@ function AddUserDetailsForm() {
     );
   }
 
-  const { name, email, phoneNumber, role, about, URLs, _id, DOB, tags } = data;
+  const { name, email, phoneNumber, role, about, URLs, _id, tags } = data;
 
   const Email = toProperCase(email);
   const Name = toProperCase(name);
@@ -37,7 +37,7 @@ function AddUserDetailsForm() {
 
   const [Number, setPhone] = useState(phoneNumber ? phoneNumber : "");
   const [About, setAbout] = useState(about ? about : "");
-  const [dob, setDOB] = useState(DOB ? DOB : "");
+
   const [githuburl, setgithub] = useState(URLs.github ? URLs.github : "");
   const [linkedinurl, setlinkedin] = useState(
     URLs.linkedin ? URLs.linkedin : ""
@@ -70,7 +70,7 @@ function AddUserDetailsForm() {
             email: tutordata.email,
             username: tutordata.username,
             phoneNumber: tutordata.phoneNumber,
-            DOB: tutordata.DOB,
+      
             _id: tutordata._id,
             about: tutordata.about,
             isBanned: tutordata.isBanned,
@@ -92,7 +92,7 @@ function AddUserDetailsForm() {
             email: tutordata.email,
             username: tutordata.username,
             phoneNumber: tutordata.phoneNumber,
-            DOB: tutordata.DOB,
+  
             _id: tutordata._id,
             about: tutordata.about,
             isBanned: tutordata.isBanned,
@@ -133,7 +133,7 @@ function AddUserDetailsForm() {
             email: tutordata.email,
             username: tutordata.username,
             phoneNumber: tutordata.phoneNumber,
-            DOB: tutordata.DOB,
+       
             _id: tutordata._id,
             about: tutordata.about,
             isBanned: tutordata.isBanned,
@@ -155,7 +155,7 @@ function AddUserDetailsForm() {
             email: tutordata.email,
             username: tutordata.username,
             phoneNumber: tutordata.phoneNumber,
-            DOB: tutordata.DOB,
+   
             _id: tutordata._id,
             about: tutordata.about,
             isBanned: tutordata.isBanned,
@@ -212,7 +212,7 @@ function AddUserDetailsForm() {
             githuburl,
             linkedinurl,
             pinteresturl,
-            DOB,
+        
             _id,
           }
         );
@@ -244,7 +244,7 @@ function AddUserDetailsForm() {
                 email: userData.email,
                 username: userData.username,
                 phoneNumber: userData.phoneNumber,
-                DOB: userData.DOB,
+          
                 _id: userData._id,
                 about: userData.about,
                 isBanned: userData.isBanned,
@@ -266,7 +266,7 @@ function AddUserDetailsForm() {
                 email: userData.email,
                 username: userData.username,
                 phoneNumber: userData.phoneNumber,
-                DOB: userData.DOB,
+              
                 _id: userData._id,
                 about: userData.about,
                 isBanned: userData.isBanned,
@@ -453,33 +453,7 @@ function AddUserDetailsForm() {
               </div>
             </div>
 
-            <div className="row mb-3">
-              <Form.Label
-                className="col-sm-2 form-label"
-                htmlFor="basic-icon-default-message"
-              >
-                D.O.B
-              </Form.Label>
-              <div className="col-sm-10">
-                <div className="input-group input-group-merge">
-                  <span
-                    id="basic-icon-default-message2"
-                    className="input-group-text"
-                  >
-                    <i className="bx bx-comment"></i>
-                  </span>
-                  <Form.Control
-                    type="date"
-                    className="form-control"
-                    placeholder="Your Pinterest URL"
-                    id="basic-url1"
-                    aria-describedby="basic-addon14"
-                    value={dob}
-                    onChange={(e) => setDOB(e.target.value)}
-                    />
-                </div>
-              </div>
-            </div>
+            
 
             <div className="row mb-3">
               <Form.Label

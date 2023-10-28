@@ -7,8 +7,9 @@ import { toast } from "react-toastify";
 import {axiosInstance} from "../../../common/interceptor/axiosInstance";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 import ErrorBoundary from "../../../common/Components/errorBoundary/ErrorBoundary";
+import Uploading from "../../../common/Components/uploadingComponent/Uploading";
 
-type CloseModalFunction = () => void;
+type CloseModalFunction = (isUploaded:boolean) => void;
 
 interface Props {
   CloseModal: CloseModalFunction;
@@ -19,6 +20,7 @@ interface Props {
 
 function UploadArticleForm({ CloseModal }:Props,) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading,setUploading]=useState(false)
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
   const [article, setArticle] = useState({
@@ -94,8 +96,10 @@ function UploadArticleForm({ CloseModal }:Props,) {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
     if (validateForm()) {
+      setUploading(true)
       const formData = new FormData();
 
       if (selectedFile) {
@@ -118,15 +122,22 @@ function UploadArticleForm({ CloseModal }:Props,) {
           );
 
           if (response.data.success) {
-            CloseModal();
+            CloseModal(true);
             toast.success("Article Successfully Uploaded");
           }
+      setUploading(false)
+        
+        
       }
     }
   };
 
   return (
     <ErrorBoundary>
+
+
+<Uploading isUploading={uploading}/>
+      
 
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto">
       <div className="mb-8">
@@ -161,7 +172,7 @@ function UploadArticleForm({ CloseModal }:Props,) {
           id="title"
           name="title"
           label="Title"
-          variant="outlined"
+          variant="standard"
           value={article.title}
           onChange={handleInputChange}
           error={!!errors.title}
@@ -172,11 +183,12 @@ function UploadArticleForm({ CloseModal }:Props,) {
           id="content"
           name="content"
           aria-label="Content"
-          minRows={5}
+            minRows={5}
+          
           placeholder="Content"
           value={article.content}
           onChange={handleInputChange}
-          className="border border-gray-300 rounded px-3 py-2 w-full mb-4"
+          className="border border-gray-300 rounded px-3 py-2 w-full mb-4 outline-none"
         />
         <div className="text-red-500">{errors.content}</div>
         <Button

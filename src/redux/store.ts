@@ -42,7 +42,7 @@ export type UserStateType = {
   email: string;
     username:string
     phoneNumber: string | null;
-  DOB: string | null;
+
   _id: string;
   about: string;
   URLs: {

@@ -54,6 +54,17 @@ function  NavBar() {
    
   }
 
+ function handleLogoClick(){
+   if (localStorage.getItem('jwt-learn')) {
+  navigate('/learn')
+     
+   } else if (localStorage.getItem('jwt-lead')) {
+     
+  navigate('/lead')
+     
+}
+  }
+
   return (
     <>
       <ErrorBoundary>
@@ -62,7 +73,7 @@ function  NavBar() {
         <div className="sticky top-0 bg-white border-b border-gray-300 flex justify-between items-center">
           <div className="container mx-auto">
             <div className="flex items-center justify-between p-4">
-              <div className="logo-container">
+              <div className="logo-container" onClick={()=>(void handleLogoClick())}>
                 <img src={Logo} alt="Logo" className="h-8" />
               </div>
 

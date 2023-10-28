@@ -10,6 +10,7 @@ import { IVideo } from '../../../interface/IVideo/IVideo';
 import { ChangeEvent } from 'react';
 import { IUploadVideo } from '../../../interface/IVideo/IUploadVideo';
 import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
+import Uploading from '../../../common/Components/uploadingComponent/Uploading';
 
 type FileUploadState = {
   videoFile: File | null|undefined;
@@ -26,9 +27,9 @@ type Prop = {
 function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
-
   const [fileUpload, setFileUpload] = useState<FileUploadState | null|undefined>(null);
   const [title, setTitle] = useState('');
+  const [uploading,setUploading]=useState(false)
   const [errors, setErrors] = useState<{ title: string; videoFile: string; thumbnailFile: string }>({
     title: '',
     videoFile: '',
@@ -103,6 +104,7 @@ function Uploadvideoform({ courseId, handlecloseModal,videos }: Prop) {
     }
 
     if (title.trim() && fileUpload && fileUpload.videoFile && fileUpload.thumbnailFile) {
+      setUploading(true)
       const formData = new FormData();
       formData.append('video', fileUpload.videoFile);
       formData.append('thumbnail', fileUpload.thumbnailFile);
@@ -132,17 +134,18 @@ if(videos)
         void handlecloseModal()
 
       }
-
+      setUploading(false)
     }
   };
 
   return (
     <ErrorBoundary>
-
+      <Uploading isUploading={uploading} />
     <div className="form-container">
       <section className="mt-10">
         <TextField
-          fullWidth
+            fullWidth
+            variant='standard'
           label="Title"
           value={title}
           onChange={handleTitleChange}
@@ -214,8 +217,8 @@ if(videos)
         )}
       </section>
     
-      <div className="form-button">
-        <Button variant="contained" color="primary" onClick={()=> void handleSubmit()}>
+      <div className="form-button ">
+        <Button  color="primary" onClick={()=> void handleSubmit()}>
           Upload
         </Button>
       </div>

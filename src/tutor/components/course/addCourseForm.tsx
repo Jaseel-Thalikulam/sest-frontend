@@ -10,6 +10,7 @@ import { ICourseAPI } from '../../../interface/ICourse/ICourseAPI';
 import ICategoryResponse from '../../../interface/Icategory/IcategoryResponse';
 import ICategorydata from '../../../interface/Icategory/IcategoryData';
 import ErrorBoundary from '../../../common/Components/errorBoundary/ErrorBoundary';
+import Uploading from '../../../common/Components/uploadingComponent/Uploading';
 
 interface ModalProps {
   CloseModal: () => void;
@@ -26,6 +27,7 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
   const [invalidImage, setInvalidImage] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [uploading,setUploading]=useState(false)
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
 
@@ -98,7 +100,7 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
     }
 
     setDescriptionError(false);
-
+    setUploading(true)
     const formData = new FormData();
 
     if (coverImage) {
@@ -124,18 +126,20 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
         CloseModal();
         handleaddvideomodal();
       }
+      setUploading(false)
     }
   };
 
   return (
     <>
       <ErrorBoundary>
-
+      <Uploading isUploading={uploading}/>
       <div className="bg-white p-4 flex flex-col h-full relative">
         <TextField
           fullWidth
           label="Title"
-          value={title}
+            value={title}
+            variant='standard'
           onChange={handleTitleChange}
           required
           margin="normal"
@@ -143,7 +147,8 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
         <TextField
           fullWidth
           label="Description"
-          value={description}
+            value={description}
+            variant='standard'
           onChange={handleDescriptionChange}
           required
           multiline
@@ -186,7 +191,8 @@ function AddCourseForm({ CloseModal, handleaddvideomodal, handlesetCourseId, cou
         <div className="col-sm-10">
           <FormControl fullWidth variant="outlined" margin="normal">
             <InputLabel id="category-label">Category</InputLabel>
-            <Select
+              <Select
+                variant='standard'
               labelId="category-label"
               id="category-select"
               value={selectedCategory}

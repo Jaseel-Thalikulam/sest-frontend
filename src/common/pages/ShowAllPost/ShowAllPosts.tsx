@@ -17,6 +17,7 @@ import {
   TextField,
   Stack,
 } from "@mui/material";
+import AddPost from '../../../../public/svg/undraw_add_post_re_174w.svg'
 import Button from "@mui/material/Button";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,21 +29,26 @@ import IFetchFeedPost, { Post } from "../../../interface/IPost/IFetchFeedPost";
 import CommentIllustarte from "../../../../public/svg/undraw_opinion_re_jix4.svg";
 import ICommonAPI from "../../../interface/IcommonAPI/IcommonAPI";
 import { IPostAPI } from "../../../interface/IPost/IPostAPI";
+import {  Image, Description } from "@mui/icons-material";
+import UploadArticleModal from "../../../tutor/components/Article/uploadArticleModal";
+import UploadArticleForm from "../../../tutor/components/Article/uploadArticleForm";
+import UploadMediaModal from "../../../tutor/components/Media/UploadMediaModal";
+import UploadMediaForm from "../../../tutor/components/Media/UploadMediaForm";
+
 function ShowAllPosts() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
-
   const [commentText, setCommentText] = useState("");
   const [optionsVisible, setOptionsVisible] = useState(false);
-  const [commentInputVisibility, setCommentInputVisibility] = useState<{
-    [postId: string]: boolean;
-  }>({});
-  const [deleteindicator, setdeleteindicator] = useState(false);
+  const [commentInputVisibility, setCommentInputVisibility] = useState<{ [postId: string]: boolean; }>({});
+  const [refetchindicator, setrefetchindicator] = useState(false);
   const [isDeleteConfirmModalOpen, setDeleteConfirmModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [editMediamodalstate, setEditMediaModal] = useState<boolean>(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null );
+  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
+  const [isArticleModalOpen, setArticleModal] = useState(false);
+  const [isMediaModalOpen, setMediaModal] = useState(false);
   const data = useSelector((state: RootStateType) => state.user);
   const { _id } = data;
 
@@ -67,7 +73,7 @@ function ShowAllPosts() {
         setIsLoading(false);
       
     })();
-  }, [_id, deleteindicator]);
+  }, [_id, refetchindicator]);
 
    function handleEditMedia(postdata: object) {
     if ("_id" in postdata) {
@@ -189,7 +195,7 @@ function ShowAllPosts() {
     setDeleteConfirmModal(!isDeleteConfirmModalOpen);
   }
 
-  const handleDeletePost = async (postId: string) => {
+  const handleDeletePost = async (postId: string|null) => {
     handledeletemodalVisibilty();
 
  
@@ -202,7 +208,7 @@ function ShowAllPosts() {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        setdeleteindicator(!deleteindicator);
+        setrefetchindicator(!refetchindicator);
       } else {
         toast.error(response.data.message);
       }
@@ -224,6 +230,7 @@ function ShowAllPosts() {
       >
         <div className="absolute top-0 right-0 m-2">
           <button
+              
             onClick={() => handleToggleOptions(post._id)}
             className={` text-gray-600 p-2 rounded-full hover:bg-gray-300 hover:text-gray-700`}
           >
@@ -245,7 +252,7 @@ function ShowAllPosts() {
                     className="flex items-center space-x-2 text-gray-700 hover:text-blue-500"
                   >
                     <EditIcon fontSize="small" />
-                    <span>Edit 3</span>
+                    <span>Edit</span>
                   </button>
 
                   <EditMediaModal
@@ -273,33 +280,7 @@ function ShowAllPosts() {
           )}
         </div>
 
-        <ConfirmDeleteModal
-          data="Are You Sure ?"
-          isOpen={isDeleteConfirmModalOpen}
-          CloseModal={handledeletemodalVisibilty}
-        >
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete the post?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color="primary"
-              startIcon={<CancelIcon />}
-              onClick={() => void handledeletemodalVisibilty()}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() =>void handleDeletePost(post._id)}
-              color="error"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
-          </DialogActions>
-        </ConfirmDeleteModal>
+     
 
         {/* Rest of the post content */}
         <div className="flex items-start px-4 py-6 w-full">
@@ -642,26 +623,135 @@ function ShowAllPosts() {
     );
   };
 
+ 
+ 
+
+  function handelArticleButtonClick(isUploaded: boolean) {
+    
+    if (isUploaded) {
+      setrefetchindicator(!refetchindicator) 
+    }
+    setArticleModal(!isArticleModalOpen);
+  }
+  function handleMediaButtonClick(isUploaded: boolean) {
+    console.log(isUploaded, "issss")
+    if (isUploaded) {
+      setrefetchindicator(!refetchindicator) 
+    }
+    setMediaModal(!isMediaModalOpen);
+  }
   return (
     <>
-      <div className="flex-grow bg-gray-100">
-        <div className="p-4 rounded-lg w-full  mb-4 md:mb-0 overflow-y-auto max-h-screen hide-scrollbar">
-          <div className="p-4 rounded-lg">
-            {isLoading ? (
-              <div className="flex items-start px-4 py-6 animate-pulse">
-                <div className="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
-                <div className="flex-1">
-                  <div className="w-1/4 h-4 bg-gray-300 mb-2"></div>
-                  <div className="w-3/4 h-4 bg-gray-300 mb-2"></div>
-                  <div className="w-full h-60 bg-gray-300 rounded-lg overflow-hidden mt-5"></div>
+      <div className="flex-grow bg-white">
+
+      <div className="mt-4 mb-4 bg-white shadow rounded-lg  sm:mx-auto my-4 max-w-md md:max-w-2xl relative">
+                  <div className="bg-white p-4 rounded-lg shadow-md">
+                    {/* Meeting, Image/Video, and Article Options */}
+                    <div className="flex space-x-4 justify-center">
+                    
+            
+                      <Button
+                        variant="text"
+                        startIcon={<Image className="text-purple-500" />}
+                        onClick={()=> handleMediaButtonClick(false)}
+                      >
+                        Media
+                      </Button>
+                
+                  
+                      {/* Centered Button - Article */}
+                      <Button
+                        variant="text"
+                        startIcon={<Description className="text-orange-500" />}
+                        onClick={() => void handelArticleButtonClick(false)}
+                      >
+                        Article
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              posts.map((post) => renderPost(post))
-            )}
+                      <div className="p-4 rounded-lg w-full   mb-4 md:mb-0 max-h-screen hide-scrollbar">
+     
+          <div className="p-4 rounded-lg">
+          
+          {isLoading ? (
+  [1, 2].map((x) => (
+    <div
+      className="bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-4 max-w-md md:max-w-2xl"
+      key={x}
+    >
+      <div className="flex items-start px-4 py-6 animate-pulse">
+        <div className="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
+        <div className="flex-1">
+          <div className="w-1/4 h-4 bg-gray-300 mb-2"></div>
+          <div className="w-3/4 h-4 bg-gray-300 mb-2"></div>
+          <div className="w-full h-60 bg-gray-300 rounded-lg overflow-hidden mt-5"></div>
+        </div>
+      </div>
+    </div>
+  ))
+) : (
+  posts.length === 0 ? (
+    <div className="flex justify-center items-start md:pt-20 h-screen ">
+    <div className="flex items-center">
+      <img src={AddPost} alt="add your first post" className="w-1/2 h-auto mx-auto" />
+      <h1 className="ml-4 text-3xl text-gray-500 hidden md:block">Time to add your first post</h1>
+    </div>
+  </div>
+  
+  ) : (
+    posts.map((post) => renderPost(post))
+  )
+)}
+
           </div>
         </div>
       </div>
+
+      <ConfirmDeleteModal
+          data="Are You Sure ?"
+          isOpen={isDeleteConfirmModalOpen}
+          CloseModal={handledeletemodalVisibilty}
+        >
+          <DialogContent>
+            <DialogContentText>
+              Are you sure you want to delete the post?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              color="primary"
+              startIcon={<CancelIcon />}
+              onClick={() => void handledeletemodalVisibilty()}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() =>void handleDeletePost(selectedPostId)}
+              color="error"
+              startIcon={<DeleteIcon />}
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </ConfirmDeleteModal>
+
+      <UploadArticleModal
+        
+        isOpen={isArticleModalOpen}
+        CloseModal={()=> handelArticleButtonClick(false)}
+        data="Author Your Content"
+      >
+        <UploadArticleForm CloseModal={handelArticleButtonClick} />
+      </UploadArticleModal>
+
+      <UploadMediaModal
+        isOpen={isMediaModalOpen}
+        CloseModal={()=>handleMediaButtonClick(false)}
+        data="Share Your Insights"
+      >
+        <UploadMediaForm CloseModal={handleMediaButtonClick} />
+      </UploadMediaModal>
       <ToastContainer />
     </>
   );

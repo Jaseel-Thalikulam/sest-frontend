@@ -5,7 +5,7 @@ const INITIAL_STATE: IUserSlice = {
     name: "",
   email: "",
     username:"",
-    DOB: null,
+   
     _id: "",
     phoneNumber: "",
     about: "",
@@ -27,7 +27,7 @@ const UserSlice = createSlice({
     reducers: {
         UserDetails: (state, action: PayloadAction<IUserSlice>) => {
           
-            const { role, name,username, email, phoneNumber, DOB, _id, about, URLs,tags,avatarUrl } = action.payload;
+            const { role, name,username, email, phoneNumber, _id, about, URLs,tags,avatarUrl } = action.payload;
 
             if (role !== undefined) {
               state.role = role;
@@ -41,9 +41,7 @@ const UserSlice = createSlice({
             if (phoneNumber !== undefined) {
               state.phoneNumber = phoneNumber;
             }
-            if (DOB !== undefined) {
-              state.DOB = DOB;
-            }
+        
             if (_id !== undefined) {
               state._id = _id;
             }

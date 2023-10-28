@@ -119,7 +119,6 @@ const LoginForm = () => {
                   userData.phoneNumber !== undefined
                     ? userData.phoneNumber
                     : null,
-                DOB: userData.DOB !== undefined ? userData.DOB : null,
                 _id: userData._id,
                 about: userData.about !== undefined ? userData.about : null,
                 isBanned: userData.isBanned,
@@ -151,7 +150,6 @@ const LoginForm = () => {
                   userData.phoneNumber !== undefined
                     ? userData.phoneNumber
                     : null,
-                DOB: userData.DOB !== undefined ? userData.DOB : null,
                 _id: userData._id,
                 about: userData.about !== undefined ? userData.about : null,
                 isBanned: userData.isBanned,

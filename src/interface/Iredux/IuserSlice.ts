@@ -4,7 +4,7 @@
     name: string;
    email: string;
    username: string;
-    DOB?: null | Date;
+
     _id: string;
     phoneNumber: string|null;
    about?: string|null;
