@@ -11,7 +11,8 @@ const login = () => {
 
       <LoginModal >
         <ErrorBoundary>
-        <Box
+          <Box
+          
           sx={{
             display: 'flex',
             alignItems: 'center',

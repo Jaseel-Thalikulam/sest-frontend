@@ -20,9 +20,9 @@ const Header = () => {
 </div>
 
         <div className="space-x-4">
-          <a href="#" className="text-c0c0c0 font-medium text-sm m-3">
-            CONTACT US
-          </a>
+        <a href="#" className="text-c0c0c0 font-medium text-sm m-3 hidden md:inline-block">
+    CONTACT US
+  </a>
           <button
             className="text-c0c0c0 font-medium text-sm rounded-full "
             onClick={() => dispatch(handleLoginChangeState())}

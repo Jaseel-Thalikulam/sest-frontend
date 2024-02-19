@@ -50,16 +50,16 @@ export default function   LoginModal({ children}: ModalProps) {
           alignItems: 'center',
           justifyContent: 'center',
         }}
-        PaperProps={{
-          sx: {
-            height: '55%', // Set initial height as a percentage
-            '@media (max-width: 600px)': {
-              height: '55%', // Adjust height for smaller screens
-            },
-            overflowY: 'auto',
-            boxShadow: '1', // Enable scrolling if content overflows
-          },
-        }}
+        // PaperProps={{
+        //   sx: {
+        //     height: '55%', // Set initial height as a percentage
+        //     '@media (max-width: 600px)': {
+        //       height: '55%', // Adjust height for smaller screens
+        //     },
+        //     overflowY: 'auto',
+        //     boxShadow: '1', // Enable scrolling if content overflows
+        //   },
+        // }}
         >
         <DialogContent dividers>{children}</DialogContent>
       </BootstrapDialog>
