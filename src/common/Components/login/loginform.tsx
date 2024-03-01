@@ -318,9 +318,9 @@ const LoginForm = () => {
         </Formik>
 
         {/* <ForgetPassword/> */}
-        <Button color="error" variant="text" onClick={() => void forgetpassword()}>
+        {/* <Button color="error" variant="text" onClick={() => void forgetpassword()}>
           Forget Password
-        </Button>
+        </Button> */}
         <ToastContainer />
       </Paper>
     </Grid>

@@ -1,5 +1,5 @@
 
-import { Grid, Paper, Button, Typography } from '@mui/material'
+import { Grid, Paper,Box, Button, Typography } from '@mui/material'
 import { TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
@@ -19,9 +19,13 @@ import { UserDetails } from '../../../redux/userSlice/UserSlice';
 import { useNavigate } from "react-router-dom"
 import IGoogleRegister from '../../../interface/register/IGoogleRegister'
 import ErrorBoundary from '../errorBoundary/ErrorBoundary'
+import { useEffect, useRef } from 'react'
 const BASE_URL:string = import.meta.env.VITE_BACKEND_BASE_URL as string
 
 const RegisterForm = () => {
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const passwordInputRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch()
   const data = useSelector((state: RootStateType) => state.user)
@@ -65,7 +69,19 @@ const RegisterForm = () => {
   
   
   const navigate = useNavigate()
-  async function DataSubmit(name: string, email: string, password: string, isGoogle: boolean):Promise <void> {
+
+  useEffect(() => {
+ 
+  },[])
+
+  async function DataSubmit(name: string, email: string, password: string, isGoogle: boolean): Promise<void> {
+    
+    if (nameInputRef.current && emailInputRef.current && passwordInputRef.current ) {
+      passwordInputRef.current.focus();
+      emailInputRef.current.focus();
+      nameInputRef.current.focus();
+    }
+
     let emailValid = false;
     let passwordValid = false;
     if (!isGoogle) {
@@ -184,7 +200,9 @@ const RegisterForm = () => {
         }
       }
     } else {
+
       console.log('Invalid email or password');
+
     }
 
   }
@@ -196,6 +214,7 @@ const RegisterForm = () => {
   return (
     <ErrorBoundary>
 
+        
     <Grid>
 
       <Paper elevation={0} style={paperStyle}>
@@ -222,9 +241,98 @@ const RegisterForm = () => {
         </Grid>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
           {(props) => (
-            <Form noValidate >
+              <Form noValidate >
+                
 
-              <Field as={TextField} name='name' label='Name' fullWidth
+                <div className="mb-4 input-group">
+                  
+                <input
+                ref={nameInputRef}
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="input-field"
+                  placeholder=" "
+                  value={props.values.name}
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                />
+                <label htmlFor="name" className="input-label">
+                  Name
+                </label>
+                <div className="text-red-600 text-sm mt-1 h-2">
+                    {props.errors.name && props.touched.name && (
+                      <>
+                    {props.errors.name}
+                      </>
+                    )}
+                    </div>
+                </div>
+
+
+                <div className="mb-4 input-group">
+                  
+                <input
+                ref={emailInputRef}
+                
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="input-field"
+                  placeholder=" "
+                  value={props.values.email}
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                />
+                <label htmlFor="email" className="input-label">
+                  Email
+                </label>
+                <div className="text-red-600 text-sm mt-1 h-2">
+                    {props.errors.email && props.touched.email && (
+                      <>
+                    {props.errors.email}
+                      </>
+                    )}
+                    </div>
+                </div>
+                
+
+
+                <div className="mb-4 input-group">
+                  <input
+                ref={passwordInputRef}
+                    
+  type="password"
+  id="password"
+  name="password"
+  className="input-field"
+  placeholder=" "
+  value={props.values.password}
+  onChange={props.handleChange}
+  onBlur={props.handleBlur}
+
+/>
+                <label htmlFor="password" className="input-label">
+                  Password
+                </label>
+                <div className="text-red-600 text-sm mt-1 h-2">
+                    {props.errors.password && props.touched.password && (
+                      <>
+                    {props.errors.password}
+                      </>
+                    )}
+                    </div>
+              </div>
+              <button
+                
+                id="loginButton"
+                type="button"
+                onClick={() =>void DataSubmit(props.values.name, props.values.email, props.values.password, false)}
+                className="w-full md:max-w-md bg-8A3FFC text-white font-semibold py-2 px-4 rounded-full mt-5"
+              >
+                Register
+              </button>
+              {/* <Field as={TextField} name='name' label='Name' fullWidth
                 error={props.errors.name && props.touched.name}
                 helperText={<ErrorMessage name='name' />}
                 required InputLabelProps={{ style: { color: '' } }} />
@@ -240,7 +348,7 @@ const RegisterForm = () => {
 
 
               <Button type='submit' onClick={() =>void DataSubmit(props.values.name, props.values.email, props.values.password, false)} style={btnStyle} variant='contained'
-                className='bg-blue-600'>Register</Button>
+                className='bg-blue-600'>Register</Button> */}
               
              
 
@@ -249,7 +357,9 @@ const RegisterForm = () => {
         </Formik> 
         <ToastContainer />
       </Paper>
-    </Grid>
+        </Grid>
+    
+        
                 </ErrorBoundary>
   )
 }

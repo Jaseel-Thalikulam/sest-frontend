@@ -9,39 +9,28 @@ import {handleChangeState} from'../../../redux/modalSlice/RegisterFormModalSlice
 import { RootStateType } from '../../../redux/store';
 import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
-
-  
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiBackdrop-root': {
-      backgroundColor: 'transparent',
-    },
-    '& .MuiPaper-root': {
-        backgroundColor: '#fff', 
-        fontFamily: 'outfit', // Change font to "outfit"
-     
-      borderRadius: 10,
-    },
-    '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-    [theme.breakpoints.up('lg')]: {
-      top: theme.spacing(-18),
-      right: theme.spacing(4),
-      bottom: theme.spacing(4),
-      left: 'auto',
-      margin: 'auto',
-      maxWidth: 'none',
-      width: '30%',
-    },
-  }));
+  '& .MuiBackdrop-root': {
+    backgroundColor: 'transparent',
+    backdropFilter: 'blur(5px)',
+  },
+  '& .MuiPaper-root': {
+    backgroundColor: '#fff',
+    fontFamily: 'outfit',
+    color: '#000',
+    borderRadius: 10,
+  },
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
   
 
 interface ModalProps {
     children: React.ReactNode;
-    data: string;
   autoOpen: boolean;
   }
 export interface DialogTitleProps {
@@ -50,17 +39,9 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, ...other } = props;
 
-  return (
-    <DialogTitle sx={{ m: 0, p: 2,textAlign: 'center'  }} {...other}>
-      {children}
-    </DialogTitle>
-  );
-}
 
-export default function Modalreg({ children, data}: ModalProps) {
+export default function Modalreg({ children}: ModalProps) {
   const Status = useSelector((state: RootStateType) => state.registerformmodal)
   const isOpen:boolean =Status.State
   
@@ -75,11 +56,16 @@ export default function Modalreg({ children, data}: ModalProps) {
         onClose={()=>dispatch(handleChangeState())}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
+        fullWidth
+        maxWidth="md" // Increase the size of the modal
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={()=>dispatch(handleChangeState())}>
-          {data}
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
+        
+        <DialogContent >
         {children}
         </DialogContent>
       

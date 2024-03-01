@@ -44,7 +44,7 @@ const login = () => {
         </Box>
               </ErrorBoundary>
       </LoginModal>
-      <ForgetPassword />
+      {/* <ForgetPassword /> */}
               </>
     
   );
