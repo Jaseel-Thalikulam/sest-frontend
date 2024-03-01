@@ -1,7 +1,6 @@
 
-import { Grid, Paper,Box, Button, Typography } from '@mui/material'
-import { TextField } from '@mui/material'
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
+import { Grid, Paper, Typography } from '@mui/material'
+import { Formik, Form, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
 import ILoginResponse from '../../../interface/login/Ilogin'
 import './Register.scss'
@@ -36,12 +35,7 @@ const RegisterForm = () => {
     maxWidth: 450,
     backgroundColor: 'rgba(0, 0, 0, 0)'
   };
-  const btnStyle = {
-    width: '100%',
-    maxWidth: 450,
-    borderRadius: 20,
-   
-  }
+
 
   const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
   const initialValues = {

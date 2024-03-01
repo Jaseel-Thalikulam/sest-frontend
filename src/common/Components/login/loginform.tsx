@@ -1,4 +1,4 @@
-import { Grid, Paper, Button, Typography, Box } from "@mui/material";
+import { Grid, Paper, Typography, Box } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import "../Register/Register.scss";
@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlice";
-import { handleForgetPasswordChangeState } from "../../../redux/modalSlice/forgetpasswordSlice";
+// import { handleLoginChangeState } from "../../../redux/modalSlice/loginModalSlice";
+// import { handleForgetPasswordChangeState } from "../../../redux/modalSlice/forgetpasswordSlice";
 import ILoginResponse from "../../../interface/login/Ilogin";
 import IGoogleLogin from "../../../interface/login/IgoogleLogin";
 import { useEffect, useRef } from "react";
@@ -185,10 +185,10 @@ const LoginForm = () => {
       console.error("Error during DataSubmit:", error);
     }
   }
-  function forgetpassword() {
-    dispatch(handleForgetPasswordChangeState());
-    dispatch(handleLoginChangeState());
-  }
+  // function forgetpassword() {
+  //   dispatch(handleForgetPasswordChangeState());
+  //   dispatch(handleLoginChangeState());
+  // }
   useEffect(() => {
     if (emailInputRef.current) {
       emailInputRef.current.focus();

@@ -1,5 +1,5 @@
 import LoginModal from '../Modal/loginModal';
-import ForgetPassword from '../Forgetpassword/ForgetPassword';
+// import ForgetPassword from '../Forgetpassword/ForgetPassword';
 import LoginForm from './loginform';
 import { Box, Typography } from '@mui/material';
 import illustrate from '../../../../public/svg/undraw_reading_time_re_phf7 (1).svg';
